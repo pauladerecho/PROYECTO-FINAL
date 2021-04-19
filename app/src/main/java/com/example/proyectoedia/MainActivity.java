@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("tag","Hola soy sara");
 
-        Log.v("tag", "Soy paula");
+        Log.v("prueba", "Soy paula");
 
     }
 }
