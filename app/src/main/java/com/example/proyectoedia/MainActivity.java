@@ -22,18 +22,26 @@ public class MainActivity extends AppCompatActivity {
         mRegistroBtn = findViewById(R.id.registro_btn);
         mLoginBtn = findViewById(R.id.login_btn);
 
-        //El onclick
+        //--El onclick para ir a RegistroActivity
 
         mRegistroBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //Para ir a RegistroActivity
-
                 startActivity(new Intent(MainActivity.this,RegistroActivity.class));
-
             }
         });
+
+        //--OnClick para ir a LoginActivity
+
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        });
+
 
     }
 }

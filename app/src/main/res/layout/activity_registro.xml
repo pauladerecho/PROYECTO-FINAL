@@ -15,7 +15,9 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Registro"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:textSize="25sp"/>
 
@@ -61,11 +63,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/contrasenaTIL"
+                android:drawableLeft="@drawable/account"
+                android:drawablePadding="5dp"
                 android:layout_centerHorizontal="true"
                 android:text="Registrarse" />
 
-
-
-
+        <!--TextView: BOTON REGISTRO -->
+        <TextView
+            android:id="@+id/estar_registradoTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Ya estás registrado? "
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/registro_btn"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/colorBlack"/>
     
 </RelativeLayout>

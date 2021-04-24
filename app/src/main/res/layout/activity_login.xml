@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".LoginActivity">
+
+
+    <!--TextView: LOGIN -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Login"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"/>
+
+    <!--TextView: EMAIL -->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/emailTIL">
+
+        <EditText
+            android:id="@+id/emailEt"
+            android:inputType="textEmailAddress"
+            android:hint="E-mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--TextView: CONTRASEÑA -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/contrasenaTIL"
+        android:layout_below="@id/emailTIL"
+        app:passwordToggleEnabled="true"><!--el ojito de la contraseña-->
+
+        <EditText
+            android:id="@+id/contrasenaEt"
+            android:inputType="textPassword"
+            android:hint="Contraseña"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--TextView: BOTON REGISTRO -->
+    <Button
+        android:id="@+id/loginBtn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contrasenaTIL"
+        android:drawableLeft="@drawable/key"
+        android:drawablePadding="5dp"
+        android:layout_centerHorizontal="true"
+        android:text="Entrar" />
+
+    <!--TextView: Ir a RegistroActivity -->
+    <TextView
+        android:id="@+id/noestar_registradoTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¿Aún no tienes una cuenta? Regístrate! "
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/loginBtn"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/colorBlack"/>
+
+</RelativeLayout>

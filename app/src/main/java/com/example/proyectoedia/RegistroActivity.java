@@ -12,6 +12,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +29,7 @@ public class RegistroActivity extends AppCompatActivity {
     //Vistas
     EditText mEmailEt, mContrasenaET;
     Button mRegistroBtn;
+    TextView mEstarRegistradoTv;
 
     //Progress bar para el registro
     ProgressDialog progressDialog;
@@ -50,10 +52,13 @@ public class RegistroActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
 
-        //Vista boton y textfield
+        //Inicializar el contenido
         mEmailEt = findViewById(R.id.emailEt);
         mContrasenaET = findViewById(R.id.contrasenaEt);
         mRegistroBtn = findViewById(R.id.registro_btn);
+        mEstarRegistradoTv = findViewById(R.id.estar_registradoTv);
+
+
 
         //Inicializar la variable de Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -90,6 +95,15 @@ public class RegistroActivity extends AppCompatActivity {
                 }else{
                     registrarUsuario(email,contrasena);
                 }
+            }
+        });
+
+        //---ON CLICK LOGIN
+
+        mEstarRegistradoTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
             }
         });
 
