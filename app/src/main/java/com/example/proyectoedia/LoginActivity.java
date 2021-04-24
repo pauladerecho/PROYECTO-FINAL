@@ -19,6 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.signin.internal.SignInClientImpl;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+
 
     //Vistas
     EditText mEmailEt, mContrasenaEt;
@@ -55,12 +60,15 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
 
+
+
         //Inicializarlo
         mEmailEt = findViewById(R.id.emailEt);
         mContrasenaEt = findViewById(R.id.contrasenaEt);
         mnoestar_registradoTv = findViewById(R.id.noestar_registradoTv);
         mLoginBtn = findViewById(R.id.loginBtn);
         molvidar_contrasenaTv = findViewById(R.id.olvidar_contrasenaTv);
+
 
         //--Inicializar el dialogo de progreso
 
@@ -101,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //--Recuperar contrasena ONClick
-
         molvidar_contrasenaTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
                 olvidarContrasena();
             }
         });
-
 
 
     }
