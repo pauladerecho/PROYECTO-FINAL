@@ -48,6 +48,7 @@
         android:layout_marginLeft="56dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
+        android:onClick="botonEntrar"
         android:text="Entrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
