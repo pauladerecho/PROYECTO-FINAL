@@ -12,14 +12,15 @@
 
 
     <!--LOGO: posicion y ruta del logo-->
-    <ImageView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        app:srcCompat="@drawable/logo_color"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
 
     <!--Boton: REGISTRARSE-->
+
+    <ImageView
+        android:layout_width="331dp"
+        android:layout_height="316dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/logocolor" />
+
     <Button
         android:id="@+id/registro_btn"
         android:text="Registro"

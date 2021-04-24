@@ -1,14 +1,25 @@
 package com.example.proyectoedia;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Pattern;
 
@@ -17,8 +28,13 @@ public class RegistroActivity extends AppCompatActivity {
     //Vistas
     EditText mEmailEt, mContrasenaET;
     Button mRegistroBtn;
+
     //Progress bar para el registro
     ProgressDialog progressDialog;
+
+    //Conxion con FireBase
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +54,9 @@ public class RegistroActivity extends AppCompatActivity {
         mEmailEt = findViewById(R.id.emailEt);
         mContrasenaET = findViewById(R.id.contrasenaEt);
         mRegistroBtn = findViewById(R.id.registro_btn);
+
+        //Inicializar la variable de Firebase
+        mAuth = FirebaseAuth.getInstance();
 
         //Vista ProgressBar
         progressDialog = new ProgressDialog(this);
@@ -79,6 +98,34 @@ public class RegistroActivity extends AppCompatActivity {
     private void registrarUsuario(String email, String contrasena) {
         //-- Si el email y la contrasena es valida, mostramos la barra de progreso y el usuario se registra
 
+        progressDialog.show();
+
+        //Este codigo nos lo da Firebase para la validacion de usuario
+        mAuth.createUserWithEmailAndPassword(email, contrasena)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            progressDialog.dismiss();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(RegistroActivity.this, "Registrado.../n"+user.getEmail(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegistroActivity.this,PerfilActivity.class));
+                            finish();
+
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(RegistroActivity.this, "La autentificación ha falladp.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                progressDialog.dismiss();
+                Toast.makeText(RegistroActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
