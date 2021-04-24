@@ -87,14 +87,27 @@
         android:text="Entrar" />
 
     <TextView
-        android:id="@+id/noestar_registradoTv"
+    android:id="@+id/noestar_registradoTv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/loginBtn"
+    android:layout_marginTop="30dp"
+    android:gravity="center_horizontal"
+    android:text="¿Aún no tienes una cuenta? Regístrate! "
+    android:textAlignment="center"
+    />
+
+    <TextView
+        android:id="@+id/olvidar_contrasenaTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/loginBtn"
-        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp"
         android:gravity="center_horizontal"
-        android:text="¿Aún no tienes una cuenta? Regístrate! "
+        android:text="¿Has olvidado la contraseña?"
         android:textAlignment="center"
-        android:textColor="@color/colorBlack" />
+        />
+
 
 </RelativeLayout>

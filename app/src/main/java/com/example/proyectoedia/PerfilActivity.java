@@ -58,7 +58,13 @@
             }
             }
 
-    @Override
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            finish();
+        }
+
+        @Override
     protected void onStart() { //-->> Al iniciar, verificar si existe el usuario
             verificarUsuarios();
             super.onStart();

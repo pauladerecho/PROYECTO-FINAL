@@ -104,6 +104,7 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
+                finish();
             }
         });
 
