@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,14 +16,13 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
-    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseUser user = mAuth.getCurrentUser();
+      /*  FirebaseUser user = mAuth.getCurrentUser();
 
         String email = user.getEmail();
         String uid = user.getUid();
@@ -39,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference reference = database.getReference("Users");
         reference.child(uid).setValue(hashMap);
 
-
+*/
     }
 
     public void botonEntrar(View v){
 
-        Intent i = new Intent(this, PantallaInicio_Activity.class);
+        Intent i = new Intent(this, PerfilActivity.class);
         startActivity(i);
     }
 }

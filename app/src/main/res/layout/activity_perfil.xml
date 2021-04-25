@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".PantallaInicio_Activity">
+    tools:context=".PerfilActivity">
 
     <FrameLayout
         android:id="@+id/content"
@@ -15,14 +15,14 @@
         android:layout_weight="1">
     </FrameLayout>
 
-
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        app:srcCompat="@menu/menu_nav">
+        app:srcCompat="@menu/menu_nav"
+        android:backgroundTint="@color/colorAccent">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </LinearLayout>
