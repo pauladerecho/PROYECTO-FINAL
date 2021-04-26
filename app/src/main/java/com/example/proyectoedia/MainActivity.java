@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,6 +17,9 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+    //VISTAS//
+    Button mRegistroBtn,mLoginBtn; //--> la M es para que sepamos que es del main
+
     FirebaseAuth mAuth;
 
     @Override
@@ -22,27 +27,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      /*  FirebaseUser user = mAuth.getCurrentUser();
+        //VISTAS de los botones //
+        mRegistroBtn = findViewById(R.id.registro_btn);
+        mLoginBtn = findViewById(R.id.login_btn);
 
-        String email = user.getEmail();
-        String uid = user.getUid();
+        //--El onclick para ir a RegistroActivity
 
-        HashMap<Object, String> hashMap = new HashMap<>();
-        hashMap.put("email", email);
-        hashMap.put("uid", uid);
-        hashMap.put("telefono", "");
-        hashMap.put("imagen", "");
+        mRegistroBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Users");
-        reference.child(uid).setValue(hashMap);
+                startActivity(new Intent(MainActivity.this,RegistroActivity.class));
+            }
+        });
 
-*/
-    }
+        //--OnClick para ir a LoginActivity
 
-    public void botonEntrar(View v){
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        Intent i = new Intent(this, PerfilActivity.class);
-        startActivity(i);
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        });
+
+
     }
 }
