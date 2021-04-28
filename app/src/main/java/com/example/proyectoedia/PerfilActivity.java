@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +29,6 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         //---->>ACCIONES DE MENÚ + TITULO<<---//
-
         actionBar = getSupportActionBar();
 
         //Inicializar la autentificacion
@@ -37,6 +37,7 @@ public class PerfilActivity extends AppCompatActivity {
         //Boton de navegacion.
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
+
 
         //Para que empieze por defecto en esta pantalla.
         actionBar.setTitle("Home");

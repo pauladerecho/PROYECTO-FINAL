@@ -21,5 +21,6 @@
         android:layout_height="58dp"
         android:layout_gravity="bottom"
         android:background="@color/colorPrimary"
-        app:menu="@menu/menu_nav"></com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:menu="@menu/menu_nav">
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </LinearLayout>

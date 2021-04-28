@@ -16,9 +16,10 @@
 
             <!--Convertimos esta parte del relative en una imagen-->
             <ImageView
-                android:id="@+id/converIv"
+                android:id="@+id/portadaIv"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
+                android:scaleType="fitXY"
                 android:background="@color/colorPrimary">
             </ImageView>
 
