@@ -21,6 +21,7 @@ public class PerfilActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     ActionBar actionBar;
+    BottomNavigationView navigationView;
 
 
     @Override
@@ -35,7 +36,7 @@ public class PerfilActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         //Boton de navegacion.
-        BottomNavigationView navigationView = findViewById(R.id.navigation);
+        navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
 
@@ -50,11 +51,9 @@ public class PerfilActivity extends AppCompatActivity {
         private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
                 //Cambios de los elementos de la barra de navegacion.
                 switch (menuItem.getItemId()){
                     case R.id.nav_home:
-
                         actionBar.setTitle("Home");
                         HomeFragment fragment1 = new HomeFragment();
                         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
@@ -63,7 +62,6 @@ public class PerfilActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_notificaciones:
-
                         actionBar.setTitle("Notificaciones");
                         NotificacionesFragment fragment2 = new NotificacionesFragment();
                         FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
@@ -72,7 +70,6 @@ public class PerfilActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_publicacion:
-
                         actionBar.setTitle("Publicacion");
                         PublicacionFragment fragment3 = new PublicacionFragment();
                         FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
@@ -81,7 +78,6 @@ public class PerfilActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_ajustes:
-
                         actionBar.setTitle("Ajustes");
                         AjustesFragment fragment4 = new AjustesFragment();
                         FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
@@ -90,7 +86,6 @@ public class PerfilActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_perfil:
-
                         actionBar.setTitle("Perfil");
                         UserFragment fragment5 = new UserFragment();
                         FragmentTransaction ft5 = getSupportFragmentManager().beginTransaction();
@@ -98,7 +93,7 @@ public class PerfilActivity extends AppCompatActivity {
                         ft5.commit();
                         return true;
                 }
-                return false;
+                return true;
             }
         };
 
