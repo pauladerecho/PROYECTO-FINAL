@@ -1,4 +1,4 @@
-package com.example.proyectoedia;
+package com.example.proyectoedia.menu;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -12,7 +12,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -27,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.proyectoedia.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -43,13 +43,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.security.Key;
 import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
-public class UserFragment extends Fragment {
+public class PerfilFragment extends Fragment {
 
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
@@ -80,7 +79,7 @@ public class UserFragment extends Fragment {
     //Para comprobar el perfil o la portada.
     String foto_perfil_o_portada;
 
-    public UserFragment() {
+    public PerfilFragment() {
         // Required empty public constructor
     }
 
@@ -94,7 +93,7 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
