@@ -10,7 +10,7 @@ import android.view.WindowManager;
 
 import com.example.proyectoedia.R;
 
-public class Pantalla_Carga_Activity extends AppCompatActivity {
+public class Pantalla_CargaActivity extends AppCompatActivity {
 
     private  final int DURACION_SPLASH = 3000;
 
@@ -24,7 +24,7 @@ public class Pantalla_Carga_Activity extends AppCompatActivity {
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
-                Intent intent = new Intent(Pantalla_Carga_Activity.this, LoginActivity.class);
+                Intent intent = new Intent(Pantalla_CargaActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             };

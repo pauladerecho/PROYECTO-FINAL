@@ -99,7 +99,7 @@ public class InicioActivity extends AppCompatActivity {
                         ft5.commit();
                         return true;
                 }
-                return true;
+                return false;
             }
         };
 
