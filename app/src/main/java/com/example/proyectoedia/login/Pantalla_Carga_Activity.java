@@ -1,4 +1,4 @@
-package com.example.proyectoedia;
+package com.example.proyectoedia.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
-public class SplashActivity extends AppCompatActivity {
+import com.example.proyectoedia.R;
+
+public class Pantalla_Carga_Activity extends AppCompatActivity {
 
     private  final int DURACION_SPLASH = 3000;
 
@@ -18,11 +20,11 @@ public class SplashActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_pantalla_carga);
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent intent = new Intent(Pantalla_Carga_Activity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             };

@@ -1,4 +1,4 @@
-package com.example.proyectoedia;
+package com.example.proyectoedia.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -9,13 +9,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
+import com.example.proyectoedia.MainActivity;
+import com.example.proyectoedia.menu.AjustesFragment;
+import com.example.proyectoedia.menu.HomeFragment;
+import com.example.proyectoedia.menu.NotificacionesFragment;
+import com.example.proyectoedia.menu.PublicacionFragment;
+import com.example.proyectoedia.R;
+import com.example.proyectoedia.menu.PerfilFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class PerfilActivity extends AppCompatActivity {
+public class InicioActivity extends AppCompatActivity {
 
     //Autentificacion de FireBase
     FirebaseAuth firebaseAuth;
@@ -27,7 +33,7 @@ public class PerfilActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil);
+        setContentView(R.layout.activity_inicio);
 
         //---->>ACCIONES DE MENÚ + TITULO<<---//
         actionBar = getSupportActionBar();
@@ -87,7 +93,7 @@ public class PerfilActivity extends AppCompatActivity {
 
                     case R.id.nav_perfil:
                         actionBar.setTitle("Perfil");
-                        UserFragment fragment5 = new UserFragment();
+                        PerfilFragment fragment5 = new PerfilFragment();
                         FragmentTransaction ft5 = getSupportFragmentManager().beginTransaction();
                         ft5.replace(R.id.content, fragment5, "");
                         ft5.commit();
@@ -108,7 +114,7 @@ public class PerfilActivity extends AppCompatActivity {
             //mPerfilTv.setText(user.getEmail());
         }else { //-- Sino, no está registrado en la app, vuelve a la pagina principal para que se registre
 
-            startActivity(new Intent(PerfilActivity.this,MainActivity.class));
+            startActivity(new Intent(InicioActivity.this, MainActivity.class));
             finish();
         }
     }
