@@ -42,7 +42,7 @@ public class InicioActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         //Boton de navegacion.
-        navigationView = findViewById(R.id.navigation);
+        navigationView = findViewById(R.id.navegacion);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
 

@@ -124,7 +124,6 @@ public class PerfilFragment extends Fragment {
                     nombreTv.setText(nombre);
                     descripcionTv.setText(descripcion);
 
-
                     try {
                         Picasso.get().load(imagen).into(avatarIv);
                     }catch (Exception e){
@@ -149,26 +148,26 @@ public class PerfilFragment extends Fragment {
         boton_flotante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showEditUserDialog();
+                mostrarOpcionesEditarUsuario();
             }
         });
         return view;
     }
 
-    private boolean checkStoragePermission(){
+    private boolean comprobarPermisoAlmacenamiento(){
 
         boolean result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == (PackageManager.PERMISSION_GRANTED);
         return result;
     }
 
-    private void requestStoragePermission(){
+    private void solicitarPermisoAlmacenamiento(){
         //Permiso de almacenamiento con tiempo de ejecucion
         requestPermissions(storagePermissions, STORAGE_REQUEST_CODE);
     }
 
 
-    private boolean checkCameraPermission(){
+    private boolean comprobarPermisoCamara(){
 
         boolean result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                 == (PackageManager.PERMISSION_GRANTED);
@@ -179,14 +178,14 @@ public class PerfilFragment extends Fragment {
         return result && result1;
     }
 
-    private void requestCameraPermission(){
+    private void solicitarPermisoCamara(){
         //Permiso de almacenamiento con tiempo de ejecucion
         requestPermissions(cameraPermissions, CAMERA_REQUEST_CODE);
 
     }
 
 
-    private void showEditUserDialog() {
+    private void mostrarOpcionesEditarUsuario() {
 
         //Diferentes opciones.
         String opciones[] = {"Editar imagen", "Editar portada", "Editar nombre", "Editar descripcion"};
@@ -203,23 +202,23 @@ public class PerfilFragment extends Fragment {
                     //Modificar la foto.
                     pd.setMessage("Actualizando la foto de perfil");
                     foto_perfil_o_portada = "imagen";
-                    showImagePicDialog();
+                    mostrarOpcionesParaImagen();
 
                 }else if (which == 1){
                     //Modificar el fondo
                     pd.setMessage("Actualizando la imagen de portada");
                     foto_perfil_o_portada = "portada";
-                    showImagePicDialog();
+                    mostrarOpcionesParaImagen();
 
                 }else if (which == 2){
                     //Modificar el nombre
                     pd.setMessage("Actualizando el nombre");
-                    showNameDescriptionUpdateDialog("name");
+                    mostrarActualizacionDeOpciones("name");
 
                 }else if (which == 3){
                     //Modificar la descripcion
                     pd.setMessage("Actualizando la descripción");
-                    showNameDescriptionUpdateDialog("descripcion");
+                    mostrarActualizacionDeOpciones("descripcion");
 
                 }
             }
@@ -228,7 +227,7 @@ public class PerfilFragment extends Fragment {
         builder.create().show();
     }
 
-    private void showNameDescriptionUpdateDialog(final String key) {
+    private void mostrarActualizacionDeOpciones(final String key) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Actualizar " + key);//Actualizar el nombre o la descripcion.
@@ -292,7 +291,7 @@ public class PerfilFragment extends Fragment {
         builder.create().show();
     }
 
-    private void showImagePicDialog() {
+    private void mostrarOpcionesParaImagen() {
 
         String opciones[] = {"Camera", "Gallery"};
 
@@ -306,18 +305,18 @@ public class PerfilFragment extends Fragment {
 
                 if(which == 0){
                     //Camara
-                    if(!checkCameraPermission()){
-                        requestCameraPermission();
+                    if(!comprobarPermisoCamara()){
+                        solicitarPermisoCamara();
                     }else{
-                        pickFromCamera();
+                        cogerFotoDeCamara();
                     }
 
                 }else if (which == 1){
                     //Galeria
-                    if(!checkStoragePermission()){
-                        requestStoragePermission();
+                    if(!comprobarPermisoAlmacenamiento()){
+                        solicitarPermisoAlmacenamiento();
                     }else{
-                        pickFromGallery();
+                        cogerFotoDeGaleria();
                     }
 
                 }
@@ -339,7 +338,7 @@ public class PerfilFragment extends Fragment {
 
                     if(cameraAccepted && writeStorageAccepted){
 
-                        pickFromCamera();
+                        cogerFotoDeCamara();
                     }else{
                         Toast.makeText(getActivity(), "Por favor, acepte el permiso de cámara y almacenamiento.", Toast.LENGTH_SHORT).show();
                     }
@@ -353,7 +352,7 @@ public class PerfilFragment extends Fragment {
 
                     if(writeStorageAccepted){
 
-                        pickFromGallery();
+                        cogerFotoDeGaleria();
                     }else{
                         Toast.makeText(getActivity(), "Por favor, acepte el permiso de almacenamiento", Toast.LENGTH_SHORT).show();
                     }
@@ -374,20 +373,20 @@ public class PerfilFragment extends Fragment {
             if(requestCode == IMAGE_PICK_GALLERY_CODE){
 
                 image_uri = data.getData();
-                uploadProfileCoverPhoto(image_uri);
+                subirFotoPortada(image_uri);
 
             }
 
             if(requestCode == IMAGE_PICK_CAMERA_CODE){
 
-                uploadProfileCoverPhoto(image_uri);
+                subirFotoPortada(image_uri);
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void uploadProfileCoverPhoto(final Uri uri) {
+    private void subirFotoPortada(final Uri uri) {
         //Usaremos el UID del usuario actualmente registrado como nombre de la imagen, por lo que solo habrá un perfil de imagen y una imagen para la portad de cada usuario.
 
         pd.show();
@@ -446,7 +445,7 @@ public class PerfilFragment extends Fragment {
                 });
     }
 
-    private void pickFromCamera() {
+    private void cogerFotoDeCamara() {
 
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "Foto temporal");
@@ -460,7 +459,7 @@ public class PerfilFragment extends Fragment {
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
     }
 
-    private void pickFromGallery() {
+    private void cogerFotoDeGaleria() {
 
         Intent galeriaIntent = new Intent(Intent.ACTION_PICK);
         galeriaIntent.setType("image/*");
