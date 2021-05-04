@@ -1,7 +1,6 @@
 package com.example.proyectoedia.menu.Buscador;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,12 @@ import java.util.List;
 public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.MyHolder>{
 
     Context context;
-    List<ModeloUsuarios> userList;
+    List<ModeloUsuarios> usuariosList;
 
     //--->>constructor
-    public AdaptadorUsuarios(Context context, List<ModeloUsuarios> userList) {
+    public AdaptadorUsuarios(Context context, List<ModeloUsuarios> usuariosList) {
         this.context = context;
-        this.userList = userList;
+        this.usuariosList = usuariosList;
     }
 
     @NonNull
@@ -44,11 +43,11 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
 
         //--> Traer los datos
 
-        String imagenUsuario = userList.get(i).getImagen();
+        String imagenUsuario = usuariosList.get(i).getImagen();
 
-        String nombreUsuario  = userList.get(i).getName();
+        String nombreUsuario  = usuariosList.get(i).getName();
 
-        final String  emailUsuario = userList.get(i).getEmail();
+        final String  emailUsuario = usuariosList.get(i).getEmail();
 
         //--> Settear los datos
 
@@ -64,7 +63,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
 
         }
 
-        //-->>Handle Click
+        //-->>On Click
 
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +76,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return usuariosList.size();
     }
 
     class MyHolder extends RecyclerView.ViewHolder{
