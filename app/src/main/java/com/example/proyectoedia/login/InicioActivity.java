@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.menu.AjustesFragment;
+import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
 import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.NotificacionesFragment;
 import com.example.proyectoedia.menu.PublicacionFragment;
@@ -83,13 +84,13 @@ public class InicioActivity extends AppCompatActivity {
                         ft3.commit();
                         return true;
 
-                    case R.id.nav_ajustes:
+                  /*  case R.id.nav_ajustes:
                         actionBar.setTitle("Ajustes");
                         AjustesFragment fragment4 = new AjustesFragment();
                         FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
                         ft4.replace(R.id.content, fragment4, "");
                         ft4.commit();
-                        return true;
+                        return true;*/
 
                     case R.id.nav_perfil:
                         actionBar.setTitle("Perfil");
@@ -97,6 +98,14 @@ public class InicioActivity extends AppCompatActivity {
                         FragmentTransaction ft5 = getSupportFragmentManager().beginTransaction();
                         ft5.replace(R.id.content, fragment5, "");
                         ft5.commit();
+                        return true;
+
+                    case R.id.nav_buscador:
+                        actionBar.setTitle("Buscador");
+                        UsuariosFragment fragment6 = new UsuariosFragment();
+                        FragmentTransaction ft6 = getSupportFragmentManager().beginTransaction();
+                        ft6.replace(R.id.content, fragment6, "");
+                        ft6.commit();
                         return true;
                 }
                 return false;
