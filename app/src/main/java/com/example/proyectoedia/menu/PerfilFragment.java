@@ -466,4 +466,6 @@ public class PerfilFragment extends Fragment {
         galeriaIntent.setType("image/*");
         startActivityForResult(galeriaIntent, IMAGE_PICK_GALLERY_CODE);
     }
+
+
 }

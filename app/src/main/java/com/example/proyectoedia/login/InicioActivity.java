@@ -133,7 +133,6 @@ public class InicioActivity extends AppCompatActivity {
 
             //--Inflador de opciones del menú
 
-
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
 
