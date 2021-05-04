@@ -21,7 +21,8 @@
             android:background="@color/colorAccent"
             app:itemIconTint="#FFF"
             app:itemTextColor="#FFF"
-            app:menu="@menu/menu_nav"></com.google.android.material.bottomnavigation.BottomNavigationView>
+            app:menu="@menu/menu_nav">
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
     </FrameLayout>
 
 </LinearLayout>

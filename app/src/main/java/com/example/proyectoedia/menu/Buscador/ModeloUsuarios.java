@@ -3,18 +3,17 @@ package com.example.proyectoedia.menu.Buscador;
 public class ModeloUsuarios {
 
     //--> Se tiene que poner igual que está en firebase
-    String name, email, search, phone, image, cover, uid;
+    String name, email, search, imagen, portada, uid;
 
     public ModeloUsuarios() {
     }
 
-    public ModeloUsuarios(String name, String email, String search, String phone, String image, String cover, String uid) {
+    public ModeloUsuarios(String name, String email, String search, String imagen, String portada, String uid) {
         this.name = name;
         this.email = email;
         this.search = search;
-        this.phone = phone;
-        this.image = image;
-        this.cover = cover;
+        this.imagen = imagen;
+        this.portada = portada;
         this.uid = uid;
     }
 
@@ -42,28 +41,20 @@ public class ModeloUsuarios {
         this.search = search;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
-    public String getImage() {
-        return image;
+    public String getPortada() {
+        return portada;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setPortada(String portada) {
+        this.portada = portada;
     }
 
     public String getUid() {

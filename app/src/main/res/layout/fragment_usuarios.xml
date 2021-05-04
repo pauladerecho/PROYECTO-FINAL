@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   tools:context=".UsersFragment"> <!-- no se si eso esta bien -->
+    tools:context=".menu.Buscador.UsuariosFragment"> <!-- no se si eso esta bien -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/usuarios_recyclerView"
         android:layout_width="match_parent"

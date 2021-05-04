@@ -136,10 +136,8 @@ public class RegistroActivity extends AppCompatActivity {
                             hashMap.put("email", email);
                             hashMap.put("contraseña", contrasena);
                             hashMap.put("uid", uid);
-                            hashMap.put("nombre", "");
-                            hashMap.put("telefono", "");
                             hashMap.put("imagen", "");
-                            hashMap.put("predeterminada", "");
+                            hashMap.put("portada", "");
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference reference = database.getReference("Users");

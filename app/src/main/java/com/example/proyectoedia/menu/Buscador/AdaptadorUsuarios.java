@@ -44,7 +44,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
 
         //--> Traer los datos
 
-        String imagenUsuario = userList.get(i).getImage();
+        String imagenUsuario = userList.get(i).getImagen();
 
         String nombreUsuario  = userList.get(i).getName();
 
