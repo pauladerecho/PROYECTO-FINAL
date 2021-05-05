@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".menu.PublicacionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:text="Publicacion" />
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <!--Titulo de la imagen-->
+        <EditText
+            android:id="@+id/pTitulo"
+            android:padding="10dp"
+            android:hint="Ponga un titulo"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!--Imagen del post-->
+        <ImageView
+            android:id="@+id/pImagenIv"
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="400dp"/>
+
+        <!--Descripcion del post -->
+        <EditText
+            android:id="@+id/pDescripcionEt"
+            android:padding="10dp"
+            android:hint="Escriba la descripcion"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minHeight="100dp"
+            android:gravity="start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!--Boton para subir el post-->
+        <Button
+            android:id="@+id/pPublicarBtn"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:text="Publicar"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</ScrollView>
