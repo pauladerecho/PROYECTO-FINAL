@@ -12,4 +12,7 @@
             app:actionViewClass="android.widget.SearchView" />
 
 
+        <item android:id="@+id/nav_ajustes"
+            android:title="Ajustes"
+            android:icon="@drawable/ajustes"/>
 </menu>

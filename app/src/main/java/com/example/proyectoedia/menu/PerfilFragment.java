@@ -18,6 +18,9 @@ import androidx.fragment.app.Fragment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -26,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -464,6 +468,50 @@ public class PerfilFragment extends Fragment {
         Intent galeriaIntent = new Intent(Intent.ACTION_PICK);
         galeriaIntent.setType("image/*");
         startActivityForResult(galeriaIntent, IMAGE_PICK_GALLERY_CODE);
+    }
+
+    ////----- VERIFICAR QUE EL USUARIO EXISTE-----///
+    private void verificarUsuarios(){
+
+        //--Obtener el usuario con fireBase:
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if(user != null){ //-- Si el usuario está en la bbdd de FireBase:
+            //mPerfilTv.setText(user.getEmail());
+        }else { //-- Sino, no está registrado en la app, vuelve a la pagina principal para que se registre
+
+            startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);//-->> para mostrarlo como opción en el menú fragment
+        super.onCreate(savedInstanceState);
+
+    }
+
+    //--Inflador de opciones del menú
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_main,menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    //-- On click del menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id==R.id.action_logout){
+            firebaseAuth.signOut();
+            verificarUsuarios();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
