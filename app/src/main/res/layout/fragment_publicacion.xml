@@ -23,10 +23,10 @@
         <!--Imagen del post-->
         <ImageView
             android:id="@+id/pImagenIv"
-            android:background="@color/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="400dp"/>
+            android:background="#707070"
+            android:minHeight="350dp" />
 
         <!--Descripcion del post -->
         <EditText

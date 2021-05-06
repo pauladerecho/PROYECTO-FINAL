@@ -1,8 +1,10 @@
 package com.example.proyectoedia.menu;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,12 +32,29 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.proyectoedia.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
 
 public class PublicacionFragment extends Fragment {
 
+    ActionBar actionBar;
+
     FirebaseAuth firebaseAuth;
+    DatabaseReference userDbReference;
 
     //Permisos.
     private static final int CAMERA_REQUEST_CODE = 100;
@@ -51,7 +71,12 @@ public class PublicacionFragment extends Fragment {
     ImageView imagenIv;
     Button publicarBtn;
 
+    //Informacion del usuario.
+    String name, email, uid, dp;
+
     Uri image_rui;
+
+    ProgressDialog progressDialog;
 
     public PublicacionFragment() {
         // Required empty public constructor
@@ -64,13 +89,42 @@ public class PublicacionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_publicacion, container, false);
 
+       // actionBar = getSupportActionBar();
+       // actionBar.setTitle("Nueva publicacion");
+       // actionBar.setDisplayShowHomeEnabled(true);
+       // actionBar.setDisplayHomeAsUpEnabled(true);
+
         //Permisos.
         permisosCamara = new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         permisosGaleria = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
+        progressDialog = new ProgressDialog(getActivity());
 
         firebaseAuth = FirebaseAuth.getInstance();
         comprobarEstadoUsuario();
+
+       // actionBar.setSubtitle(email);
+
+        //obtener información del usuario actual para incluirla en el post
+        userDbReference = FirebaseDatabase.getInstance().getReference("Users");
+        Query query = userDbReference.orderByChild("email").equalTo(email);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds: snapshot.getChildren()){
+
+                    name = "" + ds.child("name").getValue();
+                    email = "" + ds.child("email").getValue();
+                    dp = "" +ds.child("imagen").getValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         tituloEt = view.findViewById(R.id.pTitulo);
         descripcionEt = view.findViewById(R.id.pDescripcionEt);
@@ -90,9 +144,139 @@ public class PublicacionFragment extends Fragment {
             public void onClick(View v) {
                 String titulo = tituloEt.getText().toString().trim();
                 String descripcion = descripcionEt.getText().toString().trim();
+
+                if(TextUtils.isEmpty(titulo)){
+                    Toast.makeText(getActivity(), "Ponga un título", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(TextUtils.isEmpty(descripcion)){
+                    Toast.makeText(getActivity(), "Ponga una descripción", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(image_rui == null){
+
+                    cargarDatos(titulo, descripcion, "noImagen");
+
+                }else{
+                    cargarDatos(titulo, descripcion, String.valueOf(image_rui));
+                }
+
             }
         });
         return view;
+    }
+
+    private void cargarDatos(final String titulo, final String descripcion, final String uri) {
+
+        progressDialog.setMessage("Publicando post..");
+        progressDialog.show();
+
+        final String timeStamp = String.valueOf(System.currentTimeMillis());
+        String rutaYNombreArchivo = "Posts/" + "post_" + timeStamp;
+
+        if(!uri.equals("noImagen")){
+
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child(rutaYNombreArchivo);
+            ref.putFile(Uri.parse(uri))
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!uriTask.isSuccessful());
+
+                            String descargarUri = uriTask.getResult().toString();
+
+                            if(uriTask.isSuccessful()){
+
+                                HashMap<Object, String> hashMap = new HashMap<>();
+                                hashMap.put("uid", uid);
+                                hashMap.put("uName", name);
+                                hashMap.put("uEmail", email);
+                                hashMap.put("uDp", dp);
+                                hashMap.put("pId", timeStamp);
+                                hashMap.put("pTitulo", titulo);
+                                hashMap.put("pDescripcion", descripcion);
+                                hashMap.put("pImagen", descargarUri);
+                                hashMap.put("pTime", timeStamp);
+
+                                //ruta para almacenar los datos.
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+                                ref.child(timeStamp).setValue(hashMap)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+
+                                                progressDialog.dismiss();
+                                                Toast.makeText(getActivity(), "Post publicado", Toast.LENGTH_SHORT).show();
+                                                //Reseteamos la vista.
+                                                tituloEt.setText("");
+                                                descripcionEt.setText("");
+                                                imagenIv.setImageURI(null);
+                                                image_rui = null;
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                //Si hay un error añadiendo el post en la bbdd.
+                                                progressDialog.dismiss();
+                                                Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //Fallo al cargar la imagen.
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }else{
+            HashMap<Object, String> hashMap = new HashMap<>();
+            hashMap.put("uid", uid);
+            hashMap.put("uName", name);
+            hashMap.put("uEmail", email);
+            hashMap.put("uDp", dp);
+            hashMap.put("pId", timeStamp);
+            hashMap.put("pTitulo", titulo);
+            hashMap.put("pDescripcion", descripcion);
+            hashMap.put("pImagen", "noImagen");
+            hashMap.put("pTime", timeStamp);
+
+            //ruta para almacenar los datos.
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+            ref.child(timeStamp).setValue(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), "Post publicado", Toast.LENGTH_SHORT).show();
+                            //Reseteamos la vista.
+                            tituloEt.setText("");
+                            descripcionEt.setText("");
+                            imagenIv.setImageURI(null);
+                            image_rui = null;
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //Si hay un error añadiendo el post en la bbdd.
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+        }
+
     }
 
     private void mostrarSeleccionImagen() {
@@ -141,7 +325,7 @@ public class PublicacionFragment extends Fragment {
         ContentValues cv = new ContentValues();
         cv.put(MediaStore.Images.Media.TITLE, "Selección temporal");
         cv.put(MediaStore.Images.Media.DESCRIPTION, "Descripción temporal");
-        //image_rui = getContentResilver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+        image_rui = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, image_rui);
@@ -193,6 +377,9 @@ public class PublicacionFragment extends Fragment {
 
         if(user != null){
 
+            email = user.getEmail();
+            uid = user.getUid();
+
         }else{
             //startActivity(new Intent(PublicacionFragment.class, MainActivity.class));
         }
@@ -204,6 +391,7 @@ public class PublicacionFragment extends Fragment {
         // getMenuInflater().inflate(R.menu.menu_main, menu);
 
         menu.findItem(R.id.nav_publicacion).setVisible(false);
+        menu.findItem(R.id.action_search).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -257,6 +445,16 @@ public class PublicacionFragment extends Fragment {
 
         if(resultCode == Activity.RESULT_OK){
 
+            if(requestCode == IMAGEN_GALERIA_CODE){
+
+                image_rui = data.getData();
+                imagenIv.setImageURI(image_rui);
+
+            } else if(requestCode == IMAGEN_CAMARA_CODE){
+
+                imagenIv.setImageURI(image_rui);
+
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
