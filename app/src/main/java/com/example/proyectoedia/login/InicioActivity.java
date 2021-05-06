@@ -129,16 +129,15 @@ public class InicioActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 if(id==0){ //--> Buscar
-                    //actionBar.setTitle("Buscador");
-                    actionBar.setIcon(R.drawable.search_icon);
+                    actionBar.setTitle("Buscador");
                     UsuariosFragment fragment6 = new UsuariosFragment();
                     FragmentTransaction ft6 = getSupportFragmentManager().beginTransaction();
                     ft6.replace(R.id.content, fragment6, "");
                     ft6.commit();
 
                 }else if(id==1){//--> chat
-                   // actionBar.setTitle("Chat");
-                    actionBar.setIcon(R.drawable.icon_chat);
+                    actionBar.setTitle("Chat");
+
                     ListaChatFragment fragment7 = new ListaChatFragment();
                     FragmentTransaction ft7= getSupportFragmentManager().beginTransaction();
                     ft7.replace(R.id.content, fragment7, "");

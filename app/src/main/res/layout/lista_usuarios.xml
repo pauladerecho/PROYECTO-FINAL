@@ -38,5 +38,6 @@
                 android:text="Email"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

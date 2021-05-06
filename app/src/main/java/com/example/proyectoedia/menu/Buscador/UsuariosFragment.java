@@ -44,6 +44,7 @@ public class UsuariosFragment extends Fragment {
     RecyclerView recyclerView;
     AdaptadorUsuarios adaptadorUsuarios;
     List<ModeloUsuarios> usuariosList;
+
     //Autentificacion de FireBase
     FirebaseAuth firebaseAuth;
 
