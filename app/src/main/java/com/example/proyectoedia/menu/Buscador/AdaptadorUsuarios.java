@@ -1,6 +1,7 @@
 package com.example.proyectoedia.menu.Buscador;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.menu.Chat.ChatActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -41,6 +43,8 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
 
+        final String idUsuario = usuariosList.get(i).getUid();
+
         //--> Traer los datos
 
         String imagenUsuario = usuariosList.get(i).getImagen();
@@ -68,7 +72,12 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,""+emailUsuario,Toast.LENGTH_SHORT).show();
+
+                //Click sobre un usuario de la lista para comenzar a chatear con él
+
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("idUsuario", idUsuario);
+                context.startActivity(intent);
             }
         });
 
