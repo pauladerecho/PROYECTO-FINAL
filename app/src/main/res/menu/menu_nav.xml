@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/nav_home"
-        android:title="Home"
+        android:title=""
         android:icon="@drawable/home"/>
 
     <item android:id="@+id/nav_notificaciones"
-        android:title="Notificaciones"
+        android:title=""
         android:icon="@drawable/notificaciones"/>
 
     <item android:id="@+id/nav_publicacion"
-        android:title="Publicacion"
+        android:title=""
         android:icon="@drawable/nueva_publicacion"/>
 
     <!--  <item android:id="@+id/nav_ajustes"
@@ -18,11 +18,15 @@
         android:icon="@drawable/ajustes"/> -->
 
     <item android:id="@+id/nav_perfil"
-        android:title="Perfil"
+        android:title=""
         android:icon="@drawable/perfil" />
 
-    <item android:id="@+id/nav_buscador"
+    <!--<item android:id="@+id/nav_buscador"
         android:title="Buscador"
-        android:icon="@drawable/search_icon"/>
+        android:icon="@drawable/search_icon"/>-->
+
+    <item android:id="@+id/nav_mas"
+        android:title="Más"
+        android:icon="@drawable/icon_mas"/>
 
 </menu>
