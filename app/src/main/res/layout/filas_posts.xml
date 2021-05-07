@@ -45,7 +45,7 @@
                      android:layout_height="wrap_content"/>
 
                  <TextView
-                     android:id="@+id/uTituloTv"
+                     android:id="@+id/pTiempoTv"
                      android:text="33 min"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"/>
@@ -65,14 +65,16 @@
              android:layout_height="wrap_content"
              android:textSize="16sp"
              android:textStyle="bold"
-             android:text="Titulo"/>
+             android:text="Titulo"
+             android:autoLink="all"/>
 
          <TextView
              android:id="@+id/pDescripcionTv"
              android:text="Descripción del post"
              android:textColor="@color/colorBlack"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content"/>
+             android:layout_height="wrap_content"
+             android:autoLink="all"/>
          
          <ImageView
              android:id="@+id/pImagenIv"

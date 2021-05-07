@@ -1,4 +1,4 @@
-package com.example.proyectoedia.menu;
+package com.example.proyectoedia.publicacion;
 
 import android.Manifest;
 import android.app.ActionBar;

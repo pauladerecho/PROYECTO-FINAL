@@ -5,21 +5,27 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.Buscador.AdaptadorUsuarios;
 import com.example.proyectoedia.menu.Buscador.ModeloUsuarios;
+import com.example.proyectoedia.publicacion.AdaptadorPublicacion;
+import com.example.proyectoedia.publicacion.ModeloPublicacion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +41,10 @@ public class HomeFragment extends Fragment {
     //Autentificacion de FireBase
     FirebaseAuth firebaseAuth;
 
+    RecyclerView recyclerView;
+    List<ModeloPublicacion> publicacionList;
+    AdaptadorPublicacion adaptadorPublicacion;
+
     public HomeFragment() {
     }
 
@@ -46,7 +56,77 @@ public class HomeFragment extends Fragment {
         //Inicializar la autentificacion
         firebaseAuth = FirebaseAuth.getInstance();
 
+        recyclerView = view.findViewById(R.id.postsRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        publicacionList = new ArrayList<>();
+
+        cargarPublicacion();
+
         return view;
+    }
+
+    private void cargarPublicacion() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                publicacionList.clear();
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    ModeloPublicacion modeloPublicacion = ds.getValue(ModeloPublicacion.class);
+
+                    publicacionList.add(modeloPublicacion);
+
+                    adaptadorPublicacion = new AdaptadorPublicacion(getActivity(), publicacionList);
+                    recyclerView.setAdapter(adaptadorPublicacion);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void buscarPosts(final String buscarQuery){
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                publicacionList.clear();
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    ModeloPublicacion modeloPublicacion = ds.getValue(ModeloPublicacion.class);
+
+                    if(modeloPublicacion.getpTitulo().toLowerCase().contains(buscarQuery.toLowerCase()) ||
+                            modeloPublicacion.getpDescripcion().contains(buscarQuery.toLowerCase())){
+
+                        publicacionList.add(modeloPublicacion);
+                    }
+
+
+                    adaptadorPublicacion = new AdaptadorPublicacion(getActivity(), publicacionList);
+                    recyclerView.setAdapter(adaptadorPublicacion);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     ////----- VERIFICAR QUE EL USUARIO EXISTE-----///
@@ -76,6 +156,34 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         inflater.inflate(R.menu.menu_main,menu);
+
+        //Busqueda de posts a través del título o descripcion.
+        MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                if(!TextUtils.isEmpty(s)){
+                    buscarPosts(s);
+                }else{
+                    cargarPublicacion();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+
+                if(!TextUtils.isEmpty(s)){
+                    buscarPosts(s);
+                }else{
+                    cargarPublicacion();
+                }
+                return false;
+            }
+        });
         super.onCreateOptionsMenu(menu,inflater);
     }
 

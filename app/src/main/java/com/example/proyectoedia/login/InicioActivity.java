@@ -7,15 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.proyectoedia.MainActivity;
-import com.example.proyectoedia.menu.AjustesFragment;
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
 import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.NotificacionesFragment;
-import com.example.proyectoedia.menu.PublicacionFragment;
+import com.example.proyectoedia.publicacion.PublicacionFragment;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.PerfilFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
