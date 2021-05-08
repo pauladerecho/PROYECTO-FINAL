@@ -134,7 +134,10 @@ public class RegistroActivity extends AppCompatActivity {
                             //Guardar también los datos en la base de datos a tiempo real.
                             HashMap<Object, String> hashMap = new HashMap<>();
                             hashMap.put("email", email);
+                            hashMap.put("name", "");
                             hashMap.put("contraseña", contrasena);
+                            hashMap.put("estado", "online");
+                            hashMap.put("escribiendoA", "nadie");
                             hashMap.put("uid", uid);
                             hashMap.put("imagen", "");
                             hashMap.put("portada", "");
