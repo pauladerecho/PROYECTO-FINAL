@@ -3,14 +3,15 @@ package com.example.proyectoedia.menu.Chat;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +35,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
+import java.util.Locale;
 
 import static com.squareup.picasso.Picasso.get;
 
@@ -113,14 +115,41 @@ public class ChatActivity extends AppCompatActivity {
 
         usuarioQuery.addValueEventListener(new ValueEventListener() { //-->>obtener el nombre y la foto del usuario
 
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot ds:snapshot.getChildren()){
 
                     //Obtener los datos
-                    String nombre =""+ ds.child("name").getValue();
+                    String nombre =""+ ds.child("name").getValue(); //-- Recuperar de la bbdd(tiene que llamarse igual que las tablas)
                     imagenU2 =""+ ds.child("imagen").getValue();
+                   String estadoEscribiendo = ""+ ds.child("escribiendoA").getValue();
+
+                   //Para saber si el usuario está escribiendo
+
+                    if(estadoEscribiendo.equals(idUsuario1)){
+                        estadoUsuarioTv.setText("escribiendo...");
+                    }else{
+                        //Obtener el valor del estado (online o ultima conexion)
+                        String estadoOnline = ""+ ds.child("estado").getValue();
+
+                        if(estadoOnline.equals("online")){//--> le pasamos el estado online
+                            estadoUsuarioTv.setText(estadoOnline);
+                        }else { //--> y sino que nos devuelva la última conexion
+
+                            //Convertir la fecha y hora en el formato Date
+                            Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("ES"));
+                            try {
+                                calendar.setTimeInMillis(Long.parseLong(estadoOnline));
+                            }catch (Exception e){
+                                e.printStackTrace();;
+                            }
+                            String dateTime = android.text.format.DateFormat.format(" dd/MM/yyyy hh:mm aa  ",calendar).toString();
+                            estadoUsuarioTv.setText(" Última conexión: "+dateTime);
+                        }
+                    }
+
 
                     //Settearlos
                     nombreTv.setText(nombre);
@@ -159,6 +188,31 @@ public class ChatActivity extends AppCompatActivity {
 
                     enviarMensaje(mensaje);
                 }
+            }
+        });
+
+        //Listener para saber que el editor de texto está activo
+
+        mensajeEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.toString().trim().length() == 0){
+                    estadoEscribiendo("nadie");
+                } else{
+                    estadoEscribiendo(idUsuario2);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -272,16 +326,49 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    private void estadoOnline(String estado){
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users").child(idUsuario1);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("estado", estado);
+
+        //Actualizar el estado del usuario
+        dbRef.updateChildren(hashMap);
+    }
+
+    private void estadoEscribiendo(String escribiendo){
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users").child(idUsuario1);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("escribiendoA", escribiendo);
+
+        //Actualizar el estado del usuario
+        dbRef.updateChildren(hashMap);
+    }
+
     @Override
     protected void onStart() {
         verificarUsuarios();
+        estadoOnline("online");
         super.onStart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        //Saber la ultima conexion del usuario (dia y hora)
+        String ultimaConexion = String.valueOf(System.currentTimeMillis());
+        estadoOnline(ultimaConexion);
+        //Estado: escribiendo...
+        estadoEscribiendo("nadie");
+
         userRefVisto.removeEventListener(vistoListener);
+    }
+
+    @Override
+    protected void onResume() {
+        estadoOnline("online");
+        super.onResume();
     }
 
     @Override

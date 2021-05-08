@@ -1,6 +1,7 @@
 package com.example.proyectoedia.menu.Chat;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.R;
@@ -53,6 +55,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int i) {
         //-->>Recuperar los datos
@@ -61,16 +64,13 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
         String fechaHora = chatList.get(i).getHoraDia();
 
         //Convertir la fecha y hora en el formato Date
-
-        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-
+        Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("ES"));
         try {
             calendar.setTimeInMillis(Long.parseLong(fechaHora));
         }catch (Exception e){
             e.printStackTrace();;
         }
-
-        String dateTime = android.text.format.DateFormat.format("dd/MM/yyyy hh:mm aa",calendar).toString();
+        String dateTime = android.text.format.DateFormat.format(" dd/MM/yyyy hh:mm aa  ",calendar).toString();
 
         //settear los datos
 
