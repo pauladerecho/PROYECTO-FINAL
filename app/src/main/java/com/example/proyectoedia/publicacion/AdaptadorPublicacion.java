@@ -1,5 +1,6 @@
 package com.example.proyectoedia.publicacion;
 
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.ThereProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
@@ -45,7 +48,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
 
         //Traemos los datos.
-        String uid = publicacionLista.get(i).getUid();
+        final String uid = publicacionLista.get(i).getUid();
         String uEmail = publicacionLista.get(i).getuEmail();
         String uName = publicacionLista.get(i).getuName();
         String uDp = publicacionLista.get(i).getuDp();
@@ -118,6 +121,15 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                 Toast.makeText(context, "Compartir", Toast.LENGTH_SHORT).show();
             }
         });
+
+        myHolder.perfilLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ThereProfileActivity.class);
+                intent.putExtra("uid", uid);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -131,6 +143,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         TextView uNameTv, pTimeTv, pTituloTv, pDescripcionTv, pLikesTv;
         ImageButton opcionesBtn;
         Button likeBtn, comentarioBtn, compartirBtn;
+        LinearLayout perfilLayout;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -146,6 +159,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             likeBtn = itemView.findViewById(R.id.likeBtn);
             comentarioBtn = itemView.findViewById(R.id.comentarioBtn);
             compartirBtn = itemView.findViewById(R.id.compartirBtn);
+            perfilLayout = itemView.findViewById(R.id.perfilLayout);
 
 
         }

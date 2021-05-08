@@ -14,38 +14,38 @@
         <!--Titulo de la imagen-->
         <EditText
             android:id="@+id/pTitulo"
-            android:padding="10dp"
-            android:hint="Ponga un titulo"
-            android:singleLine="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="Ponga un titulo"
+            android:padding="10dp"
+            android:singleLine="true" />
 
         <!--Imagen del post-->
         <ImageView
             android:id="@+id/pImagenIv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#707070"
-            android:minHeight="270dp" />
+            android:background="#FFF"
+            android:minHeight="250dp" />
 
         <!--Descripcion del post -->
         <EditText
             android:id="@+id/pDescripcionEt"
-            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
             android:hint="Escriba la descripcion"
             android:inputType="textCapSentences|textMultiLine"
             android:minHeight="69dp"
-            android:gravity="start"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:padding="10dp" />
 
         <!--Boton para subir el post-->
         <Button
             android:id="@+id/pPublicarBtn"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:text="Publicar"
+            android:layout_width="143dp"
+            android:layout_height="64dp"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="Publicar" />
     </LinearLayout>
 </ScrollView>
