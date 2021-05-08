@@ -2,25 +2,51 @@ package com.example.proyectoedia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.proyectoedia.login.LoginActivity;
+import com.example.proyectoedia.login.RegistroActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth firebaseAuth;
-    DatabaseReference databaseReference;
+    //VISTAS//
+    Button mRegistroBtn,mLoginBtn; //--> la M es para que sepamos que es del main
+
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("tag","Hola soy sara");
+        //VISTAS de los botones //
+        mRegistroBtn = findViewById(R.id.registro_btn);
+        mLoginBtn = findViewById(R.id.login_btn);
 
-        Log.v("prueba", "Soy paula");
+        //--El onclick para ir a RegistroActivity
+
+        mRegistroBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this, RegistroActivity.class));
+            }
+        });
+
+        //--OnClick para ir a LoginActivity
+
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+
 
     }
 }
