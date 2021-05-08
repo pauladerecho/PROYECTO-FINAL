@@ -7,16 +7,23 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.PopupMenu;
 
 import com.example.proyectoedia.MainActivity;
+import com.example.proyectoedia.menu.AjustesFragment;
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
+import com.example.proyectoedia.menu.Chat.ListaChatFragment;
 import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.NotificacionesFragment;
 import com.example.proyectoedia.publicacion.PublicacionFragment;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.PerfilFragment;
+import com.example.proyectoedia.publicacion.PublicacionFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -98,17 +105,51 @@ public class InicioActivity extends AppCompatActivity {
                         ft5.commit();
                         return true;
 
-                    case R.id.nav_buscador:
-                        actionBar.setTitle("Buscador");
-                        UsuariosFragment fragment6 = new UsuariosFragment();
-                        FragmentTransaction ft6 = getSupportFragmentManager().beginTransaction();
-                        ft6.replace(R.id.content, fragment6, "");
-                        ft6.commit();
+                    case R.id.nav_mas:
+                        masOpciones();
                         return true;
                 }
                 return false;
             }
         };
+
+    private void masOpciones() {
+
+        //Menu pop up para  mas opciones
+
+        PopupMenu popupMenu = new PopupMenu(this, navigationView, Gravity.END);
+
+        //Lo que enseña ese menu
+        popupMenu.getMenu().add(Menu.NONE,0,0 ,"Buscar");
+        popupMenu.getMenu().add(Menu.NONE,1,0 ,"Chat");
+
+        //Menu clicks
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if(id==0){ //--> Buscar
+                    actionBar.setTitle("Buscador");
+                    UsuariosFragment fragment6 = new UsuariosFragment();
+                    FragmentTransaction ft6 = getSupportFragmentManager().beginTransaction();
+                    ft6.replace(R.id.content, fragment6, "");
+                    ft6.commit();
+
+                }else if(id==1){//--> chat
+                    actionBar.setTitle("Chat");
+
+                    ListaChatFragment fragment7 = new ListaChatFragment();
+                    FragmentTransaction ft7= getSupportFragmentManager().beginTransaction();
+                    ft7.replace(R.id.content, fragment7, "");
+                    ft7.commit();
+                }
+                return false;
+            }
+        });
+
+        popupMenu.show();
+    }
 
     ////----- VERIFICAR QUE EL USUARIO EXISTE-----///
 

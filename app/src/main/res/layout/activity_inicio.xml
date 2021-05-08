@@ -14,14 +14,19 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+
             android:id="@+id/navegacion"
             android:layout_width="match_parent"
+            app:labelVisibilityMode="unlabeled"
             android:layout_height="60dp"
             android:layout_gravity="bottom|center"
             android:background="@color/colorAccent"
-            app:itemIconTint="#FFF"
+            android:outlineAmbientShadowColor="@color/colorPrimary"
+            app:itemIconTint="@color/seleccionado"
             app:itemTextColor="#FFF"
-            app:menu="@menu/menu_nav">
+            app:itemIconSize="30sp"
+            app:menu="@menu/menu_nav"
+            >
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </FrameLayout>
 
