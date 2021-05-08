@@ -1,11 +1,7 @@
 package com.example.proyectoedia.menu.Chat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -16,6 +12,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
@@ -30,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+
+import static com.squareup.picasso.Picasso.get;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -76,15 +80,14 @@ public class ChatActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        usersDbRef = firebaseDatabase.getReference("Usuarios");
-
-
+        usersDbRef = firebaseDatabase.getReference("Users");
 
         //----->>BUSCAR en la BBDD para la informacion del usuario<<<---//
 
         Query usuarioQuery = usersDbRef.orderByChild("uid").equalTo(idUsuario2); //--ID del Usuario con el que hablas
 
         usuarioQuery.addValueEventListener(new ValueEventListener() { //-->>obtener el nombre y la foto del usuario
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -102,7 +105,7 @@ public class ChatActivity extends AppCompatActivity {
                         Picasso.get().load(imagen).placeholder(R.drawable.icon_default).into(perfilIv);
 
                     }catch(Exception e){ //--> La excepcion pone la foto por defecto si no tiene
-                        Picasso.get().load(R.drawable.icon_default).into(perfilIv);
+                        get().load(R.drawable.icon_default).into(perfilIv);
                     }
                 }
             }
