@@ -19,9 +19,8 @@
                 android:id="@+id/portadaIv"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:scaleType="fitXY"
-                android:background="@color/colorAccent">
-            </ImageView>
+                android:background="@drawable/fondo"
+                android:scaleType="fitXY"></ImageView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,8 +34,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
-                    android:background="@color/colorPrimary"
-                    app:srcCompat="@drawable/account" />
+                    android:background="@color/colorAccent"
+                    app:srcCompat="@drawable/icon_default" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
