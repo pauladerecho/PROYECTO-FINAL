@@ -74,6 +74,8 @@ public class PublicacionFragment extends Fragment {
     //Informacion del usuario.
     String name, email, uid, dp;
 
+    String editTitulo, editDescripcion, editImagen;
+
     Uri image_rui;
 
     ProgressDialog progressDialog;
@@ -102,6 +104,19 @@ public class PublicacionFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         comprobarEstadoUsuario();
+
+        //obtener datos a través del adaptador de la actividad anterior
+        Intent intent = getActivity().getIntent();
+        String claveActualizacion = "" + intent.getStringExtra("key");
+        String editarPostId = "" + intent.getStringExtra("EditarPostId");
+
+       /* if(claveActualizacion.equals()){
+
+
+
+
+
+        }*/
 
        // actionBar.setSubtitle(email);
 

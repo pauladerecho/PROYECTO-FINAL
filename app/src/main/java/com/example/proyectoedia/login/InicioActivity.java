@@ -13,15 +13,13 @@ import android.view.MenuItem;
 import android.widget.PopupMenu;
 
 import com.example.proyectoedia.MainActivity;
-import com.example.proyectoedia.menu.AjustesFragment;
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
 import com.example.proyectoedia.menu.Chat.ListaChatFragment;
 import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.NotificacionesFragment;
 import com.example.proyectoedia.publicacion.PublicacionFragment;
 import com.example.proyectoedia.R;
-import com.example.proyectoedia.menu.PerfilFragment;
-import com.example.proyectoedia.publicacion.PublicacionFragment;
+import com.example.proyectoedia.menu.perfil.PerfilFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -160,6 +158,8 @@ public class InicioActivity extends AppCompatActivity {
 
         if(user != null){ //-- Si el usuario está en la bbdd de FireBase:
             //mPerfilTv.setText(user.getEmail());
+
+
         }else { //-- Sino, no está registrado en la app, vuelve a la pagina principal para que se registre
 
             startActivity(new Intent(InicioActivity.this, MainActivity.class));

@@ -14,7 +14,7 @@
         <activity android:name=".menu.Chat.ChatActivity"
             android:theme="@style/AppThemeNo"/>
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".ThereProfileActivity"/>
+        <activity android:name=".menu.perfil.PerfilListaPublicacionActivity"/>
         <activity android:name=".login.InicioActivity" />
         <activity android:name=".login.Pantalla_CargaActivity">
             <intent-filter>

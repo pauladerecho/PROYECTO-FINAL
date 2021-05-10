@@ -1,21 +1,36 @@
 package com.example.proyectoedia.publicacion;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.R;
-import com.example.proyectoedia.ThereProfileActivity;
+import com.example.proyectoedia.menu.perfil.PerfilListaPublicacionActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
@@ -30,9 +45,12 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     Context context;
     List<ModeloPublicacion> publicacionLista;
 
+    String miUid;
+
     public AdaptadorPublicacion(Context context, List<ModeloPublicacion> publicacionLista) {
         this.context = context;
         this.publicacionLista = publicacionLista;
+        miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @NonNull
@@ -45,17 +63,17 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NonNull final MyHolder myHolder, int i) {
 
         //Traemos los datos.
         final String uid = publicacionLista.get(i).getUid();
         String uEmail = publicacionLista.get(i).getuEmail();
         String uName = publicacionLista.get(i).getuName();
         String uDp = publicacionLista.get(i).getuDp();
-        String pId = publicacionLista.get(i).getpId();
+        final String pId = publicacionLista.get(i).getpId();
         String pTitulo = publicacionLista.get(i).getpTitulo();
         String pDescripcion = publicacionLista.get(i).getpDescripcion();
-        String pImagen = publicacionLista.get(i).getpImagen();
+        final String pImagen = publicacionLista.get(i).getpImagen();
         String pTimeStamp = publicacionLista.get(i).getpTime();
 
         //Convertimos el tiempo a la fecha actual.
@@ -81,10 +99,13 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         //Establecer imagen del post
         //Si no hay imagen, entonces ocualtar ImageView.
         if(pImagen.equals("noImagen")){
-
             //Ocultar ImageView
             myHolder.pImagenIv.setVisibility(View.GONE);
         }else{
+
+            //Mostrat ImageView
+            myHolder.pImagenIv.setVisibility(View.VISIBLE);
+
             try{
                 Picasso.get().load(pImagen).into(myHolder.pImagenIv);
             }catch (Exception e){
@@ -97,7 +118,8 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.opcionesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Mas", Toast.LENGTH_SHORT).show();
+                MostrarMasOpciones(myHolder.opcionesBtn, uid, miUid, pId, pImagen);
+               // Toast.makeText(context, "Mas", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -125,9 +147,117 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.perfilLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ThereProfileActivity.class);
+                Intent intent = new Intent(context, PerfilListaPublicacionActivity.class);
                 intent.putExtra("uid", uid);
                 context.startActivity(intent);
+            }
+        });
+    }
+
+    private void MostrarMasOpciones(ImageButton opcionesBtn, String uid, String miUid, final String pId, final String pImagen) {
+
+        final PopupMenu popupMenu = new PopupMenu(context, opcionesBtn, Gravity.END);
+
+        if(uid.equals(miUid)){
+            popupMenu.getMenu().add(Menu.NONE, 0, 0, "Borrar");
+            popupMenu.getMenu().add(Menu.NONE, 1, 0, "Editar");
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                int id = menuItem.getItemId();
+
+                if(id == 0){
+                    //Si pulsa el boton se elimina.
+                    comenzarBorrar(pId, pImagen);
+
+                }else  if(id == 1){
+                    //Si pulsa el boton se edita.
+                    Intent intent = new Intent(context, PublicacionFragment.class);
+                    intent.putExtra("key", "EditarPost");
+                    intent.putExtra("EditarPostId", pId);
+                    context.startActivity(intent);
+                }
+                return false;
+            }
+        });
+
+        popupMenu.show();
+    }
+
+    private void comenzarBorrar(String pId, String pImagen) {
+
+        //El post puede ser con o sin imagen.
+        if(pImagen.equals("noImage")){
+            borrarSinImagen(pId);
+        }else{
+            borrarConImagen(pId, pImagen);
+        }
+    }
+
+    private void borrarConImagen(final String pId, String pImagen) {
+
+        final ProgressDialog pd = new ProgressDialog(context);
+        pd.setMessage("Borrando");
+
+        StorageReference imagenRef = FirebaseStorage.getInstance().getReferenceFromUrl(pImagen);
+        imagenRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Se borra la imagen, y luego de la base de datos.
+                        Query query = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("pId").equalTo(pId);
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                                    ds.getRef().removeValue();
+                                }
+                                Toast.makeText(context, "Borrado correctamente", Toast.LENGTH_SHORT).show();
+                                pd.dismiss();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        pd.dismiss();
+                        Toast.makeText(context, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void borrarSinImagen(String pId) {
+
+        final ProgressDialog pd = new ProgressDialog(context);
+        pd.setMessage("Borrando");
+
+
+        Query query = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("pId").equalTo(pId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    ds.getRef().removeValue();
+                }
+                Toast.makeText(context, "Borrado correctamente", Toast.LENGTH_SHORT).show();
+                pd.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.example.proyectoedia.menu;
+package com.example.proyectoedia.menu.perfil;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -13,7 +13,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -26,11 +29,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.publicacion.AdaptadorPublicacion;
+import com.example.proyectoedia.publicacion.ModeloPublicacion;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -47,7 +53,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
@@ -66,6 +74,7 @@ public class PerfilFragment extends Fragment {
     ImageView avatarIv, portadaIv;
     TextView nombreTv, descripcionTv;
     FloatingActionButton boton_flotante;
+    RecyclerView postsRecyclerView;
 
     ProgressDialog pd;
 
@@ -77,6 +86,10 @@ public class PerfilFragment extends Fragment {
 
     String cameraPermissions[];
     String storagePermissions[];
+
+    List<ModeloPublicacion> publicacionList;
+    AdaptadorPublicacion adaptadorPublicacion;
+    String uid;
 
     Uri image_uri;
 
@@ -109,6 +122,7 @@ public class PerfilFragment extends Fragment {
         descripcionTv = view.findViewById(R.id.descripcion);
         nombreTv = view.findViewById(R.id.nombre);
         boton_flotante = view.findViewById(R.id.boton_flotante);
+        postsRecyclerView = view.findViewById(R.id.recyclerView_posts);
 
         pd = new ProgressDialog(getActivity());
 
@@ -155,7 +169,100 @@ public class PerfilFragment extends Fragment {
                 mostrarOpcionesEditarUsuario();
             }
         });
+
+        publicacionList = new ArrayList<>();
+
+        verificarUsuarios();
+        cargarPosts();
+
         return view;
+    }
+
+    private void cargarPosts() {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+        //Cargar el nuevo post primero.
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+
+        postsRecyclerView.setLayoutManager(layoutManager);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+
+        //Consulta para cargar los posts.
+        Query query = ref.orderByChild("uid").equalTo(uid);
+
+        //Obtenemos los datos.
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                publicacionList.clear();
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+                    ModeloPublicacion misPosts = ds.getValue(ModeloPublicacion.class);
+
+                    publicacionList.add(misPosts);
+
+                    adaptadorPublicacion = new AdaptadorPublicacion(getActivity(), publicacionList);
+                    postsRecyclerView.setAdapter(adaptadorPublicacion);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Toast.makeText(getActivity(), ""+ databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void buscarPosts(final String buscarQuery) {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+        //Cargar el nuevo post primero.
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+
+        postsRecyclerView.setLayoutManager(layoutManager);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+
+        //Consulta para cargar los posts.
+        Query query = ref.orderByChild("uid").equalTo(uid);
+
+        //Obtenemos los datos.
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                publicacionList.clear();
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+                    ModeloPublicacion misPosts = ds.getValue(ModeloPublicacion.class);
+
+                    if(misPosts.getpTitulo().toLowerCase().contains(buscarQuery.toLowerCase()) ||
+                    misPosts.getpDescripcion().toLowerCase().contains(buscarQuery.toLowerCase())){
+
+                        publicacionList.add(misPosts);
+
+                    }
+
+                    adaptadorPublicacion = new AdaptadorPublicacion(getActivity(), publicacionList);
+                    postsRecyclerView.setAdapter(adaptadorPublicacion);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Toast.makeText(getActivity(), ""+ databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private boolean comprobarPermisoAlmacenamiento(){
@@ -251,7 +358,7 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                String value = editText.getText().toString().trim();
+                final String value = editText.getText().toString().trim();
 
                 //Validamos si el usuario a ingresado algo o no.
                 if(!TextUtils.isEmpty(value)){
@@ -277,6 +384,30 @@ public class PerfilFragment extends Fragment {
                                     Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
+
+                    //Si el usuario cambia el nombre, que se cambie tambien en los mensajes históricos.
+                    if(key.equals("name")){
+
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+                        Query query = ref.orderByChild("uid").equalTo(uid);
+                        query.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+                                    String child = ds.getKey();
+                                    dataSnapshot.getRef().child(child).child("uName").setValue(value);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
                 }else {
                     Toast.makeText(getActivity(), "Por favor entre " + key, Toast.LENGTH_SHORT).show();
                 }
@@ -406,7 +537,7 @@ public class PerfilFragment extends Fragment {
 
                         Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                         while(!uriTask.isSuccessful());
-                        Uri downloadUri = uriTask.getResult();
+                        final Uri downloadUri = uriTask.getResult();
 
                         //Comprobamos si la imagen esta o no descargada y se recibe la Url.
                         if(uriTask.isSuccessful()){
@@ -432,6 +563,30 @@ public class PerfilFragment extends Fragment {
                                             Toast.makeText(getActivity(), "Error al actualizar la imagen", Toast.LENGTH_SHORT).show();
                                         }
                                     });
+
+                            //Si el usuario cambia el nombre, que se cambie tambien en los mensajes históricos.
+                            if(foto_perfil_o_portada.equals("image")){
+
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+                                Query query = ref.orderByChild("uid").equalTo(uid);
+                                query.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+                                            String child = ds.getKey();
+                                            dataSnapshot.getRef().child(child).child("uDp").setValue(downloadUri.toString());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
                         }else{
                             pd.dismiss();
                             Toast.makeText(getActivity(), "Ha ocurrido algún error", Toast.LENGTH_SHORT).show();
@@ -478,6 +633,8 @@ public class PerfilFragment extends Fragment {
 
         if(user != null){ //-- Si el usuario está en la bbdd de FireBase:
             //mPerfilTv.setText(user.getEmail());
+            uid = user.getUid();
+
         }else { //-- Sino, no está registrado en la app, vuelve a la pagina principal para que se registre
 
             startActivity(new Intent(getActivity(), MainActivity.class));
@@ -497,6 +654,41 @@ public class PerfilFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         inflater.inflate(R.menu.menu_main,menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        //Para buscar publicaciones de usuarios especificos.
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //Cuando se pulsa el boton de busqueda.
+                if(!TextUtils.isEmpty(s)){
+
+                    buscarPosts(s);
+
+                }else{
+                    cargarPosts();
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                //Cuando se escribe cualquier letra en la busqueda.
+                if(!TextUtils.isEmpty(s)){
+
+                    buscarPosts(s);
+
+                }else{
+                    cargarPosts();
+                }
+
+                return false;
+            }
+        });
+
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -513,6 +705,4 @@ public class PerfilFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }
