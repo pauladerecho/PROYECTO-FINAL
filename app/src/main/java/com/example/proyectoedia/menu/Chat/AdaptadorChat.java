@@ -1,6 +1,5 @@
 package com.example.proyectoedia.menu.Chat;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.R;
@@ -75,7 +75,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
         String fechaHora = chatList.get(i).getHoraDia();
 
         //Convertir la fecha y hora en el formato Date
-        Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("ES"));
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         try {
             calendar.setTimeInMillis(Long.parseLong(fechaHora));
         }catch (Exception e){
@@ -92,7 +92,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
         }catch (Exception e){
         }
 
-       /* //-->> onClick dialog para el borrado de un mensaje
+        //-->> onClick dialog para el borrado de un mensaje
         holder.mensajeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,16 +123,16 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
                 builder.create().show();
 
             }
-        });*/
+        });
 
         //settear el estado del mensaje
 
         if(i==chatList.size()-1){
-          if(chatList.get(i).isVisto()){
-              holder.vistoTv.setText("Visto");
-          }else{
-              holder.vistoTv.setText("Entregado");
-          }
+            if(chatList.get(i).isVisto()){
+                holder.vistoTv.setText("Visto");
+            }else{
+                holder.vistoTv.setText("Entregado");
+            }
         }else{
 
             holder.vistoTv.setVisibility(View.GONE);
@@ -140,26 +140,26 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
 
     }
 
-    /*private void eliminarMensaje(int posicion) {
+    private void eliminarMensaje(int posicion) {
 
         final String idUsuario1 = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //-->> Comprobar la fecha del mensaje en la bbdd y si el elegido está en la conversación de ese chat
         //-->> Si es así, borramos el mensaje
 
-        String fechaHora = chatList.get(posicion).getHoraDia();
+        String fechayHora = chatList.get(posicion).getHoraDia();
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Chats");
-        Query query = dbRef.orderByChild("horadia").equalTo(fechaHora);
+        Query query = dbRef.orderByChild("horadia").equalTo(fechayHora);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds: snapshot.getChildren()){
+            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+                for(DataSnapshot ds: datasnapshot.getChildren()){
 
                     //-->> Solo eliminar si el id del usuario actual coincide con quien lo está intentando borrar
                     if(ds.child("enviado").getValue().equals(idUsuario1)){
 
                         //Eliminar el mensaje del chat:
-                        //ds.getRef().removeValue(); //--> accedemos a la bbdd y borramos
+                        ds.getRef().removeValue(); //--> accedemos a la bbdd y borramos
 
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("mensaje", "Este mensaje fue eliminado...");
@@ -171,8 +171,6 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
                         Toast.makeText(context, "Solo puedes eliminar tus mensajes", Toast.LENGTH_SHORT).show();
                     }
 
-
-
                 }
             }
 
@@ -182,7 +180,8 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
             }
         });
 
-    }*/
+    }
+
 
     @Override
     public int getItemCount() {
@@ -207,7 +206,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
         //Vistas
         ImageView perfilChatIv;
         TextView mensajeTv, fechaHoraTv, vistoTv;
-        LinearLayout mensajeLayout; //-->> para el on click de ver el mensaje borrado
+        LinearLayout mensajeLayout;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -217,6 +216,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
             perfilChatIv = itemView.findViewById(R.id.perfilChatIv);
             mensajeTv = itemView.findViewById(R.id.mensajeTv);
             fechaHoraTv = itemView.findViewById(R.id.fechaHoraTv);
+            vistoTv = itemView.findViewById(R.id.vistoTv);
             mensajeLayout = itemView.findViewById(R.id.mensajeLayout);
 
         }

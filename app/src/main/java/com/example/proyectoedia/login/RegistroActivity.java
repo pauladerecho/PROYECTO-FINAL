@@ -146,7 +146,6 @@ public class RegistroActivity extends AppCompatActivity {
                             DatabaseReference reference = database.getReference("Users");
                             reference.child(uid).setValue(hashMap);
 
-
                             Toast.makeText(RegistroActivity.this, "Registrado.../n"+user.getEmail(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegistroActivity.this, InicioActivity.class));
                             finish();
