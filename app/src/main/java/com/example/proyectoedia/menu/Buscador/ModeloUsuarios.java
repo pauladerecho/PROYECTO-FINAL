@@ -3,12 +3,24 @@ package com.example.proyectoedia.menu.Buscador;
 public class ModeloUsuarios {
 
     //--> Se tiene que poner igual que está en firebase
-    String name, email, search, imagen, portada, uid, descripcion,predeterminada,telefono,nombre,contraseña;
+    String name, email, search, imagen, portada, uid, descripcion,predeterminada,telefono,nombre,contraseña,estado,escribiendoA;
 
     public ModeloUsuarios() {
     }
 
-    public ModeloUsuarios(String name, String email, String search, String imagen, String portada, String uid, String descripcion, String predeterminada, String telefono, String nombre, String contraseña) {
+    public ModeloUsuarios(String name,
+                          String email,
+                          String search,
+                          String imagen,
+                          String portada,
+                          String uid,
+                          String descripcion,
+                          String predeterminada,
+                          String telefono,
+                          String nombre,
+                          String contraseña,
+                          String estado,
+                          String escribiendoA) {
         this.name = name;
         this.email = email;
         this.search = search;
@@ -20,6 +32,8 @@ public class ModeloUsuarios {
         this.telefono = telefono;
         this.nombre = nombre;
         this.contraseña = contraseña;
+        this.estado = estado;
+        this.escribiendoA = escribiendoA;
     }
 
     public String getName() {
@@ -108,6 +122,22 @@ public class ModeloUsuarios {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getEscribiendoA() {
+        return escribiendoA;
+    }
+
+    public void setEscribiendoA(String escribiendoA) {
+        this.escribiendoA = escribiendoA;
     }
 }
 

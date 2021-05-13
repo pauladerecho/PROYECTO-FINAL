@@ -3,6 +3,7 @@ package com.example.proyectoedia.menu.Chat;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.service.autofill.UserData;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -24,6 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.menu.Buscador.ModeloUsuarios;
+import com.example.proyectoedia.notificaciones.APIService;
+import com.example.proyectoedia.notificaciones.Cliente;
+import com.example.proyectoedia.notificaciones.Data;
+import com.example.proyectoedia.notificaciones.Sender;
+import com.example.proyectoedia.notificaciones.Token;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +46,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.squareup.picasso.Picasso.get;
 
@@ -65,11 +77,12 @@ public class ChatActivity extends AppCompatActivity {
     List<ModeloChat> chatList;
     AdaptadorChat adaptadorChat;
 
-
-
     String idUsuario1;
     String idUsuario2;
     String imagenU2;
+
+    APIService apiService;
+    boolean notify = false;
 
 
     @Override
@@ -98,6 +111,10 @@ public class ChatActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        //crear el api services
+
+        apiService = Cliente.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
 
         //Intent para recuperar a través del id del usuario el resto de su informacion
         Intent intent = getIntent();
@@ -176,6 +193,8 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                notify = true;
+
                 //Obtener el texto desde el editor
                 String mensaje = mensajeEt.getText().toString().trim();
 
@@ -188,6 +207,8 @@ public class ChatActivity extends AppCompatActivity {
 
                     enviarMensaje(mensaje);
                 }
+                //Resetear el editor de texto
+                mensajeEt.setText("");
             }
         });
 
@@ -289,7 +310,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    private void enviarMensaje(String mensaje) {
+    private void enviarMensaje(final String mensaje) {
 
         String fechaHora = String.valueOf(System.currentTimeMillis());
 
@@ -303,8 +324,64 @@ public class ChatActivity extends AppCompatActivity {
 
         databaseReference.child("Chats").push().setValue(hashMap);
 
-        //Resetear el editor de texto
-        mensajeEt.setText("");
+
+
+        String msg = mensaje;
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(idUsuario1);
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ModeloUsuarios usuarios = snapshot.getValue(ModeloUsuarios.class);
+
+                if(notify){
+                    enviarNotificacion(idUsuario2,usuarios.getName(), mensaje);
+                }
+                notify = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void enviarNotificacion(final String idUsuario2, final String name, final String mensaje) {
+
+        DatabaseReference allTokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = allTokens.orderByKey().equalTo(idUsuario2);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    Token token = ds.getValue(Token.class);
+                    Data data = new Data(idUsuario1,name+":"+mensaje, "Nuevo mensaje", idUsuario2,R.drawable.icon_default);
+
+                    Sender sender = new Sender(data,token.getToken());
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<ResponseBody>() {
+
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    Toast.makeText(ChatActivity.this,""+response.message(),Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     //Verificar que el usuario existe:
