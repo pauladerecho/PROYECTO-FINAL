@@ -4,18 +4,10 @@ import com.google.firebase.database.PropertyName;
 
 public class ModeloChat {
 
-    String mensaje, recibido, enviado, horaDia;
+    String mensaje, recibido, enviado, horadia;
     boolean isVisto;
 
     public ModeloChat() {
-    }
-
-    public ModeloChat(String mensaje, String recibido, String enviado, String horaDia, boolean isVisto) {
-        this.mensaje = mensaje;
-        this.recibido = recibido;
-        this.enviado = enviado;
-        this.horaDia = horaDia;
-        this.isVisto = isVisto;
     }
 
     public String getMensaje() {
@@ -42,12 +34,12 @@ public class ModeloChat {
         this.enviado = enviado;
     }
 
-    public String getHoraDia() {
-        return horaDia;
+    public String getHoradia() {
+        return horadia;
     }
 
-    public void setHoraDia(String horaDia) {
-        this.horaDia = horaDia;
+    public void setHoradia(String horadia) {
+        this.horadia = horadia;
     }
 
     @PropertyName("isVisto")

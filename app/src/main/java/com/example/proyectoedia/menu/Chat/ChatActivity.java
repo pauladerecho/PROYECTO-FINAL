@@ -312,21 +312,20 @@ public class ChatActivity extends AppCompatActivity {
 
     private void enviarMensaje(final String mensaje) {
 
-        String fechaHora = String.valueOf(System.currentTimeMillis());
+        String horadia = String.valueOf(System.currentTimeMillis());
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("enviado",idUsuario1);
         hashMap.put("recibido", idUsuario2);
         hashMap.put("mensaje",mensaje);
-        hashMap.put("horadia",fechaHora);
+        hashMap.put("horadia",horadia);
         hashMap.put("isVisto",false);
 
         databaseReference.child("Chats").push().setValue(hashMap);
 
-
-
         String msg = mensaje;
+
         final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(idUsuario1);
         database.addValueEventListener(new ValueEventListener() {
             @Override

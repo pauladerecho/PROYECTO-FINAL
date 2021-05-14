@@ -72,7 +72,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
         //-->>Recuperar los datos
 
         String mensaje = chatList.get(i).getMensaje();
-        String fechaHora = chatList.get(i).getHoraDia();
+        String fechaHora = chatList.get(i).getHoradia();
 
         //Convertir la fecha y hora en el formato Date
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
@@ -147,7 +147,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
         //-->> Comprobar la fecha del mensaje en la bbdd y si el elegido está en la conversación de ese chat
         //-->> Si es así, borramos el mensaje
 
-        String fechayHora = chatList.get(posicion).getHoraDia();
+        String fechayHora = chatList.get(posicion).getHoradia();
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Chats");
         Query query = dbRef.orderByChild("horadia").equalTo(fechayHora);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
