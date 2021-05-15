@@ -142,7 +142,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
 
     private void eliminarMensaje(int posicion) {
 
-        final String idUsuario1 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String myID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //-->> Comprobar la fecha del mensaje en la bbdd y si el elegido está en la conversación de ese chat
         //-->> Si es así, borramos el mensaje
@@ -156,7 +156,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
                 for(DataSnapshot ds: datasnapshot.getChildren()){
 
                     //-->> Solo eliminar si el id del usuario actual coincide con quien lo está intentando borrar
-                    if(ds.child("enviado").getValue().equals(idUsuario1)){
+                    if(ds.child("enviado").getValue().equals(myID)){
 
                         //Eliminar el mensaje del chat:
                         ds.getRef().removeValue(); //--> accedemos a la bbdd y borramos
