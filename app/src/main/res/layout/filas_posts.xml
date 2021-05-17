@@ -85,7 +85,6 @@
 
          <TextView
              android:id="@+id/pLikesTv"
-             android:text="1.2k Likes"
              android:textColor="@color/colorPrimary"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"/>
@@ -106,7 +105,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_weight="1"
-                 android:text="LIKE"
+                 android:text="Me gusta"
                  android:drawableLeft="@drawable/like"
                  android:background="@color/colorPrimary"
                  android:drawablePadding="5dp"

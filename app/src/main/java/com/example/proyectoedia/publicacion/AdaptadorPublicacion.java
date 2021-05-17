@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.perfil.PerfilListaPublicacionActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -47,10 +49,17 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
     String miUid;
 
+    private DatabaseReference likesRef;
+    private DatabaseReference postsRef;
+
+    boolean mProcesoLikes = false;
+
     public AdaptadorPublicacion(Context context, List<ModeloPublicacion> publicacionLista) {
         this.context = context;
         this.publicacionLista = publicacionLista;
         miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+        postsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
     }
 
     @NonNull
@@ -63,7 +72,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
 
         //Traemos los datos.
         final String uid = publicacionLista.get(i).getUid();
@@ -75,6 +84,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         String pDescripcion = publicacionLista.get(i).getpDescripcion();
         final String pImagen = publicacionLista.get(i).getpImagen();
         String pTimeStamp = publicacionLista.get(i).getpTime();
+        String pLikes = publicacionLista.get(i).getpLikes();//Total de likes de un post.
 
         //Convertimos el tiempo a la fecha actual.
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
@@ -86,7 +96,8 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.pTimeTv.setText(pTiempo);
         myHolder.pTituloTv.setText(pTitulo);
         myHolder.pDescripcionTv.setText(pDescripcion);
-
+        myHolder.pLikesTv.setText(pLikes + " Me gusta");
+        setLikes(myHolder, pId);
 
 
         //Establecer usuario dp.
@@ -126,7 +137,35 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Like", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "Like", Toast.LENGTH_SHORT).show();
+
+                final int pLikes = Integer.parseInt(publicacionLista.get(i).getpLikes());
+                mProcesoLikes = true;
+
+                final String postId = publicacionLista.get(i).getpId();
+                likesRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if(mProcesoLikes){
+                            //Quitamos el like, que ya estaba.
+                            if(dataSnapshot.child(postId).hasChild(miUid)){
+                                postsRef.child(postId).child("pLikes").setValue(""+(pLikes-1));
+                                likesRef.child(postId).child(miUid).removeValue();
+                            }else {
+                                //Añadimos un like.
+                                postsRef.child(postId).child("pLikes").setValue(""+(pLikes+1));
+                                likesRef.child(postId).child(miUid).setValue("Liked");
+                            }
+                            mProcesoLikes = false;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -150,8 +189,32 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                 Intent intent = new Intent(context, PerfilListaPublicacionActivity.class);
                 intent.putExtra("uid", uid);
                 context.startActivity(intent);
+
             }
         });
+    }
+
+    private void setLikes(final MyHolder holder, final String postKey) {
+
+            likesRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if(dataSnapshot.child(postKey).hasChild(miUid)){
+                        holder.likeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.like_color, 0, 0, 0);
+                        holder.likeBtn.setText("Me gusta");
+
+                    }else {
+                        holder.likeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.like, 0, 0, 0);
+                        holder.likeBtn.setText("Me gusta");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
     }
 
     private void MostrarMasOpciones(ImageButton opcionesBtn, String uid, String miUid, final String pId, final String pImagen) {
@@ -179,6 +242,12 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                     intent.putExtra("key", "EditarPost");
                     intent.putExtra("EditarPostId", pId);
                     context.startActivity(intent);
+
+
+
+
+
+
                 }
                 return false;
             }
@@ -241,7 +310,6 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
         final ProgressDialog pd = new ProgressDialog(context);
         pd.setMessage("Borrando");
-
 
         Query query = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("pId").equalTo(pId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {

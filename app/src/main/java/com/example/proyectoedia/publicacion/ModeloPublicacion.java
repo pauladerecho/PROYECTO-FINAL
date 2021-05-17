@@ -2,15 +2,16 @@ package com.example.proyectoedia.publicacion;
 
 public class ModeloPublicacion {
 
-    String pId, pTitulo, pDescripcion, pImagen, pTime, uid, uEmail, uDp, uName;
+    String pId, pTitulo, pDescripcion, pLikes, pImagen, pTime, uid, uEmail, uDp, uName;
 
     public ModeloPublicacion() {
     }
 
-    public ModeloPublicacion(String pId, String pTitulo, String pDescripcion, String pImagen, String pTime, String uid, String uEmail, String uDp, String uName) {
+    public ModeloPublicacion(String pId, String pTitulo, String pDescripcion, String pLikes, String pImagen, String pTime, String uid, String uEmail, String uDp, String uName) {
         this.pId = pId;
         this.pTitulo = pTitulo;
         this.pDescripcion = pDescripcion;
+        this.pLikes = pLikes;
         this.pImagen = pImagen;
         this.pTime = pTime;
         this.uid = uid;
@@ -41,6 +42,14 @@ public class ModeloPublicacion {
 
     public void setpDescripcion(String pDescripcion) {
         this.pDescripcion = pDescripcion;
+    }
+
+    public String getpLikes() {
+        return pLikes;
+    }
+
+    public void setpLikes(String pLikes) {
+        this.pLikes = pLikes;
     }
 
     public String getpImagen() {
