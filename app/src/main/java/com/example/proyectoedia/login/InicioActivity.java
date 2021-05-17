@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -14,29 +13,23 @@ import android.view.MenuItem;
 import android.widget.PopupMenu;
 
 import com.example.proyectoedia.MainActivity;
-import com.example.proyectoedia.menu.AjustesFragment;
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
 import com.example.proyectoedia.menu.Chat.ListaChatFragment;
 import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.NotificacionesFragment;
-import com.example.proyectoedia.menu.PublicacionFragment;
+import com.example.proyectoedia.publicacion.PublicacionFragment;
 import com.example.proyectoedia.R;
-import com.example.proyectoedia.menu.PerfilFragment;
-import com.example.proyectoedia.notificaciones.Token;
+import com.example.proyectoedia.menu.perfil.PerfilFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 public class InicioActivity extends AppCompatActivity {
 
     //Autentificacion de FireBase
     FirebaseAuth firebaseAuth;
 
-    String mUID;
     ActionBar actionBar;
     BottomNavigationView navigationView;
 
@@ -53,7 +46,7 @@ public class InicioActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         //Boton de navegacion.
-        navigationView = findViewById(R.id.navigation);
+        navigationView = findViewById(R.id.navegacion);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
 
@@ -63,25 +56,7 @@ public class InicioActivity extends AppCompatActivity {
         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
         ft1.replace(R.id.content, fragment1, "");
         ft1.commit();
-
-        verificarUsuarios();
-
-        //Actualizar token
-
-        actualizarToken(FirebaseInstanceId.getInstance().getToken());
     }
-
-    @Override
-    protected void onResume() {
-        verificarUsuarios();
-        super.onResume();
-    }
-
-    public void actualizarToken(String token){
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
-            Token mToken = new Token(token);
-            ref.child(mUID).setValue(mToken);
-        }
 
         private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -94,7 +69,6 @@ public class InicioActivity extends AppCompatActivity {
                         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
                         ft1.replace(R.id.content, fragment1, "");
                         ft1.commit();
-
                         return true;
 
                     case R.id.nav_notificaciones:
@@ -185,13 +159,6 @@ public class InicioActivity extends AppCompatActivity {
         if(user != null){ //-- Si el usuario está en la bbdd de FireBase:
             //mPerfilTv.setText(user.getEmail());
 
-            mUID = user.getUid();
-
-            //-->>Guardar el id del usuario actual en el shared preferences
-            SharedPreferences sp = getSharedPreferences("SP_USER",MODE_PRIVATE);
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putString("Actual_USERID",mUID);
-            editor.apply();
 
         }else { //-- Sino, no está registrado en la app, vuelve a la pagina principal para que se registre
 

@@ -15,7 +15,7 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
 
-            android:id="@+id/navigation"
+            android:id="@+id/navegacion"
             android:layout_width="match_parent"
             app:labelVisibilityMode="unlabeled"
             android:layout_height="60dp"
@@ -25,7 +25,6 @@
             app:itemIconTint="@color/seleccionado"
             app:itemTextColor="#FFF"
             app:itemIconSize="30sp"
-
             app:menu="@menu/menu_nav"
             >
         </com.google.android.material.bottomnavigation.BottomNavigationView>

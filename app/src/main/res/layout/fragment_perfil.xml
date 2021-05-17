@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".menu.PerfilFragment">
+    tools:context=".menu.perfil.PerfilFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,6 +23,7 @@
                 android:scaleType="fitXY"></ImageView>
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:orientation="horizontal"
@@ -62,6 +63,13 @@
                         android:layout_marginLeft="5dp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <!-- Para que se publiquen los post de un usuario concreto -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_posts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout" />
         </RelativeLayout>
     </ScrollView>
 
@@ -75,10 +83,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="151dp"
-        android:layout_marginLeft="151dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="358dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginLeft="162dp"
+        android:layout_marginEnd="-7dp"
+        android:layout_marginRight="-7dp"
+        android:layout_marginBottom="395dp"
         android:src="@drawable/editar" />
 </RelativeLayout>

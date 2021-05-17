@@ -1,18 +1,20 @@
 package com.example.proyectoedia.menu.Buscador;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.menu.perfil.PerfilListaPublicacionActivity;
 import com.example.proyectoedia.menu.Chat.ChatActivity;
 import com.squareup.picasso.Picasso;
 
@@ -73,11 +75,26 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
             @Override
             public void onClick(View v) {
 
-                //Click sobre un usuario de la lista para comenzar a chatear con él
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(new String[]{"Perfil", "Chat"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                Intent intent = new Intent(context, ChatActivity.class);
-                intent.putExtra("idUsuario", idUsuario);
-                context.startActivity(intent);
+                        if(which == 0){
+                            //Click sobre perfil.
+                            Intent intent = new Intent(context, PerfilListaPublicacionActivity.class);
+                            intent.putExtra("idUsuario", idUsuario);
+                            context.startActivity(intent);
+                        }
+                        if(which == 1){
+                            //Click sobre un usuario de la lista para comenzar a chatear con él
+                            Intent intent = new Intent(context, ChatActivity.class);
+                            intent.putExtra("idUsuario", idUsuario);
+                            context.startActivity(intent);
+                        }
+                    }
+                });
+                builder.create().show();
             }
         });
 
