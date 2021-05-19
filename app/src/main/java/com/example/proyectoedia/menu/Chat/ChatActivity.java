@@ -3,10 +3,10 @@ package com.example.proyectoedia.menu.Chat;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.service.autofill.UserData;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,11 +23,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.Buscador.ModeloUsuarios;
-import com.example.proyectoedia.notificaciones.APIService;
-import com.example.proyectoedia.notificaciones.Cliente;
 import com.example.proyectoedia.notificaciones.Data;
 import com.example.proyectoedia.notificaciones.Sender;
 import com.example.proyectoedia.notificaciones.Token;
@@ -39,18 +43,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 import static com.squareup.picasso.Picasso.get;
 
@@ -81,8 +88,10 @@ public class ChatActivity extends AppCompatActivity {
     String idUsuario2;
     String imagenU2;
 
-    APIService apiService;
-    boolean notify = false;
+    //para la notificacion del mensaje
+    private  RequestQueue requestQueue;
+
+    private boolean notify = false;
 
 
     @Override
@@ -102,6 +111,9 @@ public class ChatActivity extends AppCompatActivity {
         mensajeEt = findViewById(R.id.mensajeEt);
         enviarBtn = findViewById(R.id.enviarBtn);
 
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+
         //El recycler
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -112,9 +124,7 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        //crear el api services
 
-        apiService = Cliente.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
 
         //Intent para recuperar a través del id del usuario el resto de su informacion
         Intent intent = getIntent();
@@ -355,23 +365,49 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds: snapshot.getChildren()){
                     Token token = ds.getValue(Token.class);
-                    Data data = new Data(idUsuario1,name+":"+mensaje, "Nuevo mensaje", idUsuario2,R.drawable.icon_default);
+                    Data data = new Data(idUsuario1,name + ": "+ mensaje, "Nuevo mensaje", idUsuario2,R.drawable.icon_default);
 
                     Sender sender = new Sender(data,token.getToken());
-                    apiService.sendNotification(sender)
-                            .enqueue(new Callback<ResponseBody>() {
 
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    Toast.makeText(ChatActivity.this,""+response.message(),Toast.LENGTH_SHORT).show();
+                    try {
+                        JSONObject senderJsonObj = new JSONObject(new Gson().toJson(sender));
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", senderJsonObj,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                            //Respuesta
+                                        Log.d("JSON_RESPONSE","onResponse: " +response.toString());
 
-                                }
 
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    }
+                                } ,new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
 
-                                }
-                            });
+                                Log.d("JSON_RESPONSE","onResponse: " +error.toString());
+
+                            }
+                        }){
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                Map<String,String> headers = new HashMap<>();
+                                headers.put("Content-type", "application/json");
+                                //Nuestra clave de la bbdd de firebase, es la clave del servidor
+                                headers.put("Authorization", "key=AAAABW5r2dI:APA91bFEhVKYCD-dTWE8D_MXNxJ-JorFGfMXqMY6eMs5KPguAst5-8BW1ttsxoeoXKUa2tufyLh76UW3rtGcPdU2mPWY26fIzm2LxyDJ7N8shwL-ukx8fmSYqs_xqpJs4AmPdUseGS3J");
+
+                                return headers;
+                            }
+                        };
+
+                        //añadir la respuesta de la consulta
+
+                        requestQueue.add(jsonObjectRequest);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
 

@@ -145,7 +145,7 @@ public class PerfilFragment extends Fragment {
                     try {
                         Picasso.get().load(imagen).into(avatarIv);
                     }catch (Exception e){
-                        Picasso.get().load(R.drawable.foto_predeterminada).into(avatarIv);
+                        Picasso.get().load(R.drawable.icon_person).into(avatarIv);
                     }
 
                     try {
