@@ -97,9 +97,9 @@ public class UsuariosFragment extends Fragment {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     ModeloUsuarios modeloUsuarios = ds.getValue(ModeloUsuarios.class);
 
-                    /*if(!Objects.equals(modeloUsuarios.getUid(), fUser.getUid())){
+                    if(!Objects.equals(modeloUsuarios.getUid(), fUser.getUid())){
                         usuariosList.add(modeloUsuarios);
-                    }*/   ///-->>COMENTADO PARA QUE NO SALGAN TODOS LOS USUARIOS REGISTRADOS-->>!!
+                    } ///------>>COMENTADO PARA QUE NO SALGAN TODOS LOS USUARIOS REGISTRADOS-->>!!
 
                     //-->> Adaptador
                     adaptadorUsuarios = new AdaptadorUsuarios(getActivity(),usuariosList);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="3dp"
     app:cardMaxElevation="3dp"
@@ -24,9 +24,7 @@
              <com.blogspot.atifsoftwares.circularimageview.CircularImageView
                  android:id="@+id/uImagenIv"
                  android:scaleType="centerCrop"
-
-                 android:src="@drawable/compartir"
-
+                 app:srcCompat="@drawable/icon_person"
 
                  android:layout_width="50dp"
                  android:layout_height="50dp"/>
@@ -39,17 +37,13 @@
 
                  <TextView
                      android:id="@+id/uNameTv"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:fontFamily="sans-serif-thin"
                      android:text="Name"
                      android:textColor="@color/colorBlack"
-                     android:textSize="20sp"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
+                     android:textSize="20sp" />
 
-                 <TextView
-                     android:id="@+id/pTiempoTv"
-                     android:text="33 min"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
              </LinearLayout>
 
              <ImageButton
@@ -64,30 +58,19 @@
              android:id="@+id/pTituloTv"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:textSize="16sp"
-             android:textStyle="bold"
+             android:layout_marginBottom="10dp"
+             android:autoLink="all"
+             android:fontFamily="sans-serif-light"
              android:text="Titulo"
-             android:autoLink="all"/>
+             android:textAlignment="center"
+             android:textSize="16sp" />
 
-         <TextView
-             android:id="@+id/pDescripcionTv"
-             android:text="Descripción del post"
-             android:textColor="@color/colorBlack"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:autoLink="all"/>
-         
          <ImageView
              android:id="@+id/pImagenIv"
              android:layout_width="match_parent"
-             android:layout_height="200dp"
-             android:background="@color/colorWhite"/>
+             android:layout_height="186dp"
 
-         <TextView
-             android:id="@+id/pLikesTv"
-             android:textColor="@color/colorPrimary"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"/>
+             android:background="@color/colorWhite" />
 
          <View
              android:layout_width="match_parent"
@@ -96,42 +79,70 @@
 
          <LinearLayout
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="horizontal"
-             android:gravity="center">
+             android:layout_height="47dp"
+             android:gravity="center"
+             android:orientation="horizontal">
 
              <Button
                  android:id="@+id/likeBtn"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_weight="1"
-                 android:text="Me gusta"
+                 android:layout_width="262dp"
+                 android:layout_height="match_parent"
+                 android:layout_weight="3"
+                 android:background="@color/colorWhite"
+                 android:drawableStart="@drawable/like"
                  android:drawableLeft="@drawable/like"
-                 android:background="@color/colorPrimary"
                  android:drawablePadding="5dp"
-                 android:drawableStart="@drawable/like"/>
+                 android:fontFamily="sans-serif-light"
+                 android:text=""
+                 android:textColor="@color/colorPrimaryDark" />
+
+             <TextView
+                 android:id="@+id/pLikesTv"
+                 android:layout_width="61dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="0"
+                 android:textColor="@color/colorPrimary" />
 
              <Button
                  android:id="@+id/comentarioBtn"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_weight="1"
-                 android:text="COMENTARIO"
+
+                 android:layout_width="305dp"
+                 android:layout_height="95dp"
+                 android:background="@color/colorWhite"
+                 android:drawableStart="@drawable/comentario"
                  android:drawableLeft="@drawable/comentario"
                  android:drawablePadding="5dp"
-                 android:background="@color/colorPrimary"
-                 android:drawableStart="@drawable/comentario"/>
+                 android:text=""
+                 android:textColor="@color/colorPrimaryDark" />
 
-             <Button
+             <!--<Button
                  android:id="@+id/compartirBtn"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_weight="1"
+                 android:textColor="@color/colorPrimaryDark"
                  android:text="COMPARTIR"
                  android:drawableLeft="@drawable/compartir"
                  android:drawablePadding="5dp"
-                 android:background="@color/colorPrimary"
-                 android:drawableStart="@drawable/compartir" />
+                 android:background="@color/colorWhite"
+                 android:drawableStart="@drawable/compartir" /> -->
          </LinearLayout>
-    </LinearLayout>
+
+         <TextView
+             android:id="@+id/pDescripcionTv"
+             android:layout_width="match_parent"
+             android:layout_height="20dp"
+             android:layout_marginTop="10dp"
+             android:autoLink="all"
+             android:fontFamily="sans-serif-light"
+             android:text="Descripción del post"
+             android:textColor="@color/colorBlack" />
+
+         <TextView
+             android:id="@+id/pTiempoTv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="33 min" />
+
+     </LinearLayout>
 </androidx.cardview.widget.CardView>

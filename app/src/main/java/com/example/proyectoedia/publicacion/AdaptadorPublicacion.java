@@ -89,20 +89,20 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         //Convertimos el tiempo a la fecha actual.
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.setTimeInMillis(Long.parseLong(pTimeStamp));
-        String pTiempo = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+        String pTiempo = DateFormat.format("dd/MM/yyyy", calendar).toString();
 
 
         myHolder.uNameTv.setText(uName);
         myHolder.pTimeTv.setText(pTiempo);
         myHolder.pTituloTv.setText(pTitulo);
         myHolder.pDescripcionTv.setText(pDescripcion);
-        myHolder.pLikesTv.setText(pLikes + " Me gusta");
+        myHolder.pLikesTv.setText(pLikes + "Me gusta");
         setLikes(myHolder, pId);
 
 
         //Establecer usuario dp.
         try{
-            Picasso.get().load(uDp).placeholder(R.drawable.imagen_por_defecto).into(myHolder.uImagenIv);
+            Picasso.get().load(uDp).placeholder(R.drawable.icon_person).into(myHolder.uImagenIv);
         }catch (Exception e){
 
         }
@@ -176,12 +176,12 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             }
         });
 
-        myHolder.compartirBtn.setOnClickListener(new View.OnClickListener() {
+/*        myHolder.compartirBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Compartir", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         myHolder.perfilLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,10 +242,6 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                     intent.putExtra("key", "EditarPost");
                     intent.putExtra("EditarPostId", pId);
                     context.startActivity(intent);
-
-
-
-
 
 
                 }
@@ -356,7 +352,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             opcionesBtn = itemView.findViewById(R.id.opcionesBtn);
             likeBtn = itemView.findViewById(R.id.likeBtn);
             comentarioBtn = itemView.findViewById(R.id.comentarioBtn);
-            compartirBtn = itemView.findViewById(R.id.compartirBtn);
+            //compartirBtn = itemView.findViewById(R.id.compartirBtn);
             perfilLayout = itemView.findViewById(R.id.perfilLayout);
 
 
