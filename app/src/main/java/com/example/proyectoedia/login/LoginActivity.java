@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.setDisplayShowCustomEnabled(true);
 
 
-
         //Inicializarlo
         mEmailEt = findViewById(R.id.emailEt);
         mContrasenaEt = findViewById(R.id.contrasenaEt);

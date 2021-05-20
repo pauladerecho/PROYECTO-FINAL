@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.PopupMenu;
 
 import com.example.proyectoedia.MainActivity;
@@ -22,6 +24,7 @@ import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.perfil.PerfilFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -33,6 +36,7 @@ public class InicioActivity extends AppCompatActivity {
     ActionBar actionBar;
     BottomNavigationView navigationView;
 
+    FloatingActionButton boton_flotante_Chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class InicioActivity extends AppCompatActivity {
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
 
+
         //Para que empieze por defecto en esta pantalla.
         actionBar.setTitle("Home");
         HomeFragment fragment1 = new HomeFragment();
@@ -57,6 +62,7 @@ public class InicioActivity extends AppCompatActivity {
         ft1.replace(R.id.content, fragment1, "");
         ft1.commit();
     }
+
 
         private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -110,6 +116,8 @@ public class InicioActivity extends AppCompatActivity {
                 return false;
             }
         };
+
+
 
     private void masOpciones() {
 

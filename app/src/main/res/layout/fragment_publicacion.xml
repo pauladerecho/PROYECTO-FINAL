@@ -29,10 +29,10 @@
         <!--Descripcion del post -->
         <ImageView
             android:id="@+id/pImagenIv"
-            android:layout_width="310dp"
-            android:layout_height="297dp"
+            android:layout_width="332dp"
+            android:layout_height="298dp"
             android:layout_gravity="center"
-            android:background="@drawable/illustracion3"
+            android:background="@drawable/illustracion4"
             android:minHeight="200dp"
 
             />
@@ -51,7 +51,7 @@
 
         <Button
             android:id="@+id/pPublicarBtn"
-            style="@style/Widget.AppCompat.Button.Colored"
+            style="@style/loginButton"
             android:layout_width="143dp"
             android:layout_height="64dp"
             android:layout_gravity="center"

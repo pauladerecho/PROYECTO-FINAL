@@ -39,7 +39,7 @@ public class PerfilListaPublicacionActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     ImageView avatarIv, portadaIv;
-    TextView nombreTv, descripcionTv;
+    TextView nombreTv, descripcionTv, lugarTv;
     RecyclerView postsRecyclerView;
 
     List<ModeloPublicacion> publicacionList;
@@ -60,6 +60,7 @@ public class PerfilListaPublicacionActivity extends AppCompatActivity {
         portadaIv = findViewById(R.id.portadaIv);
         descripcionTv = findViewById(R.id.descripcion);
         nombreTv = findViewById(R.id.nombre);
+        lugarTv = findViewById(R.id.lugar);
         postsRecyclerView = findViewById(R.id.recyclerView_posts);
 
         firebaseAuth =  FirebaseAuth.getInstance();
@@ -80,6 +81,7 @@ public class PerfilListaPublicacionActivity extends AppCompatActivity {
                     String descripcion = "" + ds.child("descripcion").getValue();
                     String imagen = "" + ds.child("imagen").getValue();
                     String portada = "" + ds.child("portada").getValue();
+                    String lugar = "" + ds.child("lugar").getValue();
 
                     nombreTv.setText(nombre);
                     descripcionTv.setText(descripcion);
