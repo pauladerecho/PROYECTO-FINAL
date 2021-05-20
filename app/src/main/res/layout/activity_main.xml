@@ -8,48 +8,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
 
-    <!--LOGO: posicion y ruta del logo-->
-
-    <!--Boton: REGISTRARSE-->
-
-
-    <!--Boton: LOGIN-->
-    <ImageView
-        android:layout_width="299dp"
-        android:layout_height="293dp"
+    <TextView
+        android:layout_width="364dp"
+        android:layout_height="179dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        app:srcCompat="@drawable/logo" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="198dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="242dp"
+        android:fontFamily="@font/font_style_bold"
+        android:gravity="center"
+        android:text="Bienvenido"
+        android:textColor="@color/colorPrimary"
+        android:textSize="40sp" />
+
+    <TextView
+        android:layout_width="427dp"
+        android:layout_height="246dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="305dp"
+        android:layout_marginEnd="95dp"
+        android:layout_marginBottom="230dp"
+        android:fontFamily="@font/font_style_bold"
+        android:gravity="center"
+        android:text="¿Pensando en viajar?"
+
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="448dp"
+        android:layout_height="243dp"
+        android:layout_alignParentLeft="false"
+        android:layout_marginLeft="4dp"
+        app:srcCompat="@drawable/trip" />
 
     <Button
         android:id="@+id/login_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="391dp"
-        android:layout_height="75dp"
+        style="@style/loginButton"
+        android:layout_width="237dp"
+        android:layout_height="43dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="110dp"
-        android:drawableStart="@drawable/key"
-        android:drawableLeft="@drawable/key"
-        android:text="Login" />
+        android:layout_marginBottom="96dp"
+        android:fontFamily="@font/font_style_regular"
+        android:text="¿Ya tienes cuenta?" />
 
     <Button
         android:id="@+id/registro_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="372dp"
-        android:layout_height="73dp"
-        android:layout_above="@id/login_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="19dp"
-        android:drawableStart="@drawable/account"
-        android:drawableLeft="@drawable/account"
+        style="@style/loginButton"
+        android:layout_width="293dp"
+        android:layout_height="43dp"
+
+        android:layout_above="@+id/login_btn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="81dp"
+        android:layout_marginTop="349dp"
+        android:layout_marginEnd="86dp"
+        android:layout_marginBottom="16dp"
         android:drawablePadding="5dp"
+        android:fontFamily="@font/font_style_regular"
         android:minWidth="230dp"
-        android:text="Registro" />
+        android:text="¡ Regístrate !" />
 
 
 </RelativeLayout>

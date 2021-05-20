@@ -3,7 +3,7 @@ package com.example.proyectoedia.menu.Buscador;
 public class ModeloUsuarios {
 
     //--> Se tiene que poner igual que está en firebase
-    String name, email, search, imagen, portada, uid, descripcion,predeterminada,telefono,nombre,contraseña,estado,escribiendoA;
+    String name, email, search, imagen, portada, uid, descripcion,predeterminada,telefono,nombre,contraseña,estado,escribiendoA,lugar;
 
     public ModeloUsuarios() {
     }
@@ -110,6 +110,14 @@ public class ModeloUsuarios {
 
     public void setEscribiendoA(String escribiendoA) {
         this.escribiendoA = escribiendoA;
+    }
+
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
     }
 }
 

@@ -72,7 +72,7 @@ public class PerfilFragment extends Fragment {
     String storagePath = "imagenes_portada_perfil";
 
     ImageView avatarIv, portadaIv;
-    TextView nombreTv, descripcionTv;
+    TextView nombreTv, descripcionTv,lugarTv;
     FloatingActionButton boton_flotante;
     RecyclerView postsRecyclerView;
 
@@ -121,6 +121,7 @@ public class PerfilFragment extends Fragment {
         portadaIv = view.findViewById(R.id.portadaIv);
         descripcionTv = view.findViewById(R.id.descripcion);
         nombreTv = view.findViewById(R.id.nombre);
+        lugarTv = view.findViewById(R.id.lugar);
         boton_flotante = view.findViewById(R.id.boton_flotante);
         postsRecyclerView = view.findViewById(R.id.recyclerView_posts);
 
@@ -138,9 +139,11 @@ public class PerfilFragment extends Fragment {
                     String descripcion = "" + ds.child("descripcion").getValue();
                     String imagen = "" + ds.child("imagen").getValue();
                     String portada = "" + ds.child("portada").getValue();
+                    String lugar = "" + ds.child("lugar").getValue();
 
                     nombreTv.setText(nombre);
                     descripcionTv.setText(descripcion);
+                    lugarTv.setText(lugar);
 
                     try {
                         Picasso.get().load(imagen).into(avatarIv);
@@ -299,7 +302,7 @@ public class PerfilFragment extends Fragment {
     private void mostrarOpcionesEditarUsuario() {
 
         //Diferentes opciones.
-        String opciones[] = {"Editar imagen", "Editar portada", "Editar nombre", "Editar descripcion"};
+        String opciones[] = {"Editar imagen", "Editar portada", "Editar nombre", "Editar descripcion", "Editar Ubicación"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -324,12 +327,18 @@ public class PerfilFragment extends Fragment {
                 }else if (which == 2){
                     //Modificar el nombre
                     pd.setMessage("Actualizando el nombre");
-                    mostrarActualizacionDeOpciones("name");
+                    mostrarActualizacionDeOpciones("nombre");
 
                 }else if (which == 3){
                     //Modificar la descripcion
                     pd.setMessage("Actualizando la descripción");
                     mostrarActualizacionDeOpciones("descripcion");
+
+                }
+                else if (which == 4){
+                    //Modificar la ubicacion
+                    pd.setMessage("Actualizando la ubicación");
+                    mostrarActualizacionDeOpciones("ubicacioón");
 
                 }
             }
@@ -341,14 +350,14 @@ public class PerfilFragment extends Fragment {
     private void mostrarActualizacionDeOpciones(final String key) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Actualizar " + key);//Actualizar el nombre o la descripcion.
+        builder.setTitle("Editar " + key);//Actualizar el nombre o la descripcion.
 
         LinearLayout linearLayout = new LinearLayout(getActivity());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setPadding(10, 10, 10, 10);
 
         final EditText editText = new EditText(getActivity());
-        editText.setHint("Entrar " + key);
+        editText.setHint("Editar " + key);
         linearLayout.addView(editText);
 
         builder.setView(linearLayout);
@@ -409,7 +418,7 @@ public class PerfilFragment extends Fragment {
                     }
 
                 }else {
-                    Toast.makeText(getActivity(), "Por favor entre " + key, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Por favor introduzca: " + key, Toast.LENGTH_SHORT).show();
                 }
             }
         });

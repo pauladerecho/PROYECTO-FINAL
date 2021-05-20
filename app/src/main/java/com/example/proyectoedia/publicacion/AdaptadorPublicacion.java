@@ -96,7 +96,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.pTimeTv.setText(pTiempo);
         myHolder.pTituloTv.setText(pTitulo);
         myHolder.pDescripcionTv.setText(pDescripcion);
-        myHolder.pLikesTv.setText(pLikes + "Me gusta");
+        myHolder.pLikesTv.setText(pLikes);
         setLikes(myHolder, pId);
 
 
@@ -202,11 +202,11 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
                     if(dataSnapshot.child(postKey).hasChild(miUid)){
                         holder.likeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.like_color, 0, 0, 0);
-                        holder.likeBtn.setText("Me gusta");
+                        holder.likeBtn.setText("");
 
                     }else {
                         holder.likeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.like, 0, 0, 0);
-                        holder.likeBtn.setText("Me gusta");
+                        holder.likeBtn.setText("");
                     }
                 }
 
