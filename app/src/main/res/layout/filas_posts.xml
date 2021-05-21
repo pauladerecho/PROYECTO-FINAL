@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="280dp"
+    android:layout_height="400dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="3dp"
-    app:cardMaxElevation="3dp"
-    app:contentPadding="5dp"
+    app:cardCornerRadius="20dp"
+    android:id="@+id/cardView"
+    android:layout_margin="10dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:backgroundTint="@color/colorWhite"
+    app:cardBackgroundColor="@color/cardview_shadow_end_color"
+    android:outlineSpotShadowColor="@color/colorAccent"
+    >
+
 
      <LinearLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:orientation="vertical">
+         android:orientation="vertical"
+         android:background="@color/colorWhite"
+         >
 
          <LinearLayout
              android:id="@+id/perfilLayout"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:orientation="horizontal"
-             android:gravity="center_vertical">
+             android:gravity="center_vertical"
+             >
 
              <com.blogspot.atifsoftwares.circularimageview.CircularImageView
                  android:id="@+id/uImagenIv"
                  android:scaleType="centerCrop"
                  app:srcCompat="@drawable/icon_person"
-
+                 app:c_border_color="@color/colorAccent"
                  android:layout_width="50dp"
                  android:layout_height="50dp"/>
 
@@ -69,13 +78,14 @@
              android:id="@+id/pImagenIv"
              android:layout_width="match_parent"
              android:layout_height="186dp"
-
-             android:background="@color/colorWhite" />
+             android:background="@color/colorWhite"
+             />
 
          <View
              android:layout_width="match_parent"
+
              android:layout_height="1dp"
-             android:background="#F5F0F0"/>
+             android:background="@color/colorWhite"/>
 
          <LinearLayout
              android:layout_width="match_parent"
@@ -85,7 +95,7 @@
 
              <Button
                  android:id="@+id/likeBtn"
-                 android:layout_width="63dp"
+                 android:layout_width="61dp"
                  android:layout_height="match_parent"
                  android:layout_weight="3"
                  android:background="@color/colorWhite"
@@ -93,21 +103,23 @@
                  android:drawableLeft="@drawable/like"
                  android:drawablePadding="5dp"
                  android:fontFamily="sans-serif-light"
+                 android:paddingLeft="10dp"
                  android:text=""
                  android:textColor="@color/colorPrimaryDark" />
 
              <TextView
                  android:id="@+id/pLikesTv"
-                 android:layout_width="48dp"
-                 android:layout_height="wrap_content"
+                 android:layout_width="28dp"
+                 android:layout_height="50dp"
                  android:layout_weight="0"
+                 android:background="@color/colorWhite"
                  android:textColor="@color/colorPrimary" />
 
              <Button
                  android:id="@+id/comentarioBtn"
 
-                 android:layout_width="312dp"
-                 android:layout_height="95dp"
+                 android:layout_width="190dp"
+                 android:layout_height="63dp"
                  android:background="@color/colorWhite"
                  android:drawableStart="@drawable/comentario"
                  android:drawableLeft="@drawable/comentario"
@@ -131,19 +143,22 @@
          <TextView
              android:id="@+id/pDescripcionTv"
              android:layout_width="match_parent"
-             android:layout_height="20dp"
+             android:layout_height="26dp"
              android:layout_marginTop="10dp"
              android:autoLink="all"
              android:fontFamily="@font/font_style_regular"
              android:text="Descripción del post"
+             android:paddingLeft="10dp"
              android:textColor="@color/colorBlack" />
 
          <TextView
              android:id="@+id/pTiempoTv"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
+             android:layout_width="106dp"
+             android:layout_height="27dp"
              android:fontFamily="@font/font_style_regular"
+             android:paddingLeft="10dp"
              android:text="33 min" />
 
      </LinearLayout>
+
 </androidx.cardview.widget.CardView>
