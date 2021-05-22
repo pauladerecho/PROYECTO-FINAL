@@ -353,6 +353,41 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+        //Creamos en la base de datos el nodo para la lista del chat.
+        final DatabaseReference chatListaRef1 = FirebaseDatabase.getInstance().getReference("ChatList")
+                .child(idUsuario1)
+                .child(idUsuario2);
+        chatListaRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    chatListaRef1.child("id").setValue(idUsuario2);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        final DatabaseReference chatListaRef2 = FirebaseDatabase.getInstance().getReference("ChatList")
+                .child(idUsuario2)
+                .child(idUsuario1);
+        chatListaRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    chatListaRef2.child("id").setValue(idUsuario1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void enviarNotificacion(final String idUsuario2, final String name, final String mensaje) {

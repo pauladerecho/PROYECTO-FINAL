@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -126,7 +127,7 @@ public class PublicacionFragment extends Fragment {
             cargarDatosDelPost(editarPostId);
         }else{
             //actionBar.setTitle("Añadir nuevo post");
-            publicarBtn.setText("Cargar");
+            publicarBtn.setText("Publicar");
         }
 
        // actionBar.setSubtitle(email);
@@ -167,14 +168,20 @@ public class PublicacionFragment extends Fragment {
             public void onClick(View v) {
                 String titulo = tituloEt.getText().toString().trim();
                 String descripcion = descripcionEt.getText().toString().trim();
+                Drawable imagen = imagenIv.getDrawable();
 
                 if(TextUtils.isEmpty(titulo)){
-                    Toast.makeText(getActivity(), "Ponga un título", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Ponga una ubicación", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(TextUtils.isEmpty(descripcion)){
-                    Toast.makeText(getActivity(), "Ponga una descripción", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Ponga una descripción del viaje", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(TextUtils.isEmpty((CharSequence)imagen)){
+                    Toast.makeText(getActivity(), "Ponga una foto", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -184,8 +191,11 @@ public class PublicacionFragment extends Fragment {
                     cargarDatos(titulo, descripcion);
                 }
 
+                /*if(image_rui != null){
+                    cargarDatos(titulo, descripcion, imagen);
+                }*/
 
-               /* if(image_rui == null){
+                /*if(image_rui == null){
 
                     cargarDatos(titulo, descripcion, "noImagen");
 
@@ -209,12 +219,12 @@ public class PublicacionFragment extends Fragment {
         }else if (imagenIv.getDrawable() != null){
             actualizacionNuevaImagen(titulo, descripcion, editarPostId);
 
-        }else {
+        }/*else {
             actualizacionSinImagen(titulo, descripcion, editarPostId);
-        }
+        }*/
     }
 
-    private void actualizacionSinImagen(String titulo, String descripcion, String editarPostId) {
+    /*private void actualizacionSinImagen(String titulo, String descripcion, String editarPostId) {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("uid", uid);
@@ -242,7 +252,7 @@ public class PublicacionFragment extends Fragment {
                         Toast.makeText(getActivity(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
+    }*/
 
     private void actualizacionNuevaImagen(final String titulo, final String descripcion, final String editarPostId) {
 
@@ -396,6 +406,7 @@ public class PublicacionFragment extends Fragment {
 
                     tituloEt.setText(editTitulo);
                     descripcionEt.setText(editDescripcion);
+                    imagenIv.setImageURI(Uri.parse(editImagen));
 
                     if(!editImagen.equals("noImagen")){
                         try {
@@ -427,7 +438,7 @@ public class PublicacionFragment extends Fragment {
             Bitmap bitmap = ((BitmapDrawable)imagenIv.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             //Imagen comprimida.
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 200, baos);
             byte[] data = baos.toByteArray();
 
             StorageReference ref = FirebaseStorage.getInstance().getReference().child(rutaYNombreArchivo);
@@ -491,7 +502,7 @@ public class PublicacionFragment extends Fragment {
                             Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        }else{
+        }/*else{
             HashMap<Object, String> hashMap = new HashMap<>();
             hashMap.put("uid", uid);
             hashMap.put("uName", name);
@@ -528,7 +539,7 @@ public class PublicacionFragment extends Fragment {
 
                         }
                     });
-        }
+        }*/
 
     }
 
@@ -645,6 +656,7 @@ public class PublicacionFragment extends Fragment {
 
         menu.findItem(R.id.nav_publicacion).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
+        menu.findItem(R.id.boton_flotante_chat_List).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

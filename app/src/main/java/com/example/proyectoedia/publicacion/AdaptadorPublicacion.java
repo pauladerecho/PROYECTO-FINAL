@@ -58,7 +58,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         this.context = context;
         this.publicacionLista = publicacionLista;
         miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+        likesRef = FirebaseDatabase.getInstance().getReference().child("Posts");
         postsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
     }
 
@@ -111,7 +111,8 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         //Si no hay imagen, entonces ocualtar ImageView.
         if(pImagen.equals("noImagen")){
             //Ocultar ImageView
-            myHolder.pImagenIv.setVisibility(View.GONE);
+            //myHolder.pImagenIv.setVisibility(View.GONE);
+
         }else{
 
             //Mostrat ImageView
@@ -123,6 +124,16 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
             }
         }
+     /*  if(!pImagen.equals("noImagen")){
+           //Mostrat ImageView
+           myHolder.pImagenIv.setVisibility(View.VISIBLE);
+
+           try{
+               Picasso.get().load(pImagen).into(myHolder.pImagenIv);
+           }catch (Exception e){
+
+           }
+       }*/
 
 
 
@@ -152,12 +163,14 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                             if(dataSnapshot.child(postId).hasChild(miUid)){
                                 postsRef.child(postId).child("pLikes").setValue(""+(pLikes-1));
                                 likesRef.child(postId).child(miUid).removeValue();
+                                mProcesoLikes = false;
                             }else {
                                 //Añadimos un like.
                                 postsRef.child(postId).child("pLikes").setValue(""+(pLikes+1));
-                                likesRef.child(postId).child(miUid).setValue("Liked");
+                                likesRef.child(postId).child(miUid).setValue("Me gusta");
+                                mProcesoLikes = false;
                             }
-                            mProcesoLikes = false;
+
                         }
                     }
 
@@ -256,7 +269,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
         //El post puede ser con o sin imagen.
         if(pImagen.equals("noImage")){
-            borrarSinImagen(pId);
+            //borrarSinImagen(pId);
         }else{
             borrarConImagen(pId, pImagen);
         }
@@ -302,7 +315,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                 });
     }
 
-    private void borrarSinImagen(String pId) {
+   /* private void borrarSinImagen(String pId) {
 
         final ProgressDialog pd = new ProgressDialog(context);
         pd.setMessage("Borrando");
@@ -324,7 +337,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
             }
         });
-    }
+    }*/
 
     @Override
     public int getItemCount() {
@@ -354,8 +367,6 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             comentarioBtn = itemView.findViewById(R.id.comentarioBtn);
             //compartirBtn = itemView.findViewById(R.id.compartirBtn);
             perfilLayout = itemView.findViewById(R.id.perfilLayout);
-
-
         }
     }
 }
