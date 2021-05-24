@@ -7,7 +7,7 @@
 
     <item android:id="@+id/nav_notificaciones"
         android:title=""
-        android:icon="@drawable/notificaciones"/>
+        android:icon="@drawable/search_icon"/>
 
     <item android:id="@+id/nav_publicacion"
         android:title=""

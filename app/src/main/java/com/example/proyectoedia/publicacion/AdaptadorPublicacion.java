@@ -17,10 +17,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.perfil.PerfilListaPublicacionActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -85,6 +87,8 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         final String pImagen = publicacionLista.get(i).getpImagen();
         String pTimeStamp = publicacionLista.get(i).getpTime();
         String pLikes = publicacionLista.get(i).getpLikes();//Total de likes de un post.
+        String pComentarios = publicacionLista.get(i).getpComentarios();//Total comentarios de un post
+
 
         //Convertimos el tiempo a la fecha actual.
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
@@ -97,6 +101,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.pTituloTv.setText(pTitulo);
         myHolder.pDescripcionTv.setText(pDescripcion);
         myHolder.pLikesTv.setText(pLikes);
+        myHolder.pComentarios.setText(pComentarios + " Comentarios");
         setLikes(myHolder, pId);
 
 
@@ -152,13 +157,15 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                             if(dataSnapshot.child(postId).hasChild(miUid)){
                                 postsRef.child(postId).child("pLikes").setValue(""+(pLikes-1));
                                 likesRef.child(postId).child(miUid).removeValue();
+                                mProcesoLikes = false;
                             }else {
                                 //Añadimos un like.
                                 postsRef.child(postId).child("pLikes").setValue(""+(pLikes+1));
                                 likesRef.child(postId).child(miUid).setValue("Liked");
+                                mProcesoLikes = false;
                             }
-                            mProcesoLikes = false;
-                        }
+                            }
+
                     }
 
                     @Override
@@ -172,7 +179,10 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.comentarioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Comentario", Toast.LENGTH_SHORT).show();
+                //Iniciar el DetallePostActivity
+                Intent intent = new Intent(context,DetallePostActivity.class);
+                intent.putExtra("postId", pId); //-- para tener los detalles de los post
+                context.startActivity(intent);
             }
         });
 
@@ -223,8 +233,12 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
         if(uid.equals(miUid)){
             popupMenu.getMenu().add(Menu.NONE, 0, 0, "Borrar");
-            popupMenu.getMenu().add(Menu.NONE, 1, 0, "Editar");
+            //popupMenu.getMenu().add(Menu.NONE, 1, 0, "Editar");
         }
+
+
+        popupMenu.getMenu().add(Menu.NONE,1,0,"Vista Detalle");
+
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -238,13 +252,23 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
                 }else  if(id == 1){
                     //Si pulsa el boton se edita.
-                    Intent intent = new Intent(context, PublicacionFragment.class);
+                    /*Intent intent = new Intent(context, PublicacionFragment.class);
                     intent.putExtra("key", "EditarPost");
                     intent.putExtra("EditarPostId", pId);
                     context.startActivity(intent);
+                    */
 
+                    /*HomeFragment fragment3 = new HomeFragment();
+                    FragmentTransaction ft3 = context.getSupportFragmentManager().beginTransaction();
+                    ft3.replace(R.id.content, fragment3, "");
+                    ft3.commit();*/
 
+                    Intent intent = new Intent(context,DetallePostActivity.class);
+                    intent.putExtra("postId", pId); //-- para tener los detalles de los post
+                    context.startActivity(intent);
                 }
+
+
                 return false;
             }
         });
@@ -334,7 +358,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     class MyHolder extends RecyclerView.ViewHolder{
 
         ImageView uImagenIv, pImagenIv;
-        TextView uNameTv, pTimeTv, pTituloTv, pDescripcionTv, pLikesTv;
+        TextView uNameTv, pTimeTv, pTituloTv, pDescripcionTv, pLikesTv, pComentarios;
         ImageButton opcionesBtn;
         Button likeBtn, comentarioBtn, compartirBtn;
         LinearLayout perfilLayout;
@@ -354,6 +378,8 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             comentarioBtn = itemView.findViewById(R.id.comentarioBtn);
             //compartirBtn = itemView.findViewById(R.id.compartirBtn);
             perfilLayout = itemView.findViewById(R.id.perfilLayout);
+            pComentarios = itemView.findViewById(R.id.pComentarioTv);
+
 
 
         }

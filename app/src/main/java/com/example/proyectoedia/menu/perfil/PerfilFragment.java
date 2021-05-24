@@ -183,7 +183,7 @@ public class PerfilFragment extends Fragment {
 
     private void cargarPosts() {
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
 
         //Cargar el nuevo post primero.
         layoutManager.setStackFromEnd(true);
@@ -415,6 +415,39 @@ public class PerfilFragment extends Fragment {
 
                             }
                         });
+
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot ds: snapshot.getChildren()){
+                                    String child = ds.getKey();
+                                    if(snapshot.child(child).hasChild("Comentarios")){
+                                        String child1 = ""+ snapshot.child(child).getKey();
+                                        Query child2 = FirebaseDatabase.getInstance().getReference("Posts").child(child1).child("Comentarios").orderByChild("uid").equalTo(uid);
+                                        child2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for(DataSnapshot ds: snapshot.getChildren()){
+                                                    String child = ds.getKey();
+                                                    snapshot.getRef().child(child).child("uName").setValue(value);
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
 
                 }else {
@@ -591,6 +624,41 @@ public class PerfilFragment extends Fragment {
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                //Actualizar la foto en los comentarios
+
+                                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for(DataSnapshot ds: snapshot.getChildren()){
+                                            String child = ds.getKey();
+                                            if(snapshot.child(child).hasChild("Comentarios")){
+                                                String child1 = ""+ snapshot.child(child).getKey();
+                                                Query child2 = FirebaseDatabase.getInstance().getReference("Posts").child(child1).child("Comentarios").orderByChild("uid").equalTo(uid);
+                                                child2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        for(DataSnapshot ds: snapshot.getChildren()){
+                                                            String child = ds.getKey();
+                                                            snapshot.getRef().child(child).child("uDp").setValue(downloadUri.toString());
+
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
                                     }
                                 });

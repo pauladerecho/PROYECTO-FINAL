@@ -78,8 +78,9 @@ public class InicioActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_notificaciones:
-                        actionBar.setTitle("Notificaciones");
-                        NotificacionesFragment fragment2 = new NotificacionesFragment();
+
+                        actionBar.setTitle("Buscador");
+                        UsuariosFragment fragment2 = new UsuariosFragment();
                         FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
                         ft2.replace(R.id.content, fragment2, "");
                         ft2.commit();
@@ -126,7 +127,7 @@ public class InicioActivity extends AppCompatActivity {
         PopupMenu popupMenu = new PopupMenu(this, navigationView, Gravity.END);
 
         //Lo que enseña ese menu
-        popupMenu.getMenu().add(Menu.NONE,0,0 ,"Buscar");
+        popupMenu.getMenu().add(Menu.NONE,0,0 ,"Notificaciones");
         popupMenu.getMenu().add(Menu.NONE,1,0 ,"Chat");
 
         //Menu clicks
@@ -136,11 +137,12 @@ public class InicioActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 if(id==0){ //--> Buscar
-                    actionBar.setTitle("Buscador");
-                    UsuariosFragment fragment6 = new UsuariosFragment();
+                    actionBar.setTitle("Notificaciones");
+                    NotificacionesFragment fragment6 = new NotificacionesFragment();
                     FragmentTransaction ft6 = getSupportFragmentManager().beginTransaction();
                     ft6.replace(R.id.content, fragment6, "");
                     ft6.commit();
+
 
                 }else if(id==1){//--> chat
                     actionBar.setTitle("Chat");

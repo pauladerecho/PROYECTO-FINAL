@@ -95,37 +95,47 @@
 
              <Button
                  android:id="@+id/likeBtn"
-                 android:layout_width="61dp"
+                 android:layout_width="47dp"
                  android:layout_height="match_parent"
                  android:layout_weight="3"
                  android:background="@color/colorWhite"
                  android:drawableStart="@drawable/like"
                  android:drawableLeft="@drawable/like"
-                 android:drawablePadding="5dp"
+                 android:drawablePadding="0dp"
                  android:fontFamily="sans-serif-light"
                  android:paddingLeft="10dp"
                  android:text=""
                  android:textColor="@color/colorPrimaryDark" />
 
+
              <TextView
                  android:id="@+id/pLikesTv"
-                 android:layout_width="28dp"
-                 android:layout_height="50dp"
+                 android:layout_width="50dp"
+                 android:layout_height="wrap_content"
                  android:layout_weight="0"
+
                  android:background="@color/colorWhite"
                  android:textColor="@color/colorPrimary" />
+
 
              <Button
                  android:id="@+id/comentarioBtn"
 
-                 android:layout_width="190dp"
-                 android:layout_height="63dp"
+                 android:layout_width="50dp"
+                 android:layout_height="match_parent"
                  android:background="@color/colorWhite"
                  android:drawableStart="@drawable/comentario"
                  android:drawableLeft="@drawable/comentario"
-                 android:drawablePadding="5dp"
                  android:text=""
                  android:textColor="@color/colorPrimaryDark" />
+
+             <TextView
+                 android:id="@+id/pComentarioTv"
+                 android:layout_width="wrap_content"
+                 android:layout_height="31dp"
+                 android:text="1.2k comentarios"
+                 android:textColor="@color/colorPrimary" />
+
 
              <!--<Button
                  android:id="@+id/compartirBtn"

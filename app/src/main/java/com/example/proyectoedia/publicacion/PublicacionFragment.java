@@ -126,7 +126,7 @@ public class PublicacionFragment extends Fragment {
             cargarDatosDelPost(editarPostId);
         }else{
             //actionBar.setTitle("Añadir nuevo post");
-            publicarBtn.setText("Cargar");
+            publicarBtn.setText("Publicar");
         }
 
        // actionBar.setSubtitle(email);
@@ -221,6 +221,7 @@ public class PublicacionFragment extends Fragment {
         hashMap.put("uName", name);
         hashMap.put("uEmail", email);
         hashMap.put("uDp", dp);
+        hashMap.put("pLikes","0");
         hashMap.put("pTitulo", titulo);
         hashMap.put("pDescripcion", descripcion);
         hashMap.put("pImagen", "noImage");
