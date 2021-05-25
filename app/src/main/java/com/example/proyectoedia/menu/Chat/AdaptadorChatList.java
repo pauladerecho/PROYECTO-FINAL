@@ -44,14 +44,14 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.My
 
         final String idUsuario2 = usuariosList.get(i).getUid();
         String usuarioImagen = usuariosList.get(i).getImagen();
-        String nombreUsuario = usuariosList.get(i).getName();
-        //String nombreUsuario = usuariosList.get(i).getNombre();
+        //String nombreUsuario = usuariosList.get(i).getName();
+        String nombreUsuario = usuariosList.get(i).getNombre();
         String ultimoMensaje = ultimoMensajeMap.get(idUsuario2);
 
         myHolder.nombreTv.setText(nombreUsuario);
 
-        //if(ultimoMensaje != null || ultimoMensaje.equals("default")){
-        if(ultimoMensaje != null){
+        if(ultimoMensaje == null || ultimoMensaje.equals("default")){
+        //if(ultimoMensaje != null){
             myHolder.ultimoMensajeTv.setVisibility(View.GONE);
         }else{
             myHolder.ultimoMensajeTv.setVisibility(View.VISIBLE);
@@ -65,7 +65,7 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.My
         }
 
         if(usuariosList.get(i).getEstado().equals("online")){
-           // Picasso.get().load(R.drawable.circulo_online).into(myHolder.estadoIv);
+            // Picasso.get().load(R.drawable.circulo_online).into(myHolder.estadoIv);
             myHolder.estadoIv.setImageResource(R.drawable.circulo_online);
         }else{
             //Picasso.get().load(R.drawable.circulo_offline).into(myHolder.estadoIv);
@@ -76,9 +76,8 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.My
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChatActivity.class);
-                intent.putExtra("hisUid", idUsuario2);
+                intent.putExtra("uid", idUsuario2);
                 context.startActivity(intent);
-
             }
         });
     }

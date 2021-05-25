@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -140,7 +141,6 @@ public class PublicacionFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot ds: snapshot.getChildren()){
-
                     name = "" + ds.child("name").getValue();
                     email = "" + ds.child("email").getValue();
                     dp = "" +ds.child("imagen").getValue();
@@ -188,20 +188,20 @@ public class PublicacionFragment extends Fragment {
                 if(claveActualizacion.equals("EditarPost")){
                     comenzarActualizar(titulo, descripcion, editarPostId);
                 }else{
-                    cargarDatos(titulo, descripcion);
+                    cargarDatos(titulo, descripcion, imagen);
                 }
 
                 /*if(image_rui != null){
                     cargarDatos(titulo, descripcion, imagen);
                 }*/
 
-                /*if(image_rui == null){
+                if(image_rui == null){
 
-                    cargarDatos(titulo, descripcion, "noImagen");
+                   // cargarDatos(titulo, descripcion, "noImagen");
 
                 }else{
-                    cargarDatos(titulo, descripcion, String.valueOf(image_rui));
-                }*/
+                    cargarDatos(titulo, descripcion, imagen);
+                }
 
             }
         });
@@ -219,12 +219,12 @@ public class PublicacionFragment extends Fragment {
         }else if (imagenIv.getDrawable() != null){
             actualizacionNuevaImagen(titulo, descripcion, editarPostId);
 
-        }/*else {
+        }else {
             actualizacionSinImagen(titulo, descripcion, editarPostId);
-        }*/
+        }
     }
 
-    /*private void actualizacionSinImagen(String titulo, String descripcion, String editarPostId) {
+    private void actualizacionSinImagen(String titulo, String descripcion, String editarPostId) {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("uid", uid);
@@ -252,7 +252,7 @@ public class PublicacionFragment extends Fragment {
                         Toast.makeText(getActivity(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }*/
+    }
 
     private void actualizacionNuevaImagen(final String titulo, final String descripcion, final String editarPostId) {
 
@@ -425,7 +425,7 @@ public class PublicacionFragment extends Fragment {
         });
     }
 
-    private void cargarDatos(final String titulo, final String descripcion) {
+    private void cargarDatos(final String titulo, final String descripcion, final Drawable imagen) {
 
         progressDialog.setMessage("Publicando post..");
         progressDialog.show();
@@ -463,6 +463,7 @@ public class PublicacionFragment extends Fragment {
                                 hashMap.put("pTitulo", titulo);
                                 hashMap.put("pDescripcion", descripcion);
                                 hashMap.put("pImagen", descargarUri);
+                                //hashMap.put("pImagen", imagen);
                                 hashMap.put("pTime", timeStamp);
 
                                 //ruta para almacenar los datos.
@@ -471,7 +472,6 @@ public class PublicacionFragment extends Fragment {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-
                                                 progressDialog.dismiss();
                                                 Toast.makeText(getActivity(), "Post publicado", Toast.LENGTH_SHORT).show();
                                                 //Reseteamos la vista.
@@ -479,7 +479,6 @@ public class PublicacionFragment extends Fragment {
                                                 descripcionEt.setText("");
                                                 imagenIv.setImageURI(null);
                                                 image_rui = null;
-
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -502,7 +501,7 @@ public class PublicacionFragment extends Fragment {
                             Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        }/*else{
+        }else{
             HashMap<Object, String> hashMap = new HashMap<>();
             hashMap.put("uid", uid);
             hashMap.put("uName", name);
@@ -539,7 +538,7 @@ public class PublicacionFragment extends Fragment {
 
                         }
                     });
-        }*/
+        }
 
     }
 
@@ -640,19 +639,19 @@ public class PublicacionFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         if(user != null){
-
             email = user.getEmail();
             uid = user.getUid();
 
         }else{
-            //startActivity(new Intent(PublicacionFragment.class, MainActivity.class));
+            startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
         }
     }
 
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        // getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
 
         menu.findItem(R.id.nav_publicacion).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
@@ -723,4 +722,5 @@ public class PublicacionFragment extends Fragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
@@ -26,8 +26,20 @@
             app:backgroundTint="#FFFFFF"
             app:srcCompat="@mipmap/ic_lista_chat" />
 
+      <!--  <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+            android:id="@+id/navegacion"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|center"
+            app:itemIconSize="30sp"
+            app:labelVisibilityMode="unlabeled"
+            android:background="@color/colorAccent"
+            app:mbn_circleColor="@color/colorWhite"
+            app:mbn_selectedIconColor="@color/seleccionado"
+            app:mbn_backgroundBottomColor="@color/colorAccent"
+            app:mbn_shadowColor="@color/colorPrimary">
+        </com.etebarian.meowbottomnavigation.MeowBottomNavigation>-->
         <com.google.android.material.bottomnavigation.BottomNavigationView
-
             android:id="@+id/navegacion"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -38,7 +50,7 @@
             app:itemIconTint="@color/seleccionado"
             app:itemTextColor="#FFF"
             app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/menu_nav"></com.google.android.material.bottomnavigation.BottomNavigationView>
+            app:menu="@menu/menu_nav">
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
     </FrameLayout>
-
 </LinearLayout>

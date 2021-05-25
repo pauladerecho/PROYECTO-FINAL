@@ -22,7 +22,8 @@
             android:hint=" Escriba aquí su ubicación"
             android:padding="10dp"
             android:pointerIcon="zoom_in"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:fontFamily="@font/font_style_regular"/>
 
         <!--Imagen del post-->
 
@@ -47,7 +48,8 @@
             android:hint="¡Descríbenos tu viaje ! "
             android:inputType="textCapSentences|textMultiLine"
             android:minHeight="69dp"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:fontFamily="@font/font_style_regular"/>
 
         <Button
             android:id="@+id/pPublicarBtn"
@@ -57,7 +59,5 @@
             android:layout_gravity="center"
             android:clickable="false"
             android:text="Publicar" />
-
-        <!--Boton para subir el post-->
     </LinearLayout>
 </ScrollView>

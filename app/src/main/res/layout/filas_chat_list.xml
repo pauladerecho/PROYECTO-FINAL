@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:contentPadding="3dp">
+    app:contentPadding="3dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -45,6 +47,4 @@
             android:layout_below="@+id/nombreTv"
             android:layout_marginLeft="4dp"/>
     </RelativeLayout>
-
-
 </androidx.cardview.widget.CardView>

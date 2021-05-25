@@ -39,6 +39,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,6 +49,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     List<ModeloPublicacion> publicacionLista;
 
     String miUid;
+    String uid;
 
     private DatabaseReference likesRef;
     private DatabaseReference postsRef;
@@ -58,7 +60,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         this.context = context;
         this.publicacionLista = publicacionLista;
         miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        likesRef = FirebaseDatabase.getInstance().getReference().child("Posts");
+        likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
         postsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
     }
 
@@ -67,6 +69,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         //-->>Inflador del layout lista publicaciones.
 
+        guardarLike("0");
         View view = LayoutInflater.from(context).inflate(R.layout.filas_posts, viewGroup, false);
         return new MyHolder(view);
     }
@@ -75,7 +78,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
 
         //Traemos los datos.
-        final String uid = publicacionLista.get(i).getUid();
+        uid = publicacionLista.get(i).getUid();
         String uEmail = publicacionLista.get(i).getuEmail();
         String uName = publicacionLista.get(i).getuName();
         String uDp = publicacionLista.get(i).getuDp();
@@ -124,7 +127,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
             }
         }
-     /*  if(!pImagen.equals("noImagen")){
+       if(!pImagen.equals("noImagen")){
            //Mostrat ImageView
            myHolder.pImagenIv.setVisibility(View.VISIBLE);
 
@@ -133,7 +136,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
            }catch (Exception e){
 
            }
-       }*/
+       }
 
 
 
@@ -342,6 +345,16 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     @Override
     public int getItemCount() {
         return publicacionLista.size();
+    }
+
+    private void guardarLike(String guardar){
+
+        Query query = FirebaseDatabase.getInstance().getReference("Posts").child(uid).child("pLike");
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("pLike", guardar);
+
+        //Actualizar el estado del usuario
+        ((DatabaseReference) query).updateChildren(hashMap);
     }
 
     class MyHolder extends RecyclerView.ViewHolder{

@@ -44,7 +44,7 @@ public class Chat_List_Activity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         usuarioActual = FirebaseAuth.getInstance().getCurrentUser();
-        //verificarUsuarios();
+       // verificarUsuarios();
 
         recyclerView_listaChat = findViewById(R.id.recyclerView_lista_chat);
         chatList = new ArrayList<>();

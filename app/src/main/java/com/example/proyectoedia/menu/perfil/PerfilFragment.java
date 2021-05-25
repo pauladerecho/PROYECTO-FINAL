@@ -125,6 +125,7 @@ public class PerfilFragment extends Fragment {
         boton_flotante = view.findViewById(R.id.boton_flotante);
         postsRecyclerView = view.findViewById(R.id.recyclerView_posts);
 
+
         pd = new ProgressDialog(getActivity());
 
         //Optenemos la informacion del usuario actualmente registrado.

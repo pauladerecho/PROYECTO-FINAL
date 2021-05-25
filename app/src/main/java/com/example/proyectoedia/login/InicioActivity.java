@@ -3,16 +3,22 @@ package com.example.proyectoedia.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.PopupMenu;
 
+//import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
 import com.example.proyectoedia.menu.Chat.Chat_List_Activity;
@@ -34,6 +40,12 @@ public class InicioActivity extends AppCompatActivity {
 
     ActionBar actionBar;
     BottomNavigationView navigationView;
+    //MeowBottomNavigation navigationView;
+    //private final static int nav_home=1;
+    //private final static int nav_notificaciones=2;
+    //private final static int nav_publicacion=3;
+    //private final static int nav_perfil=4;
+    //private final static int nav_mas=5;
 
     FloatingActionButton boton_flotante_Chat;
     FloatingActionButton boton_flotante_Chat_List;
@@ -50,8 +62,64 @@ public class InicioActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         //Boton de navegacion.
+        //getSupportActionBar().hide();
         navigationView = findViewById(R.id.navegacion);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
+
+      /*  navigationView.add(new MeowBottomNavigation.Model(1, R.drawable.home));
+        navigationView.add(new MeowBottomNavigation.Model(2, R.drawable.notificaciones));
+        navigationView.add(new MeowBottomNavigation.Model(3, R.drawable.nueva_publicacion));
+        navigationView.add(new MeowBottomNavigation.Model(4, R.drawable.perfil));
+        //navigationView.add(new MeowBottomNavigation.Model(5, R.drawable.search_icon));
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
+
+        navigationView.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
+            @Override
+            public void onClickItem(MeowBottomNavigation.Model item) {
+
+            }
+        });
+
+        navigationView.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+
+            }
+        });
+
+        navigationView.setOnShowListener(new MeowBottomNavigation.ShowListener() {
+            @Override
+            public void onShowItem(MeowBottomNavigation.Model item) {
+
+                Fragment fragmentSelected = null;
+                
+                switch (item.getId()){
+                    //case R.id.nav_home:
+                    case nav_home:
+                        fragmentSelected = new HomeFragment();
+                        break;
+                   //case R.id.nav_notificaciones:
+                    case nav_notificaciones:
+                        fragmentSelected = new NotificacionesFragment();
+                        break;
+                    //case R.id.nav_publicacion:
+                    case nav_publicacion:
+                        fragmentSelected = new PublicacionFragment();
+                        break;
+                    //case R.id.nav_perfil:
+                    case nav_perfil:
+                        fragmentSelected = new PerfilFragment();
+                        break;
+                    //case R.id.nav_mas:
+                   // case nav_mas:
+                     //   fragmentSelected = new UsuariosFragment();
+                       // break;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.content, fragmentSelected).commit();
+            }
+        });*/
+
         boton_flotante_Chat_List = findViewById(R.id.boton_flotante_chat_List);
 
         //Boton chat List.
@@ -72,7 +140,7 @@ public class InicioActivity extends AppCompatActivity {
     }
 
 
-        private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //Cambios de los elementos de la barra de navegacion.
