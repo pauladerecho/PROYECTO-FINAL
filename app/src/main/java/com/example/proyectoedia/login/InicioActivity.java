@@ -16,7 +16,6 @@ import android.widget.PopupMenu;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
-import com.example.proyectoedia.menu.Chat.ListaChatFragment;
 import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.NotificacionesFragment;
 import com.example.proyectoedia.publicacion.PublicacionFragment;
@@ -144,14 +143,14 @@ public class InicioActivity extends AppCompatActivity {
                     ft6.commit();
 
 
-                }else if(id==1){//--> chat
+                }/*else if(id==1){//--> chat
                     actionBar.setTitle("Chat");
 
                     ListaChatFragment fragment7 = new ListaChatFragment();
                     FragmentTransaction ft7= getSupportFragmentManager().beginTransaction();
                     ft7.replace(R.id.content, fragment7, "");
                     ft7.commit();
-                }
+                }*/
                 return false;
             }
         });
