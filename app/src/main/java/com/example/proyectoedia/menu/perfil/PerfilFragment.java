@@ -78,6 +78,9 @@ public class PerfilFragment extends Fragment {
 
     ProgressDialog pd;
 
+    String descripcion;
+    String lugar;
+
     //Permisos para camara y galeria.
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 200;
@@ -136,10 +139,10 @@ public class PerfilFragment extends Fragment {
                 //Verificamos hasta que obtenemos los datos que necesitamos.
                 for(DataSnapshot ds: snapshot.getChildren()){
                     String nombre = "" + ds.child("name").getValue();
-                    String descripcion = "" + ds.child("descripcion").getValue();
+                    descripcion = "" + ds.child("descripcion").getValue();
                     String imagen = "" + ds.child("imagen").getValue();
                     String portada = "" + ds.child("portada").getValue();
-                    String lugar = "" + ds.child("lugar").getValue();
+                    lugar = "" + ds.child("lugar").getValue();
 
                     nombreTv.setText(nombre);
                     descripcionTv.setText(descripcion);
@@ -782,4 +785,5 @@ public class PerfilFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

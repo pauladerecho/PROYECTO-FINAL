@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class RegistroActivity extends AppCompatActivity {
 
     //Vistas
-    EditText mEmailEt, mContrasenaET, mNickEt;
+    EditText mEmailEt, mContrasenaET, mNickEt, mLugar, mDescripcion;
     Button mRegistroBtn;
     TextView mEstarRegistradoTv;
 
@@ -57,6 +57,8 @@ public class RegistroActivity extends AppCompatActivity {
         //Inicializar el contenido
         mEmailEt = findViewById(R.id.emailEt);
         mNickEt =findViewById(R.id.nikEt);
+        mLugar = findViewById(R.id.lugarEt);
+        mDescripcion = findViewById(R.id.descripcionEt);
         mContrasenaET = findViewById(R.id.contrasenaEt);
         mRegistroBtn = findViewById(R.id.registro_btn);
         mEstarRegistradoTv = findViewById(R.id.estar_registradoTv);
@@ -79,6 +81,8 @@ public class RegistroActivity extends AppCompatActivity {
 
                 //Guardamos los datos en un String
                 String email = mEmailEt.getText().toString().trim();
+                String lugar = mLugar.getText().toString().trim();
+                String descripcion = mDescripcion.getText().toString().trim();
                 String contrasena = mContrasenaET.getText().toString().trim();
                 String nick = mNickEt.getText().toString().trim();
                 //Validacion
@@ -100,10 +104,19 @@ public class RegistroActivity extends AppCompatActivity {
                     //Alertamos del error
                     mNickEt.setError("Debe introducir un nombre más largo");
                     mNickEt.setFocusable(true);
-                }
 
+                }else if(lugar.length()<3) { //-- Si la ubicacion es mas corto que 3
+                    //Alertamos del error
+                    mLugar.setError("Debe introducir un lugar más largo");
+                    mLugar.setFocusable(true);
+
+                }else if(descripcion.length()<10) { //-- Si la descripción es mas corto que 10 caracteres
+                    //Alertamos del error
+                    mDescripcion.setError("Debe introducir una descripción de al menos 10 caracteres");
+                    mDescripcion.setFocusable(true);
+                }
                 else{
-                    registrarUsuario(email,contrasena,nick);
+                    registrarUsuario(email,contrasena,nick,lugar,descripcion);
                 }
             }
         });
@@ -120,7 +133,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     }
 
-    private void registrarUsuario(String email, final String contrasena, final String nick) {
+    private void registrarUsuario(String email, final String contrasena, final String nick, final String lugar, final String descripcion) {
         //-- Si el email y la contrasena es valida, mostramos la barra de progreso y el usuario se registra
 
         progressDialog.show();
@@ -144,6 +157,8 @@ public class RegistroActivity extends AppCompatActivity {
                             HashMap<Object, String> hashMap = new HashMap<>();
                             hashMap.put("email", email);
                             hashMap.put("name", nick);
+                            hashMap.put("lugar", lugar);
+                            hashMap.put("descripcion", descripcion);
                             hashMap.put("contraseña", contrasena);
                             hashMap.put("estado", "online");
                             hashMap.put("escribiendoA", "nadie");
