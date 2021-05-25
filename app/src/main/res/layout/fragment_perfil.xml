@@ -19,7 +19,7 @@
             <ImageView
                 android:id="@+id/portadaIv"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="185dp"
                 android:background="@drawable/fondo"
                 android:scaleType="fitXY"></ImageView>
 
@@ -28,7 +28,7 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="118dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -54,7 +54,7 @@
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/font_style_bold"
                         android:hint="Nombre"
-                        android:text="Nombre"
+
                         android:textSize="25sp" />
 
                     <TextView
@@ -64,8 +64,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginLeft="5dp"
                         android:fontFamily="@font/font_style_regular"
-                        android:hint="¿De donde eres?"
-                        android:text="¿De donde eres?"/>
+                        android:hint="¿De donde eres? " />
 
                     <TextView
                         android:id="@+id/descripcion"
@@ -74,18 +73,16 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginLeft="5dp"
                         android:fontFamily="@font/font_style_regular"
-                        android:hint="Pon aquí algo sobre ti "
-                        android:text="Pon aquí algo sobre ti"/>
+                        android:hint="Pon aquí algo sobre ti " />
                 </LinearLayout>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_posts"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="600dp"
                 android:layout_below="@+id/linearLayout"
-                android:layout_marginTop="57dp"
-                android:orientation="horizontal"/>
+                android:layout_marginTop="58dp" />
 
             <TextView
                 android:id="@+id/viajes"
@@ -93,12 +90,12 @@
                 android:layout_height="52dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="0dp"
-                android:layout_marginTop="215dp"
+                android:layout_marginTop="164dp"
                 android:layout_marginBottom="7dp"
                 android:background="@color/colorAccent"
                 android:fontFamily="@font/font_style_bold"
                 android:paddingTop="15dp"
-                android:text="MIS VIAJES"
+                android:text="Galeria"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="17dp" />
@@ -112,7 +109,9 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="395dp"
-                app:srcCompat="@drawable/editar"/>
+                app:srcCompat="@drawable/editar" />
         </RelativeLayout>
     </ScrollView>
+
+    <!--Creamos el un boton flotante para modificar-->
 </RelativeLayout>

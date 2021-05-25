@@ -19,7 +19,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.perfil.PerfilListaPublicacionActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,12 +42,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicacion.MyHolder> {
 
     Context context;
     List<ModeloPublicacion> publicacionLista;
 
     String miUid;
+    String idPost;
     String uid;
 
     private DatabaseReference likesRef;
@@ -67,9 +69,12 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        //-->>Inflador del layout lista publicaciones.
 
-        guardarLike("0");
+       // guardarLike("0");
+        Intent intent = new Intent(context, ComentariosActivity.class);
+        idPost = intent.getStringExtra("postId");
+
+        //-->>Inflador del layout lista publicaciones.
         View view = LayoutInflater.from(context).inflate(R.layout.filas_posts, viewGroup, false);
         return new MyHolder(view);
     }
@@ -88,6 +93,8 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         final String pImagen = publicacionLista.get(i).getpImagen();
         String pTimeStamp = publicacionLista.get(i).getpTime();
         String pLikes = publicacionLista.get(i).getpLikes();//Total de likes de un post.
+        String pComentarios = publicacionLista.get(i).getpComentarios();//Total comentarios de un post
+
 
         //Convertimos el tiempo a la fecha actual.
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
@@ -100,6 +107,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.pTituloTv.setText(pTitulo);
         myHolder.pDescripcionTv.setText(pDescripcion);
         myHolder.pLikesTv.setText(pLikes);
+        myHolder.pComentarios.setText(pComentarios + " Comentarios");
         setLikes(myHolder, pId);
 
 
@@ -114,8 +122,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         //Si no hay imagen, entonces ocualtar ImageView.
         if(pImagen.equals("noImagen")){
             //Ocultar ImageView
-            //myHolder.pImagenIv.setVisibility(View.GONE);
-
+            myHolder.pImagenIv.setVisibility(View.GONE);
         }else{
 
             //Mostrat ImageView
@@ -127,16 +134,6 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
             }
         }
-       if(!pImagen.equals("noImagen")){
-           //Mostrat ImageView
-           myHolder.pImagenIv.setVisibility(View.VISIBLE);
-
-           try{
-               Picasso.get().load(pImagen).into(myHolder.pImagenIv);
-           }catch (Exception e){
-
-           }
-       }
 
 
 
@@ -170,11 +167,11 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                             }else {
                                 //Añadimos un like.
                                 postsRef.child(postId).child("pLikes").setValue(""+(pLikes+1));
-                                likesRef.child(postId).child(miUid).setValue("Me gusta");
+                                likesRef.child(postId).child(miUid).setValue("Liked");
                                 mProcesoLikes = false;
                             }
+                            }
 
-                        }
                     }
 
                     @Override
@@ -188,7 +185,10 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         myHolder.comentarioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Comentario", Toast.LENGTH_SHORT).show();
+                //Iniciar el DetallePostActivity
+                Intent intent = new Intent(context, ComentariosActivity.class);
+                intent.putExtra("postId", pId); //-- para tener los detalles de los post
+                context.startActivity(intent);
             }
         });
 
@@ -239,8 +239,12 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
         if(uid.equals(miUid)){
             popupMenu.getMenu().add(Menu.NONE, 0, 0, "Borrar");
-            popupMenu.getMenu().add(Menu.NONE, 1, 0, "Editar");
+            //popupMenu.getMenu().add(Menu.NONE, 1, 0, "Editar");
         }
+
+
+        popupMenu.getMenu().add(Menu.NONE,1,0,"Vista Detalle");
+
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -254,13 +258,23 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
                 }else  if(id == 1){
                     //Si pulsa el boton se edita.
-                    Intent intent = new Intent(context, PublicacionFragment.class);
+                    /*Intent intent = new Intent(context, PublicacionFragment.class);
                     intent.putExtra("key", "EditarPost");
                     intent.putExtra("EditarPostId", pId);
                     context.startActivity(intent);
+                    */
 
+                    /*HomeFragment fragment3 = new HomeFragment();
+                    FragmentTransaction ft3 = context.getSupportFragmentManager().beginTransaction();
+                    ft3.replace(R.id.content, fragment3, "");
+                    ft3.commit();*/
 
+                    Intent intent = new Intent(context, ComentariosActivity.class);
+                    intent.putExtra("postId", pId); //-- para tener los detalles de los post
+                    context.startActivity(intent);
                 }
+
+
                 return false;
             }
         });
@@ -272,7 +286,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
         //El post puede ser con o sin imagen.
         if(pImagen.equals("noImage")){
-            //borrarSinImagen(pId);
+            borrarSinImagen(pId);
         }else{
             borrarConImagen(pId, pImagen);
         }
@@ -318,7 +332,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                 });
     }
 
-   /* private void borrarSinImagen(String pId) {
+    private void borrarSinImagen(String pId) {
 
         final ProgressDialog pd = new ProgressDialog(context);
         pd.setMessage("Borrando");
@@ -340,27 +354,17 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
             }
         });
-    }*/
+    }
 
     @Override
     public int getItemCount() {
         return publicacionLista.size();
     }
 
-    private void guardarLike(String guardar){
-
-        Query query = FirebaseDatabase.getInstance().getReference("Posts").child(uid).child("pLike");
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("pLike", guardar);
-
-        //Actualizar el estado del usuario
-        ((DatabaseReference) query).updateChildren(hashMap);
-    }
-
     class MyHolder extends RecyclerView.ViewHolder{
 
         ImageView uImagenIv, pImagenIv;
-        TextView uNameTv, pTimeTv, pTituloTv, pDescripcionTv, pLikesTv;
+        TextView uNameTv, pTimeTv, pTituloTv, pDescripcionTv, pLikesTv, pComentarios;
         ImageButton opcionesBtn;
         Button likeBtn, comentarioBtn, compartirBtn;
         LinearLayout perfilLayout;
@@ -380,6 +384,22 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             comentarioBtn = itemView.findViewById(R.id.comentarioBtn);
             //compartirBtn = itemView.findViewById(R.id.compartirBtn);
             perfilLayout = itemView.findViewById(R.id.perfilLayout);
+            pComentarios = itemView.findViewById(R.id.pComentarioTv);
+
+
+
         }
     }
+
+    /*private void guardarLike(String guardar){
+
+        Query query = FirebaseDatabase.getInstance().getReference("Posts").child(uid);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("pLike", guardar);
+
+        //Actualizar el estado del usuario
+        ((DatabaseReference) query).updateChildren(hashMap);
+    }*/
+
+
 }

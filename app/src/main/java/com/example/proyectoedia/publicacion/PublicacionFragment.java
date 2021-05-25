@@ -231,6 +231,7 @@ public class PublicacionFragment extends Fragment {
         hashMap.put("uName", name);
         hashMap.put("uEmail", email);
         hashMap.put("uDp", dp);
+        hashMap.put("pLikes","0");
         hashMap.put("pTitulo", titulo);
         hashMap.put("pDescripcion", descripcion);
         hashMap.put("pImagen", "noImage");

@@ -93,7 +93,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
         }
 
         //-->> onClick dialog para el borrado de un mensaje
-        holder.mensajeLayout.setOnClickListener(new View.OnClickListener() {
+        /*holder.mensajeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //-->> Alerta para confirmar el borrado
@@ -102,7 +102,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
                 builder.setMessage("¿Estás seguro de borrar este mensaje?");
 
                 //Botón 'borrar'
-                builder.setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+               /* builder.setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -123,7 +123,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
                 builder.create().show();
 
             }
-        });
+        })*/;
 
         //settear el estado del mensaje
 
@@ -140,7 +140,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
 
     }
 
-    private void eliminarMensaje(int posicion) {
+  /*  private void eliminarMensaje(int posicion) {
 
         final String myID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -180,7 +180,7 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.MyHolder> 
             }
         });
 
-    }
+    }*/
 
 
     @Override

@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class RegistroActivity extends AppCompatActivity {
 
     //Vistas
-    EditText mEmailEt, mContrasenaET;
+    EditText mEmailEt, mContrasenaET, mNickEt;
     Button mRegistroBtn;
     TextView mEstarRegistradoTv;
 
@@ -56,6 +56,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         //Inicializar el contenido
         mEmailEt = findViewById(R.id.emailEt);
+        mNickEt =findViewById(R.id.nikEt);
         mContrasenaET = findViewById(R.id.contrasenaEt);
         mRegistroBtn = findViewById(R.id.registro_btn);
         mEstarRegistradoTv = findViewById(R.id.estar_registradoTv);
@@ -79,7 +80,7 @@ public class RegistroActivity extends AppCompatActivity {
                 //Guardamos los datos en un String
                 String email = mEmailEt.getText().toString().trim();
                 String contrasena = mContrasenaET.getText().toString().trim();
-
+                String nick = mNickEt.getText().toString().trim();
                 //Validacion
 
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) { //-- Si el email no es igual
@@ -94,8 +95,15 @@ public class RegistroActivity extends AppCompatActivity {
                     mContrasenaET.setError("La contraseña es demasiado corta, debe contener al menos 6 caracteres");
                     mContrasenaET.setFocusable(true);
 
-                }else{
-                    registrarUsuario(email,contrasena);
+                }else if(nick.length()<3) { //-- Si el nick es mas corto que 3
+
+                    //Alertamos del error
+                    mNickEt.setError("Debe introducir un nombre más largo");
+                    mNickEt.setFocusable(true);
+                }
+
+                else{
+                    registrarUsuario(email,contrasena,nick);
                 }
             }
         });
@@ -112,7 +120,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     }
 
-    private void registrarUsuario(String email, final String contrasena) {
+    private void registrarUsuario(String email, final String contrasena, final String nick) {
         //-- Si el email y la contrasena es valida, mostramos la barra de progreso y el usuario se registra
 
         progressDialog.show();
@@ -131,10 +139,11 @@ public class RegistroActivity extends AppCompatActivity {
                             String email = user.getEmail();
                             String uid = user.getUid();
 
+
                             //Guardar también los datos en la base de datos a tiempo real.
                             HashMap<Object, String> hashMap = new HashMap<>();
                             hashMap.put("email", email);
-                            hashMap.put("name", "");
+                            hashMap.put("name", nick);
                             hashMap.put("contraseña", contrasena);
                             hashMap.put("estado", "online");
                             hashMap.put("escribiendoA", "nadie");
