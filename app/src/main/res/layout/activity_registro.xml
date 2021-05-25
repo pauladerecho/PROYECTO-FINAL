@@ -12,13 +12,14 @@
 
     <TextView
         android:id="@+id/textView2"
+
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="42dp"
         android:text="¡Registrate!"
         android:textAlignment="center"
-        android:textColor="#323232"
+        android:textColor="#326994"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -64,32 +65,47 @@
                 android:hint="Contraseña"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
-            <!--TextView: BOTON REGISTRO -->
+    <!--TextView: NICK -->
 
     <!--TextView: BOTON REGISTRO -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nikTIL"
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/emailTIL"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="60dp"><!--el ojito de la contraseña-->
+
+        <EditText
+            android:id="@+id/nikEt"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:hint="Nick "
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/registro_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/loginButton"
         android:layout_width="161dp"
         android:layout_height="59dp"
-        android:layout_below="@id/contrasenaTIL"
+        android:layout_below="@id/nikTIL"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        android:drawableLeft="@drawable/account"
+        android:layout_marginTop="22dp"
         android:drawablePadding="5dp"
         android:text="Registrarse" />
 
     <TextView
-            android:id="@+id/estar_registradoTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="¿Ya estás registrado? "
-            android:textAlignment="center"
-            android:gravity="center_horizontal"
-            android:layout_below="@id/registro_btn"
-            android:layout_marginTop="30dp"
-            />
+        android:id="@+id/estar_registradoTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/registro_btn"
+        android:layout_marginTop="21dp"
+        android:gravity="center_horizontal"
+        android:text="¿Ya estás registrado? "
+        android:textAlignment="center" />
 
 </RelativeLayout>

@@ -183,10 +183,10 @@ public class ChatActivity extends AppCompatActivity {
                     try{
                         //La imagen que llega la ponemos en el imageview
 
-                        Picasso.get().load(imagenU2).placeholder(R.drawable.icon_default).into(perfilIv);
+                        Picasso.get().load(imagenU2).placeholder(R.drawable.icon_person).into(perfilIv);
 
                     }catch(Exception e){ //--> La excepcion pone la foto por defecto si no tiene
-                        get().load(R.drawable.icon_default).into(perfilIv);
+                        get().load(R.drawable.icon_person).into(perfilIv);
                     }
                 }
             }

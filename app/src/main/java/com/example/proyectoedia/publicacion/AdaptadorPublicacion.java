@@ -17,12 +17,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
-import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.perfil.PerfilListaPublicacionActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,8 +38,11 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicacion.MyHolder> {
 
@@ -50,6 +50,8 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     List<ModeloPublicacion> publicacionLista;
 
     String miUid;
+    String idPost;
+    String uid;
 
     private DatabaseReference likesRef;
     private DatabaseReference postsRef;
@@ -67,8 +69,12 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        //-->>Inflador del layout lista publicaciones.
 
+       // guardarLike("0");
+        Intent intent = new Intent(context, ComentariosActivity.class);
+        idPost = intent.getStringExtra("postId");
+
+        //-->>Inflador del layout lista publicaciones.
         View view = LayoutInflater.from(context).inflate(R.layout.filas_posts, viewGroup, false);
         return new MyHolder(view);
     }
@@ -77,7 +83,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
 
         //Traemos los datos.
-        final String uid = publicacionLista.get(i).getUid();
+        uid = publicacionLista.get(i).getUid();
         String uEmail = publicacionLista.get(i).getuEmail();
         String uName = publicacionLista.get(i).getuName();
         String uDp = publicacionLista.get(i).getuDp();
@@ -180,7 +186,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             @Override
             public void onClick(View v) {
                 //Iniciar el DetallePostActivity
-                Intent intent = new Intent(context,DetallePostActivity.class);
+                Intent intent = new Intent(context, ComentariosActivity.class);
                 intent.putExtra("postId", pId); //-- para tener los detalles de los post
                 context.startActivity(intent);
             }
@@ -263,7 +269,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                     ft3.replace(R.id.content, fragment3, "");
                     ft3.commit();*/
 
-                    Intent intent = new Intent(context,DetallePostActivity.class);
+                    Intent intent = new Intent(context, ComentariosActivity.class);
                     intent.putExtra("postId", pId); //-- para tener los detalles de los post
                     context.startActivity(intent);
                 }
@@ -384,4 +390,16 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
         }
     }
+
+    /*private void guardarLike(String guardar){
+
+        Query query = FirebaseDatabase.getInstance().getReference("Posts").child(uid);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("pLike", guardar);
+
+        //Actualizar el estado del usuario
+        ((DatabaseReference) query).updateChildren(hashMap);
+    }*/
+
+
 }

@@ -97,7 +97,7 @@ public class PerfilFragment extends Fragment {
     String foto_perfil_o_portada;
 
     public PerfilFragment() {
-        // Required empty public constructor
+
     }
 
 

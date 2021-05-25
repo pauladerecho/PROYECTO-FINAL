@@ -95,7 +95,7 @@
                 android:background="@color/colorAccent"
                 android:fontFamily="@font/font_style_bold"
                 android:paddingTop="15dp"
-                android:text="MIS VIAJES"
+                android:text="Galeria"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="17dp" />

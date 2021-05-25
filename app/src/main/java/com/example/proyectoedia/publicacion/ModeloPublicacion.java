@@ -2,7 +2,7 @@ package com.example.proyectoedia.publicacion;
 
 public class ModeloPublicacion {
 
-    String pId, pTitulo, pDescripcion, pLikes, pComentarios, pImagen, pTime, uid, uEmail, uDp, uName, Comentarios;
+    String pId, pTitulo, pDescripcion, pLikes, pComentarios, pImagen, pTime, uid, uEmail, uDp, uName;
 
     public ModeloPublicacion() {
     }

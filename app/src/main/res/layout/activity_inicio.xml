@@ -21,12 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="bottom|center"
-            android:background="@color/colorAccent"
             android:outlineAmbientShadowColor="@color/colorPrimary"
             app:itemIconSize="30sp"
             app:itemIconTint="@color/seleccionado"
+            android:background="@android:color/background_light"
             app:itemTextColor="#FFF"
-            app:labelVisibilityMode="unlabeled"
             app:menu="@menu/menu_nav"></com.google.android.material.bottomnavigation.BottomNavigationView>
     </FrameLayout>
 

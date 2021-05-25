@@ -193,7 +193,8 @@ public class HomeFragment extends Fragment {
 
         int id = item.getItemId();
 
-        if(id==R.id.action_logout){
+        if(id==R.id.action_logout){//el usuario que NO está dentro de la app
+            startActivity(new Intent(getActivity(),MainActivity.class));
             firebaseAuth.signOut();
             verificarUsuarios();
         }
