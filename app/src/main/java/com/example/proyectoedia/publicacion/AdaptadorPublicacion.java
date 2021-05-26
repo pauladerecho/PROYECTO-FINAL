@@ -38,11 +38,8 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
-import static androidx.core.content.ContextCompat.startActivity;
 
 public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicacion.MyHolder> {
 
@@ -75,7 +72,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
         idPost = intent.getStringExtra("postId");
 
         //-->>Inflador del layout lista publicaciones.
-        View view = LayoutInflater.from(context).inflate(R.layout.filas_posts, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.lista_posts, viewGroup, false);
         return new MyHolder(view);
     }
 

@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -34,7 +33,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -97,10 +95,10 @@ public class PublicacionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_publicacion, container, false);
 
-       // actionBar = getSupportActionBar();
-       // actionBar.setTitle("Nueva publicacion");
-       // actionBar.setDisplayShowHomeEnabled(true);
-       // actionBar.setDisplayHomeAsUpEnabled(true);
+        // actionBar = getSupportActionBar();
+        // actionBar.setTitle("Nueva publicacion");
+        // actionBar.setDisplayShowHomeEnabled(true);
+        // actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Permisos.
         permisosCamara = new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -131,7 +129,7 @@ public class PublicacionFragment extends Fragment {
             publicarBtn.setText("Publicar");
         }
 
-       // actionBar.setSubtitle(email);
+        // actionBar.setSubtitle(email);
 
         //obtener información del usuario actual para incluirla en el post
         userDbReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -141,6 +139,7 @@ public class PublicacionFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot ds: snapshot.getChildren()){
+
                     name = "" + ds.child("name").getValue();
                     email = "" + ds.child("email").getValue();
                     dp = "" +ds.child("imagen").getValue();
@@ -168,40 +167,29 @@ public class PublicacionFragment extends Fragment {
             public void onClick(View v) {
                 String titulo = tituloEt.getText().toString().trim();
                 String descripcion = descripcionEt.getText().toString().trim();
-                Drawable imagen = imagenIv.getDrawable();
 
                 if(TextUtils.isEmpty(titulo)){
-                    Toast.makeText(getActivity(), "Ponga una ubicación", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Ponga un título", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(TextUtils.isEmpty(descripcion)){
-                    Toast.makeText(getActivity(), "Ponga una descripción del viaje", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if(TextUtils.isEmpty((CharSequence)imagen)){
-                    Toast.makeText(getActivity(), "Ponga una foto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Ponga una descripción", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(claveActualizacion.equals("EditarPost")){
                     comenzarActualizar(titulo, descripcion, editarPostId);
                 }else{
-                    cargarDatos(titulo, descripcion, imagen);
+                    cargarDatos(titulo, descripcion);
                 }
 
-                /*if(image_rui != null){
-                    cargarDatos(titulo, descripcion, imagen);
-                }*/
 
-                if(image_rui == null){
-
-                   // cargarDatos(titulo, descripcion, "noImagen");
-
+               /* if(image_rui == null){
+                    cargarDatos(titulo, descripcion, "noImagen");
                 }else{
-                    cargarDatos(titulo, descripcion, imagen);
-                }
+                    cargarDatos(titulo, descripcion, String.valueOf(image_rui));
+                }*/
 
             }
         });
@@ -338,7 +326,7 @@ public class PublicacionFragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    //Obtenemos la url de la imagen.
+                                        //Obtenemos la url de la imagen.
                                         Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                                         while (!uriTask.isSuccessful());
 
@@ -407,7 +395,6 @@ public class PublicacionFragment extends Fragment {
 
                     tituloEt.setText(editTitulo);
                     descripcionEt.setText(editDescripcion);
-                    imagenIv.setImageURI(Uri.parse(editImagen));
 
                     if(!editImagen.equals("noImagen")){
                         try {
@@ -426,7 +413,7 @@ public class PublicacionFragment extends Fragment {
         });
     }
 
-    private void cargarDatos(final String titulo, final String descripcion, final Drawable imagen) {
+    private void cargarDatos(final String titulo, final String descripcion) {
 
         progressDialog.setMessage("Publicando post..");
         progressDialog.show();
@@ -439,7 +426,7 @@ public class PublicacionFragment extends Fragment {
             Bitmap bitmap = ((BitmapDrawable)imagenIv.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             //Imagen comprimida.
-            bitmap.compress(Bitmap.CompressFormat.PNG, 200, baos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] data = baos.toByteArray();
 
             StorageReference ref = FirebaseStorage.getInstance().getReference().child(rutaYNombreArchivo);
@@ -464,7 +451,6 @@ public class PublicacionFragment extends Fragment {
                                 hashMap.put("pTitulo", titulo);
                                 hashMap.put("pDescripcion", descripcion);
                                 hashMap.put("pImagen", descargarUri);
-                                //hashMap.put("pImagen", imagen);
                                 hashMap.put("pTime", timeStamp);
 
                                 //ruta para almacenar los datos.
@@ -473,6 +459,7 @@ public class PublicacionFragment extends Fragment {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
+
                                                 progressDialog.dismiss();
                                                 Toast.makeText(getActivity(), "Post publicado", Toast.LENGTH_SHORT).show();
                                                 //Reseteamos la vista.
@@ -480,6 +467,7 @@ public class PublicacionFragment extends Fragment {
                                                 descripcionEt.setText("");
                                                 imagenIv.setImageURI(null);
                                                 image_rui = null;
+
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -640,23 +628,22 @@ public class PublicacionFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         if(user != null){
+
             email = user.getEmail();
             uid = user.getUid();
 
         }else{
-            startActivity(new Intent(getActivity(), MainActivity.class));
-            getActivity().finish();
+            //startActivity(new Intent(PublicacionFragment.class, MainActivity.class));
         }
     }
 
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        // getMenuInflater().inflate(R.menu.menu_main, menu);
 
         menu.findItem(R.id.nav_publicacion).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
-        menu.findItem(R.id.boton_flotante_chat_List).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -723,5 +710,4 @@ public class PublicacionFragment extends Fragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 }

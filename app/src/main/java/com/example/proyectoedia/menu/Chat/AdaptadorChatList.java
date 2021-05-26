@@ -35,7 +35,7 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.My
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.filas_chat_list, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.lista_chat_list, viewGroup, false);
         return new MyHolder(view);
     }
 
@@ -44,8 +44,8 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.My
 
         final String idUsuario2 = usuariosList.get(i).getUid();
         String usuarioImagen = usuariosList.get(i).getImagen();
-        //String nombreUsuario = usuariosList.get(i).getName();
-        String nombreUsuario = usuariosList.get(i).getNombre();
+        String nombreUsuario = usuariosList.get(i).getName();
+        //String nombreUsuario = usuariosList.get(i).getNombre();
         String ultimoMensaje = ultimoMensajeMap.get(idUsuario2);
 
         myHolder.nombreTv.setText(nombreUsuario);
@@ -76,7 +76,7 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.My
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChatActivity.class);
-                intent.putExtra("uid", idUsuario2);
+                intent.putExtra("idUsuario", idUsuario2);
                 context.startActivity(intent);
             }
         });
