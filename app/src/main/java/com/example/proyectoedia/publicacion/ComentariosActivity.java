@@ -106,7 +106,6 @@ public class ComentariosActivity extends AppCompatActivity {
         cargarInfoPost();
         estadoUsuario();
         cargaInfoUsuario();
-        setLikes();
 
         actionBar.setSubtitle("Comenta qué te ha parecido el post!");
 
@@ -117,13 +116,6 @@ public class ComentariosActivity extends AppCompatActivity {
             }
         });
 
-        likeBoton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(ComentariosActivity.this, "AQUÍ SOLO PUEDES COMENTAR!", Toast.LENGTH_SHORT).show();
-                likePost();
-            }
-        });
 
         botonMas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,7 +232,7 @@ public class ComentariosActivity extends AppCompatActivity {
     }
 
 
-    private void setLikes() {
+  /*  private void setLikes() {
 
 
         final DatabaseReference likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
@@ -264,9 +256,9 @@ public class ComentariosActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }/*
 
-    private void likePost() {
+    /*private void likePost() {
 
         mProcesoLikes = true;
         final DatabaseReference likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
@@ -303,7 +295,7 @@ public class ComentariosActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
     private void comentarioPost() {
 
@@ -441,7 +433,6 @@ public class ComentariosActivity extends AppCompatActivity {
 
                     pTituloTv.setText(pTitulo);
                     pDescripcionTv.setText(pDescripcion);
-                    pLikesTv.setText(pLikes);
                     pTiempov.setText(pTiempo);
                     pComentariosTv.setText(contadorComentario + " Comentarios");
 
@@ -505,7 +496,7 @@ public class ComentariosActivity extends AppCompatActivity {
         ref.updateChildren(hashMap);
     }
 
-    private void guardarLike(String guardar){
+    /*private void guardarLike(String guardar){
         pLikes = "0";
         final DatabaseReference ref  = FirebaseDatabase.getInstance().getReference("Posts").child(pLikes);
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -513,33 +504,19 @@ public class ComentariosActivity extends AppCompatActivity {
 
         //Actualizar el estado del usuario
         ref.updateChildren(hashMap);
-    }
+    }*/
 
     @Override
     protected void onStart() {
         estadoUsuario();
-        guardarComentario("0");
-      /*  if (pLikes != null) {
-            likePost();
-
-        }else{
-            guardarLike("0");
-        }*/
 
         super.onStart();
     }
 
     @Override
     protected void onResume() {
-        guardarComentario("0");
+
         estadoUsuario();
-
-        /*if (pLikes != null) {
-            likePost();
-        }else{
-
-            guardarLike("0");
-        }*/
         super.onResume();
     }
 

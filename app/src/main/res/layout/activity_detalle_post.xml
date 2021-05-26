@@ -9,12 +9,14 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/fondo_log2">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="70dp"
+
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -111,30 +113,8 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/likeBtn"
-                            android:layout_width="72dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            android:background="@color/colorWhite"
-                            android:drawableStart="@drawable/like"
-                            android:drawableLeft="@drawable/like"
-                            android:drawablePadding="0dp"
-                            android:fontFamily="sans-serif-light"
-                            android:paddingLeft="10dp"
-                            android:text=""
-                            android:textColor="@color/colorPrimaryDark" />
-
-                        <TextView
-                            android:id="@+id/pLikesTv"
-                            android:layout_width="30dp"
-                            android:layout_height="35dp"
-                            android:layout_weight="0"
-                            android:background="@color/colorWhite"
-                            android:textColor="@color/colorPrimary" />
-
-                        <Button
                             android:id="@+id/comment"
-                            android:layout_width="wrap_content"
+                            android:layout_width="99dp"
                             android:layout_height="match_parent"
                             android:layout_weight="3"
                             android:background="@color/colorWhite"
@@ -148,8 +128,8 @@
 
                         <TextView
                             android:id="@+id/pComentarioTv"
-                            android:layout_width="138dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="211dp"
+                            android:layout_height="29dp"
                             android:text="1.2k comentarios"
                             android:textColor="@color/colorPrimary" />
 

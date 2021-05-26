@@ -446,7 +446,9 @@ public class PublicacionFragment extends Fragment {
                                 hashMap.put("uid", uid);
                                 hashMap.put("uName", name);
                                 hashMap.put("uEmail", email);
+                                hashMap.put("pLikes","0");
                                 hashMap.put("uDp", dp);
+                                hashMap.put("pComentarios","0");
                                 hashMap.put("pId", timeStamp);
                                 hashMap.put("pTitulo", titulo);
                                 hashMap.put("pDescripcion", descripcion);

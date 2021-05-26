@@ -19,11 +19,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginLeft="334dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="70dp"
             app:backgroundTint="#FFFFFF"
-            app:srcCompat="@mipmap/ic_lista_chat" />
+            app:srcCompat="@drawable/icon_enviar" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
 

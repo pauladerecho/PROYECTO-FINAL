@@ -1,60 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="20dp"
     android:id="@+id/cardView"
-    app:cardUseCompatPadding="true"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:outlineSpotShadowColor="@color/colorBabyBlue"
     app:cardBackgroundColor="@color/cardview_shadow_end_color"
-    android:outlineSpotShadowColor="@color/colorAccent"
-    >
-   <!-- <TextView
-        android:id="@+id/textView3"
-        android:layout_width="318dp"
-        android:layout_height="68dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/font_style_bold"
-        android:text="Hello,"
-        android:textColor="@color/colorAccent"
-        android:textSize="30dp" />
+    app:cardCornerRadius="20dp"
+    app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="235dp"
-        android:layout_height="82dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="60dp"
-        android:fontFamily="@font/font_style_bold"
-        android:text="what are you loking for?"
-        android:textColor="@color/colorMediumBlack"
-        android:textSize="30dp" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="172dp"
-        android:layout_height="47dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/font_style_bold"
-        android:hint="nombre usuario"
-        android:textSize="20dp" /> -->
 
     <LinearLayout
         android:id="@+id/postL"
         style="@style/gradientPink"
-        android:layout_width="262dp"
-        android:layout_height="364dp"
+        android:layout_width="231dp"
+        android:layout_height="316dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="150dp"
         android:orientation="vertical">
 
 
         <LinearLayout
             android:id="@+id/perfilLayout"
-            android:layout_width="244dp"
+            android:layout_width="219dp"
             android:layout_height="42dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
@@ -91,8 +61,8 @@
 
             <ImageButton
                 android:id="@+id/opcionesBtn"
-                android:layout_width="57dp"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
                 android:background="@null"
                 android:src="@drawable/opciones" />
 
@@ -113,22 +83,24 @@
         <ImageView
             android:id="@+id/pImagenIv"
             style="@style/circleButton"
-            android:layout_width="220dp"
-            android:layout_height="179dp"
+            android:layout_width="200dp"
+            android:layout_height="136dp"
             android:layout_marginLeft="18dp"
+
             android:layout_marginBottom="10dp" />
 
         <LinearLayout
-            android:layout_width="241dp"
-            android:layout_height="31dp"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/likeBtn"
                 style="@style/gradientPink"
-                android:layout_width="25dp"
+                android:layout_width="48dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="3"
                 android:drawableStart="@drawable/like"
                 android:drawableLeft="@drawable/like"
@@ -142,7 +114,7 @@
             <TextView
                 android:id="@+id/pLikesTv"
                 style="gradientPink"
-                android:layout_width="30dp"
+                android:layout_width="24dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:textAlignment="center"
@@ -152,15 +124,15 @@
             <Button
                 android:id="@+id/comentarioBtn"
                 style="@style/gradientPink"
-                android:layout_width="38dp"
+                android:layout_width="34dp"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/comentario"
                 android:drawableLeft="@drawable/comentario" />
 
             <TextView
                 android:id="@+id/pComentarioTv"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:layout_height="37dp"
                 android:paddingTop="10dp"
 
                 android:textAlignment="center"
@@ -183,7 +155,7 @@
         <TextView
             android:id="@+id/pDescripcionTv"
             android:layout_width="match_parent"
-            android:layout_height="26dp"
+            android:layout_height="21dp"
             android:layout_marginTop="10dp"
             android:autoLink="all"
             android:fontFamily="@font/font_style_regular"
@@ -193,8 +165,8 @@
 
         <TextView
             android:id="@+id/pTiempoTv"
-            android:layout_width="106dp"
-            android:layout_height="27dp"
+            android:layout_width="113dp"
+            android:layout_height="21dp"
             android:fontFamily="@font/font_style_regular"
             android:paddingLeft="10dp"
             android:text="33 min" />

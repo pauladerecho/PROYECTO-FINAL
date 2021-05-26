@@ -147,7 +147,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             public void onClick(View v) {
                // Toast.makeText(context, "Like", Toast.LENGTH_SHORT).show();
 
-                final String[] pLikes = {publicacionLista.get(i).getpLikes()};
+                final int pLikes = Integer.parseInt(publicacionLista.get(i).getpLikes());
                 mProcesoLikes = true;
 
                 final String postId = publicacionLista.get(i).getpId();
@@ -160,13 +160,12 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                             //Quitamos el like, que ya estaba.
                             if(dataSnapshot.child(postId).hasChild(miUid)){
 
-                                postsRef.child(postId).child("pLikes").setValue(""+(Integer.parseInt(pLikes[0])-1));
+                                postsRef.child(postId).child("pLikes").setValue(""+(pLikes -1));
                                 likesRef.child(postId).child(miUid).removeValue();
                                 mProcesoLikes = false;
                             }else {
-                                pLikes[0] = "0"; //-- aqui es donde peta
                                 //Añadimos un like.
-                                postsRef.child(postId).child("pLikes").setValue(""+(Integer.parseInt(pLikes[0])+1));
+                                postsRef.child(postId).child("pLikes").setValue(""+(pLikes+1));
                                 likesRef.child(postId).child(miUid).setValue("Liked");
                                 mProcesoLikes = false;
                             }
