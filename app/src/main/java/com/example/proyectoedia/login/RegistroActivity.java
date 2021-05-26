@@ -152,7 +152,6 @@ public class RegistroActivity extends AppCompatActivity {
                             String email = user.getEmail();
                             String uid = user.getUid();
 
-
                             //Guardar también los datos en la base de datos a tiempo real.
                             HashMap<Object, String> hashMap = new HashMap<>();
                             hashMap.put("email", email);
@@ -170,13 +169,13 @@ public class RegistroActivity extends AppCompatActivity {
                             DatabaseReference reference = database.getReference("Users");
                             reference.child(uid).setValue(hashMap);
 
-                            Toast.makeText(RegistroActivity.this, "Registrado.../n"+user.getEmail(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistroActivity.this, "Registrado: "+user.getEmail(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegistroActivity.this, InicioActivity.class));
                             finish();
 
                         } else {
                             progressDialog.dismiss();
-                            Toast.makeText(RegistroActivity.this, "La autentificación ha falladp.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistroActivity.this, "La autentificación ha fallado.", Toast.LENGTH_SHORT).show();
                         }
 
                     }

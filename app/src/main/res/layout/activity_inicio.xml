@@ -27,6 +27,18 @@
             android:background="@android:color/background_light"
             app:itemTextColor="#FFF"
             app:menu="@menu/menu_nav"></com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+
+       <!--<com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:id="@+id/uImagenIv"
+            android:layout_width="46dp"
+            android:layout_height="41dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="350dp"
+            app:c_border_color="#8DBBDE"
+            app:srcCompat="@drawable/icon_person" />-->
     </FrameLayout>
 
 </LinearLayout>

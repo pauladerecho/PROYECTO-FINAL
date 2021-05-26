@@ -45,8 +45,8 @@ import java.util.Locale;
 public class ComentariosActivity extends AppCompatActivity {
 
     //Para los detalles de usuario y del post:
-    String  suUid, miUid, miNombre, miDp, postId,pLikes, suDp,suNombre, pImagen, idComentario;
-
+    String  suUid, miUid, miNombre, miDp, postId, suDp,suNombre, pImagen, idComentario;
+    String pLikes = "0";
 
     boolean mComentarioEnProcesso = false;
     boolean mProcesoLikes = false;
@@ -75,7 +75,7 @@ public class ComentariosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detalle_post);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Detalle Post");
+        actionBar.setTitle("COMENTARIOS");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -108,7 +108,7 @@ public class ComentariosActivity extends AppCompatActivity {
         cargaInfoUsuario();
         setLikes();
 
-        actionBar.setSubtitle("Registrado como: " +miNombre);
+        actionBar.setSubtitle("Comenta qué te ha parecido el post!");
 
         enviarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +120,7 @@ public class ComentariosActivity extends AppCompatActivity {
         likeBoton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Toast.makeText(ComentariosActivity.this, "AQUÍ SOLO PUEDES COMENTAR!", Toast.LENGTH_SHORT).show();
                 likePost();
             }
         });
@@ -284,6 +285,7 @@ public class ComentariosActivity extends AppCompatActivity {
 
                     }else {
                         //Añadimos un like.
+                        pLikes = "0";
                         postsRef.child(postId).child("pLikes").setValue(""+(Integer.parseInt(pLikes)+1));
                         likesRef.child(postId).child(miUid).setValue("Liked");
 
@@ -502,16 +504,42 @@ public class ComentariosActivity extends AppCompatActivity {
         //Actualizar el estado del usuario
         ref.updateChildren(hashMap);
     }
+
+    private void guardarLike(String guardar){
+        pLikes = "0";
+        final DatabaseReference ref  = FirebaseDatabase.getInstance().getReference("Posts").child(pLikes);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("pLikes", guardar);
+
+        //Actualizar el estado del usuario
+        ref.updateChildren(hashMap);
+    }
+
     @Override
     protected void onStart() {
         estadoUsuario();
         guardarComentario("0");
+      /*  if (pLikes != null) {
+            likePost();
+
+        }else{
+            guardarLike("0");
+        }*/
+
         super.onStart();
     }
 
     @Override
     protected void onResume() {
         guardarComentario("0");
+        estadoUsuario();
+
+        /*if (pLikes != null) {
+            likePost();
+        }else{
+
+            guardarLike("0");
+        }*/
         super.onResume();
     }
 

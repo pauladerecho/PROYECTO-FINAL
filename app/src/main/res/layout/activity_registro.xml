@@ -8,8 +8,6 @@
     tools:context=".login.RegistroActivity"
     android:background="@drawable/fondo_log1"
  >
-
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="170dp"

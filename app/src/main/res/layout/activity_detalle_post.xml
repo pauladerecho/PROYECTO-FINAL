@@ -13,17 +13,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="70dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="280dp"
                 android:layout_height="400dp"
+                style="@style/gradientPink"
                 app:cardCornerRadius="20dp"
                 android:id="@+id/cardView"
                 android:layout_margin="10dp"
                 app:cardUseCompatPadding="true"
-                android:background="@color/colorWhite"
-                android:backgroundTint="@color/colorWhite"
+
                 app:cardBackgroundColor="@color/cardview_shadow_end_color"
                 android:outlineSpotShadowColor="@color/colorAccent"
                 >
@@ -110,7 +112,7 @@
 
                         <Button
                             android:id="@+id/likeBtn"
-                            android:layout_width="61dp"
+                            android:layout_width="72dp"
                             android:layout_height="match_parent"
                             android:layout_weight="3"
                             android:background="@color/colorWhite"
@@ -124,15 +126,29 @@
 
                         <TextView
                             android:id="@+id/pLikesTv"
-                            android:layout_width="22dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="35dp"
                             android:layout_weight="0"
                             android:background="@color/colorWhite"
                             android:textColor="@color/colorPrimary" />
 
+                        <Button
+                            android:id="@+id/comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:background="@color/colorWhite"
+                            android:drawableStart="@drawable/comentario"
+                            android:drawableLeft="@drawable/comentario"
+                            android:drawablePadding="0dp"
+                            android:fontFamily="sans-serif-light"
+                            android:paddingLeft="10dp"
+                            android:text=""
+                            android:textColor="@color/colorPrimaryDark" />
+
                         <TextView
                             android:id="@+id/pComentarioTv"
-                            android:layout_width="wrap_content"
+                            android:layout_width="138dp"
                             android:layout_height="wrap_content"
                             android:text="1.2k comentarios"
                             android:textColor="@color/colorPrimary" />
@@ -179,7 +195,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp">
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
