@@ -83,7 +83,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
                         if(which == 0){
                             //Click sobre perfil.
                             Intent intent = new Intent(context, PerfilListaPublicacionActivity.class);
-                            intent.putExtra("idUsuario", idUsuario);
+                            intent.putExtra("uid", idUsuario);
                             context.startActivity(intent);
                         }
                         if(which == 1){

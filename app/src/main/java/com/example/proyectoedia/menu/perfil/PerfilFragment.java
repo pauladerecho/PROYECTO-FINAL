@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,6 +42,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -103,8 +106,6 @@ public class PerfilFragment extends Fragment {
 
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -127,6 +128,7 @@ public class PerfilFragment extends Fragment {
         lugarTv = view.findViewById(R.id.lugar);
         boton_flotante = view.findViewById(R.id.boton_flotante);
         postsRecyclerView = view.findViewById(R.id.recyclerView_posts);
+
 
         pd = new ProgressDialog(getActivity());
 
@@ -305,7 +307,7 @@ public class PerfilFragment extends Fragment {
     private void mostrarOpcionesEditarUsuario() {
 
         //Diferentes opciones.
-        String opciones[] = {"Editar imagen", "Editar portada", "Editar nombre", "Editar descripcion", "Editar Ubicación"};
+        String opciones[] = {"Editar imagen", "Editar portada", "Editar nombre", "Editar descripcion", "Editar Ubicación", "Cambiar Contraseña"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -337,17 +339,92 @@ public class PerfilFragment extends Fragment {
                     pd.setMessage("Actualizando la descripción");
                     mostrarActualizacionDeOpciones("descripcion");
 
-                }
-                else if (which == 4){
+                }else if (which == 4){
                     //Modificar la ubicacion
                     pd.setMessage("Actualizando la ubicación");
                     mostrarActualizacionDeOpciones("ubicacioón");
 
+                }else if (which == 5){
+                    //Modificar la contraseña
+                    pd.setMessage("Cambiando Contraseña");
+                    mostrarActualizacionDeContrasena();
                 }
             }
         });
 
         builder.create().show();
+    }
+
+    private void mostrarActualizacionDeContrasena() {
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.opciones_cambiar_contrasena, null);
+
+        final EditText editTextContrasenaActual = view.findViewById(R.id.editTextContrasenaActual);
+        final EditText editTextContrasenaNueva = view.findViewById(R.id.editTextContrasenaNueva);
+        Button botonCambiarContrasena = view.findViewById(R.id.cambiarContrasena);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        botonCambiarContrasena.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String contrasenaAntigua = editTextContrasenaActual.getText().toString().trim();
+                String contrasenaNueva = editTextContrasenaNueva.getText().toString().trim();
+
+                if(TextUtils.isEmpty(contrasenaAntigua)){
+                    Toast.makeText(getActivity(), "Introduzca la contraseña actual", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(contrasenaNueva.length() < 6){
+                    Toast.makeText(getActivity(), "La contraseña debe tener almenos 6 caracteres", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                dialog.dismiss();
+                actualizarContrasena(contrasenaAntigua, contrasenaNueva);
+            }
+        });
+    }
+
+    private void actualizarContrasena(String contrasenaAntigua, final String contrasenaNueva) {
+        pd.show();
+
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        AuthCredential authCredential = EmailAuthProvider.getCredential(user.getEmail(), contrasenaAntigua);
+        user.reauthenticate(authCredential)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        user.updatePassword(contrasenaNueva)
+                               .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                   @Override
+                                   public void onSuccess(Void aVoid) {
+                                       pd.dismiss();
+                                       Toast.makeText(getActivity(), "Contraseña actualizada", Toast.LENGTH_SHORT).show();
+                                   }
+                               })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        pd.dismiss();
+                                        Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void mostrarActualizacionDeOpciones(final String key) {

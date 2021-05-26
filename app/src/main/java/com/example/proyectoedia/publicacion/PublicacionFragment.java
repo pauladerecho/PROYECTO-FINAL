@@ -95,10 +95,10 @@ public class PublicacionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_publicacion, container, false);
 
-       // actionBar = getSupportActionBar();
-       // actionBar.setTitle("Nueva publicacion");
-       // actionBar.setDisplayShowHomeEnabled(true);
-       // actionBar.setDisplayHomeAsUpEnabled(true);
+        // actionBar = getSupportActionBar();
+        // actionBar.setTitle("Nueva publicacion");
+        // actionBar.setDisplayShowHomeEnabled(true);
+        // actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Permisos.
         permisosCamara = new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -129,7 +129,7 @@ public class PublicacionFragment extends Fragment {
             publicarBtn.setText("Publicar");
         }
 
-       // actionBar.setSubtitle(email);
+        // actionBar.setSubtitle(email);
 
         //obtener información del usuario actual para incluirla en el post
         userDbReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -186,9 +186,7 @@ public class PublicacionFragment extends Fragment {
 
 
                /* if(image_rui == null){
-
                     cargarDatos(titulo, descripcion, "noImagen");
-
                 }else{
                     cargarDatos(titulo, descripcion, String.valueOf(image_rui));
                 }*/
@@ -328,7 +326,7 @@ public class PublicacionFragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    //Obtenemos la url de la imagen.
+                                        //Obtenemos la url de la imagen.
                                         Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                                         while (!uriTask.isSuccessful());
 

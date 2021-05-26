@@ -16,7 +16,7 @@ import android.widget.PopupMenu;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
-import com.example.proyectoedia.menu.Chat.ListaChatFragment;
+import com.example.proyectoedia.menu.Chat.Chat_List_Activity;
 import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.NotificacionesFragment;
 import com.example.proyectoedia.publicacion.PublicacionFragment;
@@ -36,7 +36,7 @@ public class InicioActivity extends AppCompatActivity {
     ActionBar actionBar;
     BottomNavigationView navigationView;
 
-    FloatingActionButton boton_flotante_Chat;
+    FloatingActionButton boton_flotante_Chat_List;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,16 @@ public class InicioActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navegacion);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
+        boton_flotante_Chat_List = findViewById(R.id.boton_flotante_chat_List);
 
+        //Boton chat List.
+        boton_flotante_Chat_List.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InicioActivity.this, Chat_List_Activity.class);
+                startActivity(intent);
+            }
+        });
 
         //Para que empieze por defecto en esta pantalla.
         actionBar.setTitle("Home");
@@ -144,14 +153,14 @@ public class InicioActivity extends AppCompatActivity {
                     ft6.commit();
 
 
-                }else if(id==1){//--> chat
+                }/*else if(id==1){//--> chat
                     actionBar.setTitle("Chat");
 
                     ListaChatFragment fragment7 = new ListaChatFragment();
                     FragmentTransaction ft7= getSupportFragmentManager().beginTransaction();
                     ft7.replace(R.id.content, fragment7, "");
                     ft7.commit();
-                }
+                }*/
                 return false;
             }
         });

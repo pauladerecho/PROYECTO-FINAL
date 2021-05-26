@@ -8,6 +8,23 @@ public class ModeloUsuarios {
     public ModeloUsuarios() {
     }
 
+    public ModeloUsuarios(String name, String email, String search, String imagen, String portada, String uid, String descripcion, String predeterminada, String telefono, String nombre, String contraseña, String estado, String escribiendoA, String lugar) {
+        this.name = name;
+        this.email = email;
+        this.search = search;
+        this.imagen = imagen;
+        this.portada = portada;
+        this.uid = uid;
+        this.descripcion = descripcion;
+        this.predeterminada = predeterminada;
+        this.telefono = telefono;
+        this.nombre = nombre;
+        this.contraseña = contraseña;
+        this.estado = estado;
+        this.escribiendoA = escribiendoA;
+        this.lugar = lugar;
+    }
+
     public String getName() {
         return name;
     }

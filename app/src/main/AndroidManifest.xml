@@ -19,6 +19,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".menu.perfil.PerfilListaPublicacionActivity" />
         <activity android:name=".login.InicioActivity" />
+        <activity android:name=".menu.Chat.Chat_List_Activity"/>
         <activity android:name=".login.Pantalla_CargaActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
