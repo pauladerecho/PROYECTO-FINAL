@@ -8,59 +8,57 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:layout_above="@id/comentarioLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/fondo_log2">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="10dp"
 
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="280dp"
-                android:layout_height="400dp"
-                style="@style/gradientPink"
-                app:cardCornerRadius="20dp"
                 android:id="@+id/cardView"
+                style="@style/gradientPink"
+                android:layout_width="250dp"
+                android:layout_height="317dp"
                 android:layout_margin="10dp"
-                app:cardUseCompatPadding="true"
-
-                app:cardBackgroundColor="@color/cardview_shadow_end_color"
                 android:outlineSpotShadowColor="@color/colorAccent"
-                >
+                app:cardBackgroundColor="@color/cardview_shadow_end_color"
+
+                app:cardCornerRadius="20dp"
+                app:cardUseCompatPadding="true">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_height="298dp"
                     android:background="@color/colorWhite"
-                    >
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/perfilLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_width="219dp"
+                        android:layout_height="36dp"
                         android:gravity="center_vertical"
-                        >
+                        android:orientation="horizontal">
 
                         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
                             android:id="@+id/uImagenIv"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/icon_person"
                             app:c_border_color="@color/colorAccent"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"/>
+                            app:srcCompat="@drawable/icon_person" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="117dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/uNameTv"
@@ -78,7 +76,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/opciones"/>
+                            android:src="@drawable/opciones" />
                     </LinearLayout>
 
                     <TextView
@@ -95,20 +93,18 @@
                     <ImageView
                         android:id="@+id/pImagenIv"
                         android:layout_width="match_parent"
-                        android:layout_height="186dp"
-                        android:background="@color/colorWhite"
-                        />
-
+                        android:layout_height="140dp"
+                        android:background="@color/colorWhite" />
 
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorWhite"/>
+                        android:background="@color/colorWhite" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="47dp"
+                        android:layout_height="29dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -128,8 +124,8 @@
 
                         <TextView
                             android:id="@+id/pComentarioTv"
-                            android:layout_width="211dp"
-                            android:layout_height="29dp"
+                            android:layout_width="187dp"
+                            android:layout_height="wrap_content"
                             android:text="1.2k comentarios"
                             android:textColor="@color/colorPrimary" />
 
@@ -154,29 +150,44 @@
                         android:layout_marginTop="10dp"
                         android:autoLink="all"
                         android:fontFamily="@font/font_style_regular"
-                        android:text="Descripción del post"
                         android:paddingLeft="10dp"
+                        android:text="Descripción del post"
                         android:textColor="@color/colorBlack" />
 
                     <TextView
                         android:id="@+id/pTiempoTv"
-                        android:layout_width="106dp"
-                        android:layout_height="27dp"
+                        android:layout_width="84dp"
+                        android:layout_height="21dp"
                         android:fontFamily="@font/font_style_regular"
                         android:paddingLeft="10dp"
                         android:text="33 min" />
 
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="117dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/icon_comentario"
+                android:layout_marginLeft="20dp"
+
+                android:text="Comentarios" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_lista_comentarios"
+                android:layout_width="match_parent"
+                android:layout_height="157dp"
+                android:layout_marginLeft="20dp"/>
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     <RelativeLayout
+        android:id="@+id/comentarioLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="10dp">
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:layout_width="50dp"
             android:layout_height="50dp"

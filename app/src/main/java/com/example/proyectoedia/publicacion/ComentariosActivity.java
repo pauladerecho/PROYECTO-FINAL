@@ -3,6 +3,8 @@ package com.example.proyectoedia.publicacion;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,6 +26,8 @@ import android.widget.Toast;
 
 import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.menu.Buscador.ModeloUsuarios;
+import com.example.proyectoedia.notificaciones.Data;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,15 +42,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class ComentariosActivity extends AppCompatActivity {
 
     //Para los detalles de usuario y del post:
-    String  suUid, miUid, miNombre, miDp, postId, suDp,suNombre, pImagen, idComentario;
-    String pLikes = "0";
+    String  suUid, miUid, miNombre, miDp,postId, suDp,suNombre, pImagen, cId;
+
 
     boolean mComentarioEnProcesso = false;
     boolean mProcesoLikes = false;
@@ -61,6 +67,10 @@ public class ComentariosActivity extends AppCompatActivity {
     ImageButton botonMas;
     Button likeBoton;
     LinearLayout perfilLayout;
+    RecyclerView recyclerView;
+
+    List<ModeloComentarios> comentariosList;
+    AdaptadorComentarios adaptadorComentarios;
 
     //Vistas comentarios
 
@@ -97,6 +107,7 @@ public class ComentariosActivity extends AppCompatActivity {
         botonMas = findViewById(R.id.opcionesBtn);
         likeBoton = findViewById(R.id.likeBtn);
         perfilLayout = findViewById(R.id.perfilLayout);
+        recyclerView = findViewById(R.id.recyclerView_lista_comentarios);
 
         comentarioEt = findViewById(R.id.comentarioEt);
         enviarBtn = findViewById(R.id.enviarBtn);
@@ -106,8 +117,9 @@ public class ComentariosActivity extends AppCompatActivity {
         cargarInfoPost();
         estadoUsuario();
         cargaInfoUsuario();
-
         actionBar.setSubtitle("Comenta qué te ha parecido el post!");
+
+        cargarComentarios();
 
         enviarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +135,38 @@ public class ComentariosActivity extends AppCompatActivity {
                 MostrarMasOpciones();
             }
         });
+    }
+
+    private void cargarComentarios() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        //inicializar la lista de comentarios
+        comentariosList = new ArrayList<>();
+
+       DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts").child(postId).child("Comentarios");
+
+       ref.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               comentariosList.clear();
+               for (DataSnapshot ds: snapshot.getChildren()){
+
+                   ModeloComentarios modeloComentarios = ds.getValue(ModeloComentarios.class);
+
+                   comentariosList.add(modeloComentarios);
+
+                   adaptadorComentarios = new AdaptadorComentarios(getApplicationContext(), comentariosList);
+                   recyclerView.setAdapter(adaptadorComentarios);
+               }
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+
+           }
+       });
+
     }
 
     private void MostrarMasOpciones() {
@@ -322,7 +366,7 @@ public class ComentariosActivity extends AppCompatActivity {
         hashMap.put("horadia",fechayHora);
         hashMap.put("uid",miUid);
         hashMap.put("uDp",miDp);
-        hashMap.put("pComentarios","0");
+        hashMap.put("pComentario",comentario);
         hashMap.put("uNombre",miNombre);
 
         //Guardarlo en la bbdd
@@ -416,7 +460,7 @@ public class ComentariosActivity extends AppCompatActivity {
                     //recuperar datos
                     String pTitulo = ""+ds.child("pTitulo").getValue();
                     String pDescripcion = ""+ds.child("pDescripcion").getValue();
-                    pLikes = ""+ds.child("pLikes").getValue();
+                   String pLikes = ""+ds.child("pLikes").getValue();
                     String pTime = ""+ds.child("pTime").getValue();
                     pImagen = ""+ds.child("pImagen").getValue();
                     suDp = ""+ds.child("uDp").getValue();
