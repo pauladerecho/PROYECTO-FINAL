@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="89dp"
+            android:layout_width="91dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
@@ -23,13 +23,12 @@
             android:textSize="30dp" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/nomUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/font_style_bold"
             android:hint="usuario"
-            android:textAlignment="textEnd"
             android:textSize="20dp" />
 
 

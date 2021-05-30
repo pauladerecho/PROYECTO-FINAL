@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectoedia.MainActivity;
@@ -32,18 +33,26 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.firebase.storage.FirebaseStorage.getInstance;
+
 public class HomeFragment extends Fragment {
     //Autentificacion de FireBase
     FirebaseAuth firebaseAuth;
-
+    FirebaseUser user;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
     RecyclerView recyclerView;
     List<ModeloPublicacion> publicacionList;
     AdaptadorPublicacion adaptadorPublicacion;
+    TextView nomUsuario;
+
 
     public HomeFragment() {
     }
@@ -56,6 +65,10 @@ public class HomeFragment extends Fragment {
         //Inicializar la autentificacion
         firebaseAuth = FirebaseAuth.getInstance();
 
+        user = firebaseAuth.getCurrentUser();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Users");
+
         recyclerView = view.findViewById(R.id.postsRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         layoutManager.setStackFromEnd(true);
@@ -63,12 +76,40 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(layoutManager);
 
+        nomUsuario = view.findViewById(R.id.nomUsuario);
+
         publicacionList = new ArrayList<>();
 
         cargarPublicacion();
 
+        nombreUsuario(); //--> para que muestre en el inicio el nombre de quien está registrado
+
         return view;
     }
+
+    private void nombreUsuario() {
+
+        //Optenemos la informacion del usuario actualmente registrado.
+        Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //Verificamos hasta que obtenemos los datos que necesitamos.
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    String nombre = "" + ds.child("name").getValue();
+                    nomUsuario.setText(nombre);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 
     private void cargarPublicacion() {
 
@@ -81,7 +122,6 @@ public class HomeFragment extends Fragment {
                 publicacionList.clear();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     ModeloPublicacion modeloPublicacion = ds.getValue(ModeloPublicacion.class);
-
                     publicacionList.add(modeloPublicacion);
 
                     adaptadorPublicacion = new AdaptadorPublicacion(getActivity(), publicacionList);

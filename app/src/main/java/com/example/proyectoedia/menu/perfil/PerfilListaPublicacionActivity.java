@@ -85,6 +85,7 @@ public class PerfilListaPublicacionActivity extends AppCompatActivity {
 
                     nombreTv.setText(nombre);
                     descripcionTv.setText(descripcion);
+                    lugarTv.setText(lugar);
 
                     try {
                         Picasso.get().load(imagen).into(avatarIv);
