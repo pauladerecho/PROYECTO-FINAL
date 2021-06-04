@@ -9,7 +9,10 @@
     <item android:id="@+id/nav_notificaciones"
         android:title=""
         android:icon="@drawable/search_icon"/>
-
+    <item
+        android:id="@+id/icon_nav"
+        android:icon="@drawable/like_color"
+        android:title="" />
     <item
         android:id="@+id/nav_publicacion"
         android:icon="@drawable/subir_icon"

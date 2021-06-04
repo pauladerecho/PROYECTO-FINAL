@@ -103,13 +103,9 @@ public class InicioActivity extends AppCompatActivity {
                         ft3.commit();
                         return true;
 
-                  /*  case R.id.nav_ajustes:
+                    case R.id.icon_nav:
                         actionBar.setTitle("Ajustes");
-                        AjustesFragment fragment4 = new AjustesFragment();
-                        FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
-                        ft4.replace(R.id.content, fragment4, "");
-                        ft4.commit();
-                        return true;*/
+                        return true;
 
                     case R.id.nav_perfil:
                         actionBar.setTitle("Perfil");

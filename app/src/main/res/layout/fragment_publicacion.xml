@@ -26,13 +26,11 @@
             android:fontFamily="@font/font_style_regular"/>
 
         <!--Imagen del post-->
-
-        <!--Descripcion del post -->
         <ImageView
             android:id="@+id/pImagenIv"
-            android:layout_width="332dp"
+            android:layout_width="278dp"
             android:layout_height="298dp"
-            android:layout_gravity="center"
+            android:layout_marginLeft="80dp"
             android:background="@drawable/illustracion4"
             android:minHeight="200dp"
 
@@ -41,15 +39,15 @@
         <EditText
             android:id="@+id/pDescripcionEt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="51dp"
             android:layout_marginBottom="5dp"
             android:drawableRight="@drawable/pen_icon"
+            android:fontFamily="@font/font_style_regular"
             android:gravity="start"
             android:hint="¡Descríbenos tu viaje ! "
             android:inputType="textCapSentences|textMultiLine"
             android:minHeight="69dp"
-            android:padding="10dp"
-            android:fontFamily="@font/font_style_regular"/>
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/pPublicarBtn"

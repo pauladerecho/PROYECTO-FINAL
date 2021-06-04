@@ -332,7 +332,7 @@ public class PerfilFragment extends Fragment {
                 }else if (which == 2){
                     //Modificar el nombre
                     pd.setMessage("Actualizando el nombre");
-                    mostrarActualizacionDeOpciones("nombre");
+                    mostrarActualizacionDeOpciones("name");
 
                 }else if (which == 3){
                     //Modificar la descripcion
@@ -342,7 +342,7 @@ public class PerfilFragment extends Fragment {
                 }else if (which == 4){
                     //Modificar la ubicacion
                     pd.setMessage("Actualizando la ubicación");
-                    mostrarActualizacionDeOpciones("ubicacioón");
+                    mostrarActualizacionDeOpciones("lugar");
 
                 }else if (which == 5){
                     //Modificar la contraseña
