@@ -2,14 +2,14 @@ package com.example.proyectoedia.publicacion;
 
 public class ModeloComentarios {
 
-    String cId, comentario, horaDia, uid, uEmail, uDp, uNombre;
+    String cId, pComentario, horaDia, uid, uEmail, uDp, uNombre;
 
     public ModeloComentarios() {
     }
 
-    public ModeloComentarios(String cId, String comentario, String horaDia, String uid, String uEmail, String uDp, String uNombre) {
+    public ModeloComentarios(String cId, String pComentario, String horaDia, String uid, String uEmail, String uDp, String uNombre) {
         this.cId = cId;
-        this.comentario = comentario;
+        this.pComentario = pComentario;
         this.horaDia = horaDia;
         this.uid = uid;
         this.uEmail = uEmail;
@@ -25,12 +25,12 @@ public class ModeloComentarios {
         this.cId = cId;
     }
 
-    public String getComentario() {
-        return comentario;
+    public String getpComentario() {
+        return pComentario;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setpComentario(String pComentario) {
+        this.pComentario = pComentario;
     }
 
     public String getHoraDia() {

@@ -45,7 +45,7 @@ public class AdaptadorComentarios extends RecyclerView.Adapter<AdaptadorComentar
         String nombre = listaComentarios.get(i).getuNombre();
        // String uid = listaComentarios.get(i).getuEmail();
         String cId = listaComentarios.get(i).getcId();
-        String comentario = listaComentarios.get(i).getComentario();
+        String comentario = listaComentarios.get(i).getpComentario();
         String horaDia = listaComentarios.get(i).getHoraDia();
         String imagen = listaComentarios.get(i).getuDp();
 
