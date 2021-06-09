@@ -24,10 +24,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.proyectoedia.MainActivity;
+import com.example.proyectoedia.login.MainActivity;
 import com.example.proyectoedia.R;
-import com.example.proyectoedia.menu.Buscador.ModeloUsuarios;
-import com.example.proyectoedia.notificaciones.Data;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

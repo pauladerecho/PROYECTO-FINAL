@@ -21,10 +21,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.proyectoedia.MainActivity;
+import com.example.proyectoedia.login.MainActivity;
 import com.example.proyectoedia.R;
-import com.example.proyectoedia.menu.Buscador.AdaptadorUsuarios;
-import com.example.proyectoedia.menu.Buscador.ModeloUsuarios;
 import com.example.proyectoedia.publicacion.AdaptadorPublicacion;
 import com.example.proyectoedia.publicacion.ModeloPublicacion;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;

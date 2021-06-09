@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
-import com.example.proyectoedia.MainActivity;
 import com.example.proyectoedia.R;
 
 public class Pantalla_CargaActivity extends AppCompatActivity {

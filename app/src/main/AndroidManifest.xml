@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".login.RegistroActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".login.MainActivity" />
 
         <service
             android:name=".notificaciones.MensajesFireBase"
