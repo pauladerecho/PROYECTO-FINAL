@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.proyectoedia.MainActivity;
+import com.example.proyectoedia.login.MainActivity;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.Buscador.ModeloUsuarios;
 import com.google.firebase.auth.FirebaseAuth;

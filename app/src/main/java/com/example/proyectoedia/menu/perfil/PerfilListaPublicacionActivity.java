@@ -17,7 +17,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.proyectoedia.MainActivity;
+import com.example.proyectoedia.login.MainActivity;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.publicacion.AdaptadorPublicacion;
 import com.example.proyectoedia.publicacion.ModeloPublicacion;

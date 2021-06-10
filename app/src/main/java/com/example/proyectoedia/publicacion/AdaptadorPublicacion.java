@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.menu.perfil.PerfilFragment;
 import com.example.proyectoedia.menu.perfil.PerfilListaPublicacionActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,7 +49,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
 
     String miUid;
     String idPost;
-    String uid;
+    //String uid;
 
     private DatabaseReference likesRef;
     private DatabaseReference postsRef;
@@ -80,7 +81,8 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
     public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
 
         //Traemos los datos.
-        uid = publicacionLista.get(i).getUid();
+        final String uid = publicacionLista.get(i).getUid();
+        //uid = publicacionLista.get(i).getUid();
         String uEmail = publicacionLista.get(i).getuEmail();
         String uName = publicacionLista.get(i).getuName();
         String uDp = publicacionLista.get(i).getuDp();
@@ -199,7 +201,6 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                 Intent intent = new Intent(context, PerfilListaPublicacionActivity.class);
                 intent.putExtra("uid", uid);
                 context.startActivity(intent);
-
             }
         });
     }
@@ -368,13 +369,6 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
             //compartirBtn = itemView.findViewById(R.id.compartirBtn);
             perfilLayout = itemView.findViewById(R.id.perfilLayout);
             pComentarios = itemView.findViewById(R.id.pComentarioTv);
-
-
-
         }
     }
-
-
-
-
 }

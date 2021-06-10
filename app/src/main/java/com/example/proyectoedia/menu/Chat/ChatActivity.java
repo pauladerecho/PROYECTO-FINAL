@@ -29,7 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.proyectoedia.MainActivity;
+import com.example.proyectoedia.login.MainActivity;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.Buscador.ModeloUsuarios;
 import com.example.proyectoedia.notificaciones.Data;
@@ -55,8 +55,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import okhttp3.ResponseBody;
 
 
 import static com.squareup.picasso.Picasso.get;
