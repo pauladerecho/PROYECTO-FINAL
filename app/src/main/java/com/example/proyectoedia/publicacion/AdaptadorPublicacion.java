@@ -251,17 +251,6 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                     comenzarBorrar(pId, pImagen);
 
                 }else  if(id == 1){
-                    //Si pulsa el boton se edita.
-                    /*Intent intent = new Intent(context, PublicacionFragment.class);
-                    intent.putExtra("key", "EditarPost");
-                    intent.putExtra("EditarPostId", pId);
-                    context.startActivity(intent);
-                    */
-
-                    /*HomeFragment fragment3 = new HomeFragment();
-                    FragmentTransaction ft3 = context.getSupportFragmentManager().beginTransaction();
-                    ft3.replace(R.id.content, fragment3, "");
-                    ft3.commit();*/
 
                     Intent intent = new Intent(context, ComentariosActivity.class);
                     intent.putExtra("postId", pId); //-- para tener los detalles de los post

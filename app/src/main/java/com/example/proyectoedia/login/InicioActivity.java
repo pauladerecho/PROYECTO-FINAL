@@ -115,9 +115,6 @@ public class InicioActivity extends AppCompatActivity {
                         ft5.commit();
                         return true;
 
-                   /* case R.id.nav_mas:
-                        masOpciones();
-                        return true;*/
                 }
                 return false;
             }
@@ -130,11 +127,6 @@ public class InicioActivity extends AppCompatActivity {
         //Menu pop up para  mas opciones
 
         PopupMenu popupMenu = new PopupMenu(this, navigationView, Gravity.END);
-
-        //Lo que enseña ese menu
-        //popupMenu.getMenu().add(Menu.NONE,0,0 ,"Notificaciones");
-        //popupMenu.getMenu().add(Menu.NONE,1,0 ,"Chat");
-
         //Menu clicks
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
