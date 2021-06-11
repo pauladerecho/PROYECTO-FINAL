@@ -39,6 +39,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -170,8 +171,10 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                                 postsRef.child(postId).child("pLikes").setValue(""+(pLikes+1));
                                 likesRef.child(postId).child(miUid).setValue("Liked");
                                 mProcesoLikes = false;
+
+                                añadirNotificaciones("" + uid, ""+ pId, "Liked your post");
                             }
-                            }
+                        }
 
                     }
 
@@ -203,6 +206,35 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                 context.startActivity(intent);
             }
         });
+    }
+
+    private  void añadirNotificaciones(String hisUid, String pId, String notificacion){
+        String timestamp = "" + System.currentTimeMillis();
+
+        HashMap<Object, String> hashMap = new HashMap<>();
+        hashMap.put("pId", pId);
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("pUid", hisUid);
+        hashMap.put("notificacion", notificacion);
+        hashMap.put("sUid", miUid);
+      /*  hashMap.put("sName", );
+        hashMap.put("sEmail", );
+        hashMap.put("sImage", );*/
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(hisUid).child("Notificaciones").child(timestamp).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 
     private void setLikes(final MyHolder holder, final String postKey) {

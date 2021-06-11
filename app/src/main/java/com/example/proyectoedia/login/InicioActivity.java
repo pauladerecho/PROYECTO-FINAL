@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -15,7 +16,7 @@ import android.widget.PopupMenu;
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
 import com.example.proyectoedia.menu.Chat.Chat_List_Activity;
 import com.example.proyectoedia.menu.HomeFragment;
-import com.example.proyectoedia.menu.NotificacionesFragment;
+import com.example.proyectoedia.menu.campana.NotificacionesFragment;
 import com.example.proyectoedia.publicacion.PublicacionFragment;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.perfil.PerfilFragment;
@@ -100,9 +101,9 @@ public class InicioActivity extends AppCompatActivity {
                         ft3.commit();
                         return true;
 
-                    case R.id.icon_nav:
+                  /*  case R.id.icon_nav:
                         actionBar.setTitle("Ajustes");
-                        return true;
+                        return true;*/
 
                     case R.id.nav_perfil:
                         actionBar.setTitle("Perfil");
@@ -112,9 +113,14 @@ public class InicioActivity extends AppCompatActivity {
                         ft5.commit();
                         return true;
 
-                   /* case R.id.nav_mas:
-                        masOpciones();
-                        return true;*/
+                    case R.id.nav_mas:
+                        //masOpciones();
+                        actionBar.setTitle("Notificaciones");
+                        NotificacionesFragment fragment6 = new NotificacionesFragment();
+                        FragmentTransaction ft6 = getSupportFragmentManager().beginTransaction();
+                        ft6.replace(R.id.content, fragment6, "");
+                        ft6.commit();
+                        return true;
                 }
                 return false;
             }
@@ -129,7 +135,7 @@ public class InicioActivity extends AppCompatActivity {
         PopupMenu popupMenu = new PopupMenu(this, navigationView, Gravity.END);
 
         //Lo que enseña ese menu
-        //popupMenu.getMenu().add(Menu.NONE,0,0 ,"Notificaciones");
+        popupMenu.getMenu().add(Menu.NONE,0,0 ,"Notificaciones");
         //popupMenu.getMenu().add(Menu.NONE,1,0 ,"Chat");
 
         //Menu clicks
@@ -144,7 +150,6 @@ public class InicioActivity extends AppCompatActivity {
                     FragmentTransaction ft6 = getSupportFragmentManager().beginTransaction();
                     ft6.replace(R.id.content, fragment6, "");
                     ft6.commit();
-
 
                 }/*else if(id==1){//--> chat
                     actionBar.setTitle("Chat");
