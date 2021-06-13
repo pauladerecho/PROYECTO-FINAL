@@ -210,9 +210,9 @@ public class InicioActivity extends AppCompatActivity {
 
         @Override
     protected void onStart() { //-->> Al iniciar, verificar si existe el usuario
-            verificarUsuarios();
-            super.onStart();
-            }
+        verificarUsuarios();
+        super.onStart();
+    }
 
 
 }
