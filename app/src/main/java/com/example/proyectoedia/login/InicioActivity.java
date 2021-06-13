@@ -2,21 +2,25 @@ package com.example.proyectoedia.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
 import com.example.proyectoedia.menu.Buscador.UsuariosFragment;
 import com.example.proyectoedia.menu.Chat.Chat_List_Activity;
 import com.example.proyectoedia.menu.HomeFragment;
 import com.example.proyectoedia.menu.campana.NotificacionesFragment;
+import com.example.proyectoedia.publicacion.ComentariosActivity;
 import com.example.proyectoedia.publicacion.PublicacionFragment;
 import com.example.proyectoedia.R;
 import com.example.proyectoedia.menu.perfil.PerfilFragment;
@@ -96,6 +100,7 @@ public class InicioActivity extends AppCompatActivity {
                     case R.id.nav_publicacion:
                         actionBar.setTitle("Publicacion");
                         PublicacionFragment fragment3 = new PublicacionFragment();
+
                         FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
                         ft3.replace(R.id.content, fragment3, "");
                         ft3.commit();
@@ -184,11 +189,24 @@ public class InicioActivity extends AppCompatActivity {
         }
     }
 
-        @Override
-        public void onBackPressed() {
-            super.onBackPressed();
-            finish();
-        }
+    @Override
+    public void onBackPressed() { //-->> Para que si das al boton de volver desde el home no se salga de la app, primero te pregunta
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Te echaremos de menos :(");
+        builder.setMessage("¿Estás seguro que quieres salir de la aplicación? ");
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+                InicioActivity.super.onBackPressed();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        builder.show();
+    }
 
         @Override
     protected void onStart() { //-->> Al iniciar, verificar si existe el usuario

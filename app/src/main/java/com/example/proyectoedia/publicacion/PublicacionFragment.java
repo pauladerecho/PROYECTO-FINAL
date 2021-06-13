@@ -34,6 +34,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.proyectoedia.R;
+import com.example.proyectoedia.login.InicioActivity;
+import com.example.proyectoedia.login.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -182,6 +184,8 @@ public class PublicacionFragment extends Fragment {
                     comenzarActualizar(titulo, descripcion, editarPostId);
                 }else{
                     cargarDatos(titulo, descripcion);
+
+                    startActivity(new Intent(getActivity(), InicioActivity.class));
                 }
 
 
@@ -712,4 +716,5 @@ public class PublicacionFragment extends Fragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }
