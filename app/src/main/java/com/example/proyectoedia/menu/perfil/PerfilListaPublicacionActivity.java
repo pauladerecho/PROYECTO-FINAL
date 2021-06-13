@@ -115,7 +115,7 @@ public class PerfilListaPublicacionActivity extends AppCompatActivity {
 
     private void cargarTodosLosPosts() {
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
 
         //Cargar el nuevo post primero.
         layoutManager.setStackFromEnd(true);
@@ -155,7 +155,7 @@ public class PerfilListaPublicacionActivity extends AppCompatActivity {
 
     private void buscarTodosLosPosts(final String buscarQuery){
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(PerfilListaPublicacionActivity.this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(PerfilListaPublicacionActivity.this,LinearLayoutManager.HORIZONTAL,false);
 
         //Cargar el nuevo post primero.
         layoutManager.setStackFromEnd(true);
