@@ -32,16 +32,15 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="bottom|center"
+            android:background="@android:color/background_light"
             android:outlineAmbientShadowColor="@color/colorPrimary"
             app:itemIconSize="30sp"
             app:itemIconTint="@color/seleccionado"
-            android:background="@android:color/background_light"
             app:itemTextColor="#FFF"
             app:menu="@menu/menu_nav"></com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
-
-       <!--<com.blogspot.atifsoftwares.circularimageview.CircularImageView
+        <!--<com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:id="@+id/uImagenIv"
             android:layout_width="46dp"
             android:layout_height="41dp"

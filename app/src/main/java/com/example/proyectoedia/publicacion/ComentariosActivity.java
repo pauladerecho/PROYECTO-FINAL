@@ -135,6 +135,35 @@ public class ComentariosActivity extends AppCompatActivity {
         });
     }
 
+    private  void añadirNotificaciones(String hisUid, String pId, String notificacion){
+        String timestamp = "" + System.currentTimeMillis();
+
+        HashMap<Object, String> hashMap = new HashMap<>();
+        hashMap.put("pId", pId);
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("pUid", hisUid);
+        hashMap.put("notificacion", notificacion);
+        hashMap.put("sUid", miUid);
+      /*  hashMap.put("sName", );
+        hashMap.put("sEmail", );
+        hashMap.put("sImage", );*/
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(hisUid).child("Notificaciones").child(timestamp).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
     private void cargarComentarios() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -378,6 +407,7 @@ public class ComentariosActivity extends AppCompatActivity {
                         Toast.makeText(ComentariosActivity.this, "Comentario añadido!", Toast.LENGTH_SHORT).show();
                         comentarioEt.setText("");
                         contadorComentarios();
+                        añadirNotificaciones(""+suUid, ""+postId, "Han comentado en tu post");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
