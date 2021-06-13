@@ -193,6 +193,7 @@ public class AdaptadorPublicacion extends RecyclerView.Adapter<AdaptadorPublicac
                 Intent intent = new Intent(context, ComentariosActivity.class);
                 intent.putExtra("postId", pId); //-- para tener los detalles de los post
                 context.startActivity(intent);
+
             }
         });
 

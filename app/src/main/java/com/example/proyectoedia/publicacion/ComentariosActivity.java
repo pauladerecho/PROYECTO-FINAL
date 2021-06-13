@@ -407,6 +407,7 @@ public class ComentariosActivity extends AppCompatActivity {
                         Toast.makeText(ComentariosActivity.this, "Comentario añadido!", Toast.LENGTH_SHORT).show();
                         comentarioEt.setText("");
                         contadorComentarios();
+
                         añadirNotificaciones(""+suUid, ""+postId, "Han comentado en tu post");
                     }
                 })
